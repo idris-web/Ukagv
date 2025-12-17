@@ -65,64 +65,13 @@ export default function AboutSection() {
 
   return (
     <section id="about" ref={containerRef} className="section-padding relative overflow-hidden">
-      {/* Background */}
+      {/* Background - Clean */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-950 to-dark-900" />
+      <div className="absolute inset-0 grid-pattern opacity-5" />
 
-      {/* Animated Orbs */}
-      <motion.div
-        style={{ y: orbY }}
-        className="absolute top-40 right-20 w-96 h-96 rounded-full bg-fiber-500/5 blur-3xl"
-      />
-      <motion.div
-        style={{ y: imageY }}
-        className="absolute bottom-40 left-20 w-80 h-80 rounded-full bg-primary-500/5 blur-3xl"
-      />
-
-      {/* Decorative Fiber Lines */}
-      <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="aboutFiber" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <filter id="aboutGlow">
-            <feGaussianBlur stdDeviation="4" />
-          </filter>
-        </defs>
-        <motion.path
-          d="M0 300 Q 480 200, 960 300 T 1920 300"
-          stroke="url(#aboutFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#aboutGlow)"
-          style={{ y: imageY }}
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2 }}
-        />
-        <motion.path
-          d="M0 600 Q 480 700, 960 600 T 1920 600"
-          stroke="url(#aboutFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#aboutGlow)"
-          style={{ y: contentY }}
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2.5, delay: 0.3 }}
-        />
-        <motion.path
-          d="M0 900 Q 480 800, 960 900 T 1920 900"
-          stroke="url(#aboutFiber)"
-          strokeWidth="1.5"
-          fill="none"
-          filter="url(#aboutGlow)"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 3, delay: 0.6 }}
-        />
-      </svg>
+      {/* Static Orbs */}
+      <div className="absolute top-40 right-20 w-96 h-96 rounded-full bg-fiber-500/3 blur-3xl" />
+      <div className="absolute bottom-40 left-20 w-80 h-80 rounded-full bg-primary-500/3 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -349,12 +298,8 @@ export default function AboutSection() {
                   {/* Background Pattern */}
                   <div className="absolute inset-0 grid-pattern opacity-10" />
 
-                  {/* Animated Corner Accent */}
-                  <motion.div
-                    className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${milestone.color} opacity-10 rounded-bl-full`}
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
-                  />
+                  {/* Corner Accent - Static */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${milestone.color} opacity-10 rounded-bl-full`} />
 
                   {/* Content */}
                   <div className="relative z-10">

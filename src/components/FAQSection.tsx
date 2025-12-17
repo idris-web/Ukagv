@@ -2,7 +2,7 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ChevronDown, HelpCircle, MessageCircle, Phone } from 'lucide-react'
+import { ChevronDown, MessageCircle, Phone } from 'lucide-react'
 
 const faqs = [
   {
@@ -180,35 +180,9 @@ export default function FAQSection() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
 
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-fiber-500/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-fiber-500/30 to-transparent" />
-
-      {/* Floating Question Marks */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-fiber-500/5"
-            style={{
-              left: `${10 + i * 15}%`,
-              top: `${20 + (i % 3) * 30}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 5, -5, 0],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 5 + i,
-              repeat: Infinity,
-              delay: i * 0.5,
-            }}
-          >
-            <HelpCircle className="w-24 h-24" />
-          </motion.div>
-        ))}
-      </div>
+      {/* Subtle decorative lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-fiber-500/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-fiber-500/20 to-transparent" />
 
       <div className="relative z-10 max-w-5xl mx-auto" ref={ref}>
         {/* Header */}

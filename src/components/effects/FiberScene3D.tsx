@@ -4,12 +4,12 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useRef, useMemo, useEffect, useState } from 'react'
 import * as THREE from 'three'
 
-// Animated fiber optic cable with light pulses
+// Animated fiber optic cable with light pulses - OPTIMIZED
 function FiberCable({
   points,
   color = '#06b6d4',
   pulseSpeed = 1,
-  thickness = 0.02
+  thickness = 0.015
 }: {
   points: THREE.Vector3[],
   color?: string,
@@ -17,71 +17,60 @@ function FiberCable({
   thickness?: number
 }) {
   const pulseRef = useRef<THREE.Mesh>(null)
-  const progressRef = useRef(Math.random()) // Random start position
+  const progressRef = useRef(Math.random())
 
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(points)
   }, [points])
 
   const tubeGeometry = useMemo(() => {
-    return new THREE.TubeGeometry(curve, 150, thickness, 8, false)
+    return new THREE.TubeGeometry(curve, 80, thickness, 6, false)
   }, [curve, thickness])
 
   const pulseGeometry = useMemo(() => {
-    return new THREE.SphereGeometry(thickness * 4, 16, 16)
+    return new THREE.SphereGeometry(thickness * 3, 12, 12)
   }, [thickness])
 
   useFrame((state, delta) => {
-    progressRef.current = (progressRef.current + delta * pulseSpeed * 0.15) % 1
+    progressRef.current = (progressRef.current + delta * pulseSpeed * 0.1) % 1
 
     if (pulseRef.current) {
       const point = curve.getPointAt(progressRef.current)
       pulseRef.current.position.copy(point)
-      const scale = 1 + Math.sin(state.clock.elapsedTime * 5) * 0.4
+      const scale = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.3
       pulseRef.current.scale.setScalar(scale)
     }
   })
 
   return (
     <group>
-      {/* Main cable - more visible */}
+      {/* Main cable - subtle */}
       <mesh geometry={tubeGeometry}>
-        <meshBasicMaterial color={color} transparent opacity={0.75} />
-      </mesh>
-
-      {/* Glowing core */}
-      <mesh geometry={tubeGeometry}>
-        <meshBasicMaterial color={color} transparent opacity={0.4} />
+        <meshBasicMaterial color={color} transparent opacity={0.35} />
       </mesh>
 
       {/* Light pulse */}
       <mesh ref={pulseRef} geometry={pulseGeometry}>
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.95} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.7} />
       </mesh>
     </group>
   )
 }
 
-// Floating particles spanning full page
-function Particles({ count = 300, color = '#06b6d4' }) {
+// Floating particles - REDUCED for performance
+function Particles({ count = 100, color = '#06b6d4' }) {
   const particlesRef = useRef<THREE.Points>(null)
-  const { mouse } = useThree()
 
-  const [positions, velocities] = useMemo(() => {
+  const positions = useMemo(() => {
     const pos = new Float32Array(count * 3)
-    const vel = new Float32Array(count * 3)
 
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 50
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 100 // Tall to span page
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 20
-
-      vel[i * 3] = (Math.random() - 0.5) * 0.012
-      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.012
-      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.006
+      pos[i * 3] = (Math.random() - 0.5) * 40
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 80
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 15
     }
 
-    return [pos, vel]
+    return pos
   }, [count])
 
   const geometry = useMemo(() => {
@@ -92,36 +81,12 @@ function Particles({ count = 300, color = '#06b6d4' }) {
 
   useFrame((state) => {
     if (!particlesRef.current) return
-
-    const positionAttr = particlesRef.current.geometry.attributes.position
-    const posArray = positionAttr.array as Float32Array
-
-    for (let i = 0; i < count; i++) {
-      posArray[i * 3] += velocities[i * 3]
-      posArray[i * 3 + 1] += velocities[i * 3 + 1]
-      posArray[i * 3 + 2] += velocities[i * 3 + 2]
-
-      const dx = mouse.x * 10 - posArray[i * 3]
-      const dy = mouse.y * 10 - posArray[i * 3 + 1]
-      const dist = Math.sqrt(dx * dx + dy * dy)
-
-      if (dist < 5) {
-        posArray[i * 3] -= dx * 0.006
-        posArray[i * 3 + 1] -= dy * 0.006
-      }
-
-      if (Math.abs(posArray[i * 3]) > 25) posArray[i * 3] *= -0.95
-      if (Math.abs(posArray[i * 3 + 1]) > 50) posArray[i * 3 + 1] *= -0.95
-      if (Math.abs(posArray[i * 3 + 2]) > 10) posArray[i * 3 + 2] *= -0.95
-    }
-
-    positionAttr.needsUpdate = true
-    particlesRef.current.rotation.y = state.clock.elapsedTime * 0.008
+    particlesRef.current.rotation.y = state.clock.elapsedTime * 0.02
   })
 
   return (
     <points ref={particlesRef} geometry={geometry}>
-      <pointsMaterial size={0.07} color={color} transparent opacity={0.75} sizeAttenuation />
+      <pointsMaterial size={0.04} color={color} transparent opacity={0.4} sizeAttenuation />
     </points>
   )
 }
@@ -146,56 +111,37 @@ export default function FiberScene3D() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
 
-  // Fiber paths spanning entire page height
+  // Fiber paths - SIMPLIFIED for cleaner look
   const fiberPaths = useMemo(() => {
     const paths = []
 
-    // Main vertical cables spanning page (y from +25 to -55)
-    for (let i = 0; i < 6; i++) {
-      const xOffset = (i - 2.5) * 8
-      const zOffset = (i % 2) * 3 - 1.5
-
-      paths.push([
-        new THREE.Vector3(-12 + xOffset, 25, zOffset),
-        new THREE.Vector3(-6 + xOffset + Math.sin(i) * 3, 15, zOffset + 2),
-        new THREE.Vector3(-2 + xOffset, 5, zOffset - 1),
-        new THREE.Vector3(4 + xOffset + Math.cos(i) * 2, -5, zOffset + 1),
-        new THREE.Vector3(-3 + xOffset, -15, zOffset),
-        new THREE.Vector3(5 + xOffset + Math.sin(i * 2) * 2, -25, zOffset - 2),
-        new THREE.Vector3(-1 + xOffset, -35, zOffset + 1),
-        new THREE.Vector3(3 + xOffset, -45, zOffset),
-        new THREE.Vector3(-4 + xOffset, -55, zOffset - 1),
-      ])
-    }
-
-    // Crossing cables for visual interest
+    // Only 4 elegant flowing cables
     paths.push([
-      new THREE.Vector3(-25, 20, 3),
-      new THREE.Vector3(-10, 10, 0),
-      new THREE.Vector3(5, -5, 2),
-      new THREE.Vector3(20, -20, -1),
-      new THREE.Vector3(25, -40, 2),
+      new THREE.Vector3(-15, 25, 2),
+      new THREE.Vector3(-8, 10, 0),
+      new THREE.Vector3(-5, -5, 2),
+      new THREE.Vector3(-10, -25, -1),
+      new THREE.Vector3(-8, -45, 1),
     ])
 
     paths.push([
-      new THREE.Vector3(25, 15, -3),
-      new THREE.Vector3(10, 0, 1),
-      new THREE.Vector3(-5, -15, 0),
-      new THREE.Vector3(-20, -30, 3),
-      new THREE.Vector3(-25, -50, -1),
-    ])
-
-    // Additional diagonal cables
-    paths.push([
-      new THREE.Vector3(-20, 22, 0),
-      new THREE.Vector3(0, 5, 2),
-      new THREE.Vector3(20, -20, -2),
+      new THREE.Vector3(12, 22, -1),
+      new THREE.Vector3(6, 8, 2),
+      new THREE.Vector3(10, -10, 0),
+      new THREE.Vector3(5, -30, 2),
+      new THREE.Vector3(8, -50, -1),
     ])
 
     paths.push([
-      new THREE.Vector3(18, 18, 1),
-      new THREE.Vector3(-5, -10, -1),
-      new THREE.Vector3(-22, -45, 2),
+      new THREE.Vector3(-20, 18, 0),
+      new THREE.Vector3(0, 0, 3),
+      new THREE.Vector3(18, -25, -2),
+    ])
+
+    paths.push([
+      new THREE.Vector3(20, 15, 1),
+      new THREE.Vector3(-3, -8, -1),
+      new THREE.Vector3(-18, -40, 2),
     ])
 
     return paths
@@ -212,37 +158,36 @@ export default function FiberScene3D() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const colors = ['#06b6d4', '#0ea5e9', '#3b82f6', '#22d3ee', '#0891b2', '#0284c7', '#06b6d4', '#3b82f6', '#0ea5e9', '#22d3ee']
+  const colors = ['#06b6d4', '#0ea5e9', '#3b82f6', '#22d3ee']
 
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.9 }}
+      className="fixed inset-0 pointer-events-none"
+      style={{ opacity: 0.4, zIndex: 0 }}
     >
       <Canvas
-        camera={{ position: [0, 20, 12], fov: 55 }}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 20, 15], fov: 50 }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
+        dpr={[1, 1.5]}
       >
-        <ambientLight intensity={0.7} />
-        <pointLight position={[15, 15, 15]} intensity={1.5} />
-        <pointLight position={[-15, -30, 10]} intensity={1} color="#06b6d4" />
-        <pointLight position={[10, -50, 8]} intensity={0.8} color="#3b82f6" />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={0.8} />
 
         <ScrollCamera scrollProgress={scrollProgress} />
 
-        {/* Fiber cables spanning the entire page */}
+        {/* Fiber cables - clean and subtle */}
         {fiberPaths.map((points, index) => (
           <FiberCable
             key={index}
             points={points}
             color={colors[index % colors.length]}
-            pulseSpeed={0.6 + (index % 4) * 0.25}
-            thickness={0.02 + (index % 3) * 0.005}
+            pulseSpeed={0.4 + index * 0.15}
+            thickness={0.018}
           />
         ))}
 
-        <Particles count={350} color="#06b6d4" />
+        <Particles count={80} color="#06b6d4" />
       </Canvas>
     </div>
   )

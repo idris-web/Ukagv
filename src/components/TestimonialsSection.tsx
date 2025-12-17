@@ -145,9 +145,9 @@ export default function TestimonialsSection() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
 
-      {/* Decorative */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 -translate-y-1/2 -translate-x-1/2 rounded-full bg-fiber-500/10 blur-3xl" />
-      <div className="absolute top-1/2 right-0 w-96 h-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary-500/10 blur-3xl" />
+      {/* Subtle decorative orbs */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 -translate-y-1/2 -translate-x-1/2 rounded-full bg-fiber-500/5 blur-3xl" />
+      <div className="absolute top-1/2 right-0 w-96 h-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary-500/5 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
@@ -236,40 +236,31 @@ export default function TestimonialsSection() {
                     {/* Author */}
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        {/* Gradient Ring */}
-                        <motion.div
-                          className={`absolute -inset-1 rounded-full bg-gradient-to-br ${testimonials[activeIndex].color}`}
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                        />
-                        {/* Image Container */}
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-dark-900">
-                          {testimonials[activeIndex].image ? (
-                            <Image
-                              src={testimonials[activeIndex].image}
-                              alt={testimonials[activeIndex].name}
-                              width={64}
-                              height={64}
-                              className="w-full h-full object-cover"
-                              unoptimized
-                            />
-                          ) : (
-                            <div className={`w-full h-full bg-gradient-to-br ${testimonials[activeIndex].color} flex items-center justify-center text-white font-bold text-lg`}>
-                              {testimonials[activeIndex].avatar}
-                            </div>
-                          )}
+                        {/* Image Container with static gradient border */}
+                        <div className={`w-16 h-16 rounded-full p-0.5 bg-gradient-to-br ${testimonials[activeIndex].color}`}>
+                          <div className="w-full h-full rounded-full overflow-hidden bg-dark-900">
+                            {testimonials[activeIndex].image ? (
+                              <Image
+                                src={testimonials[activeIndex].image}
+                                alt={testimonials[activeIndex].name}
+                                width={64}
+                                height={64}
+                                className="w-full h-full object-cover"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className={`w-full h-full bg-gradient-to-br ${testimonials[activeIndex].color} flex items-center justify-center text-white font-bold text-lg`}>
+                                {testimonials[activeIndex].avatar}
+                              </div>
+                            )}
+                          </div>
                         </div>
                         {/* Verified Badge */}
-                        <motion.div
-                          className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-fiber-500 flex items-center justify-center border-2 border-dark-900"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: 0.3 }}
-                        >
+                        <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-fiber-500 flex items-center justify-center border-2 border-dark-900">
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
-                        </motion.div>
+                        </div>
                       </div>
                       <div>
                         <p className="font-semibold text-white text-lg">{testimonials[activeIndex].name}</p>

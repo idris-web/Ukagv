@@ -70,66 +70,13 @@ export default function ServicesSection() {
 
   return (
     <section id="services" ref={containerRef} className="section-padding relative overflow-hidden">
-      {/* Background */}
+      {/* Background - Clean */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
-      <div className="absolute inset-0 grid-pattern opacity-30" />
+      <div className="absolute inset-0 grid-pattern opacity-5" />
 
-      {/* Floating Background Orbs */}
-      <motion.div
-        style={{ y: y1 }}
-        className="absolute top-20 left-10 w-80 h-80 rounded-full bg-fiber-500/5 blur-3xl"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-primary-500/5 blur-3xl"
-      />
-
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-fiber-500/50 to-transparent" />
-
-      {/* Animated background fibers */}
-      <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="servicesFiber" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <filter id="servicesGlow">
-            <feGaussianBlur stdDeviation="4" />
-          </filter>
-        </defs>
-        <motion.path
-          d="M0 200 Q 480 100, 960 200 T 1920 200"
-          stroke="url(#servicesFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#servicesGlow)"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2, ease: "easeInOut" }}
-        />
-        <motion.path
-          d="M0 400 Q 480 300, 960 400 T 1920 400"
-          stroke="url(#servicesFiber)"
-          strokeWidth="1.5"
-          fill="none"
-          filter="url(#servicesGlow)"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.3 }}
-        />
-        <motion.path
-          d="M0 800 Q 480 900, 960 800 T 1920 800"
-          stroke="url(#servicesFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#servicesGlow)"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 3, ease: "easeInOut", delay: 0.6 }}
-        />
-      </svg>
+      {/* Static Background Orbs */}
+      <div className="absolute top-20 left-10 w-80 h-80 rounded-full bg-fiber-500/3 blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-primary-500/3 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}

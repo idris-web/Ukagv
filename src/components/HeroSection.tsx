@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { ArrowRight, Phone, Wifi, Award, Users, MapPin, ChevronDown } from 'lucide-react'
-import { MorphingText, MagneticButton, TextScramble, NumberCounter, CardTilt3D, GradientMesh, DecorativeParallax } from './effects'
+import { MorphingText, MagneticButton, TextScramble, NumberCounter, CardTilt3D, GradientMesh } from './effects'
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -12,14 +12,9 @@ export default function HeroSection() {
     offset: ['start start', 'end start']
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 300])
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9])
-
-  const fiberY1 = useTransform(scrollYProgress, [0, 1], [0, -200])
-  const fiberY2 = useTransform(scrollYProgress, [0, 1], [0, -150])
-  const fiberY3 = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const fiberX = useTransform(scrollYProgress, [0, 1], [0, 100])
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
 
   return (
     <section
@@ -27,183 +22,68 @@ export default function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Gradient Mesh Background */}
+      {/* Gradient Mesh Background - Subtle */}
       <GradientMesh
         colors={['#06b6d4', '#3b82f6', '#0891b2', '#0ea5e9']}
-        speed={0.5}
-        className="opacity-30"
+        speed={0.3}
+        className="opacity-15"
       />
 
       {/* Dark Background Base */}
-      <div className="absolute inset-0 bg-dark-950/80" />
+      <div className="absolute inset-0 bg-dark-950/85" />
 
-      {/* Parallax Decorative Elements */}
-      <DecorativeParallax />
-
-      {/* Grid Pattern - subtle */}
-      <div className="absolute inset-0 grid-pattern opacity-20" />
+      {/* Grid Pattern - very subtle */}
+      <div className="absolute inset-0 grid-pattern opacity-5" />
 
       {/* Radial Glow */}
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 60%)' }} />
 
-      {/* Animated Fiber Cables */}
+      {/* Simplified Fiber Cables - Subtle */}
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full opacity-40"
         viewBox="0 0 1920 1080"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <linearGradient id="heroFiberGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="heroFiberGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="15%" stopColor="#06b6d4" />
-            <stop offset="50%" stopColor="#22d3ee" />
-            <stop offset="85%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <linearGradient id="heroFiberGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="20%" stopColor="#0ca5ea" />
-            <stop offset="80%" stopColor="#0ca5ea" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <linearGradient id="heroFiberGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="25%" stopColor="#22d3ee" />
-            <stop offset="75%" stopColor="#0891b2" />
+            <stop offset="30%" stopColor="#06b6d4" />
+            <stop offset="70%" stopColor="#06b6d4" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
           <filter id="heroGlow">
-            <feGaussianBlur stdDeviation="8" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="heroGlowStrong">
-            <feGaussianBlur stdDeviation="12" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+            <feGaussianBlur stdDeviation="4" />
           </filter>
         </defs>
 
         {/* Main Fiber Cable 1 */}
         <motion.path
           d="M-200 750 Q 300 550, 600 650 T 1200 580 T 1800 700 T 2200 600"
-          stroke="url(#heroFiberGradient1)"
-          strokeWidth="6"
+          stroke="url(#heroFiberGradient)"
+          strokeWidth="3"
           fill="none"
-          filter="url(#heroGlowStrong)"
-          style={{ y: fiberY1, x: fiberX }}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2.5, ease: "easeInOut" }}
+          filter="url(#heroGlow)"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2, ease: "easeInOut" }}
         />
 
         {/* Main Fiber Cable 2 */}
         <motion.path
           d="M-100 850 Q 400 650, 700 800 T 1300 700 T 1900 850 T 2300 750"
-          stroke="url(#heroFiberGradient2)"
-          strokeWidth="4"
+          stroke="url(#heroFiberGradient)"
+          strokeWidth="2"
           fill="none"
           filter="url(#heroGlow)"
-          style={{ y: fiberY2 }}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.8 }}
-          transition={{ duration: 3, ease: "easeInOut", delay: 0.3 }}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.3 }}
         />
-
-        {/* Main Fiber Cable 3 */}
-        <motion.path
-          d="M-150 950 Q 350 800, 650 900 T 1250 820 T 1850 950 T 2250 880"
-          stroke="url(#heroFiberGradient3)"
-          strokeWidth="3"
-          fill="none"
-          filter="url(#heroGlow)"
-          style={{ y: fiberY3 }}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 3.5, ease: "easeInOut", delay: 0.6 }}
-        />
-
-        {/* Animated Data Pulses */}
-        <motion.circle
-          r="12"
-          fill="#22d3ee"
-          filter="url(#heroGlowStrong)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          style={{
-            offsetPath: "path('M-200 750 Q 300 550, 600 650 T 1200 580 T 1800 700 T 2200 600')"
-          }}
-        />
-        <motion.circle
-          r="10"
-          fill="#0ca5ea"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 1.5 }}
-          style={{
-            offsetPath: "path('M-100 850 Q 400 650, 700 800 T 1300 700 T 1900 850 T 2300 750')"
-          }}
-        />
-        <motion.circle
-          r="8"
-          fill="#06b6d4"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear", delay: 3 }}
-          style={{
-            offsetPath: "path('M-150 950 Q 350 800, 650 900 T 1250 820 T 1850 950 T 2250 880')"
-          }}
-        />
-
-        {/* Glow points at intersections */}
-        {[
-          { cx: 600, cy: 650, r: 5 },
-          { cx: 1200, cy: 580, r: 4 },
-          { cx: 700, cy: 800, r: 4 },
-          { cx: 1300, cy: 700, r: 5 },
-        ].map((dot, i) => (
-          <motion.circle
-            key={i}
-            cx={dot.cx}
-            cy={dot.cy}
-            r={dot.r}
-            fill="#22d3ee"
-            filter="url(#heroGlow)"
-            animate={{
-              opacity: [0.2, 0.9, 0.2],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{ duration: 2 + i * 0.3, repeat: Infinity, delay: i * 0.4 }}
-          />
-        ))}
       </svg>
 
-      {/* Floating Orbs */}
-      <motion.div
-        className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-fiber-500/10 blur-[100px]"
-        animate={{
-          x: [0, 60, 0],
-          y: [0, -40, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-primary-500/10 blur-[80px]"
-        animate={{
-          x: [0, -50, 0],
-          y: [0, -30, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Static Orbs - Subtle glow */}
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-fiber-500/5 blur-[100px]" />
+      <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] rounded-full bg-primary-500/5 blur-[80px]" />
 
       {/* Main Content */}
       <motion.div

@@ -48,41 +48,9 @@ export default function CTASection() {
 
   return (
     <section id="contact" className="section-padding relative overflow-hidden">
-      {/* Background */}
+      {/* Background - Clean */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-950 to-dark-950" />
-
-      {/* Animated Background Fibers */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="ctaFiber" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="30%" stopColor="#06b6d4" />
-            <stop offset="70%" stopColor="#0ca5ea" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <filter id="ctaGlow">
-            <feGaussianBlur stdDeviation="4" />
-          </filter>
-        </defs>
-        <motion.path
-          d="M-200 200 Q 400 400, 800 200 T 1600 300 T 2200 200"
-          stroke="url(#ctaFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#ctaGlow)"
-          opacity={0.3}
-          style={{ y }}
-        />
-        <motion.path
-          d="M-200 800 Q 400 600, 800 800 T 1600 700 T 2200 800"
-          stroke="url(#ctaFiber)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#ctaGlow)"
-          opacity={0.3}
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-100, 100]) }}
-        />
-      </svg>
+      <div className="absolute inset-0 grid-pattern opacity-5" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* PLZ Check Section */}

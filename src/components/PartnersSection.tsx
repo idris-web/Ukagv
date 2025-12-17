@@ -53,54 +53,9 @@ export default function PartnersSection() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-10" />
-
-      {/* Animated Orbs */}
-      <motion.div
-        style={{ y: y1 }}
-        className="absolute top-20 right-20 w-80 h-80 rounded-full bg-[#e20074]/5 blur-3xl"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute bottom-20 left-20 w-96 h-96 rounded-full bg-fiber-500/5 blur-3xl"
-      />
-
-      {/* Decorative Fiber Lines */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1920 800" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="partnerFiber" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          <linearGradient id="telekomGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor="#e20074" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-        </defs>
-        <motion.path
-          d="M-100 100 Q 400 50, 800 100 T 1600 50 T 2100 100"
-          stroke="url(#partnerFiber)"
-          strokeWidth="1"
-          fill="none"
-          opacity={0.2}
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2, ease: "easeInOut" }}
-        />
-        <motion.path
-          d="M-100 700 Q 400 750, 800 700 T 1600 750 T 2100 700"
-          stroke="url(#telekomGradient)"
-          strokeWidth="1"
-          fill="none"
-          opacity={0.3}
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2, ease: "easeInOut", delay: 0.3 }}
-        />
-      </svg>
+      {/* Subtle static orbs */}
+      <div className="absolute top-20 right-20 w-80 h-80 rounded-full bg-[#e20074]/3 blur-3xl" />
+      <div className="absolute bottom-20 left-20 w-96 h-96 rounded-full bg-fiber-500/3 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
@@ -139,32 +94,16 @@ export default function PartnersSection() {
                   }} />
                 </div>
 
-                {/* Animated Border Glow */}
-                <div className="absolute inset-0 rounded-[2rem] opacity-30">
-                  <motion.div
-                    className="absolute inset-0 rounded-[2rem]"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, #e20074, transparent)',
-                      backgroundSize: '200% 100%',
-                    }}
-                    animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  />
-                </div>
 
                 <div className="relative grid md:grid-cols-2 gap-10 items-center">
                   {/* Left - Logo & Badge */}
                   <div className="text-center md:text-left">
                     {/* Official Partner Badge */}
-                    <motion.div
-                      className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#e20074]/15 border border-[#e20074]/40 mb-8"
-                      animate={{ boxShadow: ['0 0 20px rgba(226,0,116,0.2)', '0 0 40px rgba(226,0,116,0.4)', '0 0 20px rgba(226,0,116,0.2)'] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
+                    <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#e20074]/15 border border-[#e20074]/40 mb-8">
                       <BadgeCheck className="w-5 h-5 text-[#e20074]" />
                       <span className="text-sm font-bold text-[#e20074] tracking-wide">OFFIZIELLER PARTNER</span>
                       <Verified className="w-5 h-5 text-[#e20074]" />
-                    </motion.div>
+                    </div>
 
                     <div className="flex items-center gap-5 mb-8 justify-center md:justify-start">
                       <motion.div
