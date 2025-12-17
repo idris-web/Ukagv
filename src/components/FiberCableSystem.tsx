@@ -1,46 +1,174 @@
 'use client'
 
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useAnimationFrame } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring, useMotionValue, animate } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 
-export default function FiberCableSystem() {
-  const { scrollYProgress } = useScroll()
-  const [mounted, setMounted] = useState(false)
-  const [initialAnimationDone, setInitialAnimationDone] = useState(false)
+// Cable configuration - each cable has start, control points, and end positions
+// for both chaotic and organized states
+const CABLES = [
+  // Left side cables
+  {
+    id: 1,
+    color: '#06b6d4', // cyan
+    strokeWidth: 4,
+    chaos: { start: [-50, -100], cp1: [300, 200], cp2: [100, 500], end: [400, 800] },
+    organized: { start: [100, 0], cp1: [150, 300], cp2: [300, 600], end: [50, 100] }, // percentage of page
+  },
+  {
+    id: 2,
+    color: '#3b82f6', // blue
+    strokeWidth: 3.5,
+    chaos: { start: [-30, 50], cp1: [350, 150], cp2: [50, 450], end: [450, 750] },
+    organized: { start: [150, 0], cp1: [200, 350], cp2: [350, 650], end: [50, 100] },
+  },
+  {
+    id: 3,
+    color: '#10b981', // green
+    strokeWidth: 3,
+    chaos: { start: [-80, 200], cp1: [400, 300], cp2: [80, 550], end: [380, 850] },
+    organized: { start: [200, 0], cp1: [280, 400], cp2: [400, 700], end: [50, 100] },
+  },
+  {
+    id: 4,
+    color: '#8b5cf6', // purple
+    strokeWidth: 2.5,
+    chaos: { start: [50, -50], cp1: [450, 250], cp2: [150, 500], end: [350, 900] },
+    organized: { start: [250, 0], cp1: [350, 350], cp2: [450, 680], end: [50, 100] },
+  },
+  // Right side cables
+  {
+    id: 5,
+    color: '#f59e0b', // orange
+    strokeWidth: 4,
+    chaos: { start: [1970, -100], cp1: [1620, 200], cp2: [1820, 500], end: [1520, 800] },
+    organized: { start: [1820, 0], cp1: [1770, 300], cp2: [1620, 600], end: [50, 100] },
+  },
+  {
+    id: 6,
+    color: '#14b8a6', // teal
+    strokeWidth: 3.5,
+    chaos: { start: [1950, 50], cp1: [1570, 150], cp2: [1870, 450], end: [1470, 750] },
+    organized: { start: [1770, 0], cp1: [1720, 350], cp2: [1570, 650], end: [50, 100] },
+  },
+  {
+    id: 7,
+    color: '#ec4899', // pink
+    strokeWidth: 3,
+    chaos: { start: [2000, 200], cp1: [1520, 300], cp2: [1840, 550], end: [1540, 850] },
+    organized: { start: [1720, 0], cp1: [1640, 400], cp2: [1520, 700], end: [50, 100] },
+  },
+  {
+    id: 8,
+    color: '#60a5fa', // light blue
+    strokeWidth: 2.5,
+    chaos: { start: [1870, -50], cp1: [1470, 250], cp2: [1770, 500], end: [1570, 900] },
+    organized: { start: [1670, 0], cp1: [1570, 350], cp2: [1470, 680], end: [50, 100] },
+  },
+  // Center cables (subtle)
+  {
+    id: 9,
+    color: '#22d3ee', // light cyan
+    strokeWidth: 2,
+    opacity: 0.25,
+    chaos: { start: [600, -50], cp1: [800, 200], cp2: [500, 450], end: [750, 700] },
+    organized: { start: [800, 0], cp1: [900, 400], cp2: [950, 700], end: [50, 100] },
+  },
+  {
+    id: 10,
+    color: '#a78bfa', // light purple
+    strokeWidth: 1.5,
+    opacity: 0.2,
+    chaos: { start: [960, -80], cp1: [1100, 150], cp2: [820, 400], end: [1000, 650] },
+    organized: { start: [960, 0], cp1: [960, 400], cp2: [960, 700], end: [50, 100] },
+  },
+  {
+    id: 11,
+    color: '#34d399', // light green
+    strokeWidth: 2,
+    opacity: 0.25,
+    chaos: { start: [1320, -50], cp1: [1120, 200], cp2: [1420, 450], end: [1170, 700] },
+    organized: { start: [1120, 0], cp1: [1020, 400], cp2: [980, 700], end: [50, 100] },
+  },
+]
 
-  useEffect(() => {
-    setMounted(true)
-    // Initial chaotic movement settles after 4 seconds
-    const timer = setTimeout(() => {
-      setInitialAnimationDone(true)
-    }, 4000)
-    return () => clearTimeout(timer)
-  }, [])
+export default function FiberCableSystem() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [pageHeight, setPageHeight] = useState(5000)
+  const [viewportHeight, setViewportHeight] = useState(1080)
+
+  const { scrollYProgress } = useScroll()
 
   // Smooth spring for scroll progress
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 25,
+    stiffness: 100,
+    damping: 30,
     restDelta: 0.001
   })
 
-  // Convergence point transforms (must be before conditional return)
-  const convergenceOpacity = useTransform(smoothProgress, [0.7, 0.95], [0, 1])
-  const outerRadius = useTransform(smoothProgress, [0.8, 1], [5, 25])
-  const outerOpacity = useTransform(smoothProgress, [0.8, 1], [0.3, 0.6])
-  const innerRadius = useTransform(smoothProgress, [0.8, 1], [2, 8])
+  // Animation progress for initial drawing (0 to 1 over 3 seconds)
+  const drawProgress = useMotionValue(0)
+
+  // Chaos intensity (starts at 1, goes to 0 as you scroll)
+  const chaosIntensity = useTransform(smoothProgress, [0, 0.15, 0.5], [1, 1, 0])
+
+  // Organization intensity (inverse of chaos)
+  const organizationIntensity = useTransform(smoothProgress, [0, 0.15, 0.5], [0, 0, 1])
+
+  // Convergence visibility (appears at the end)
+  const convergenceOpacity = useTransform(smoothProgress, [0.75, 0.95], [0, 1])
+
+  useEffect(() => {
+    setMounted(true)
+
+    // Get page dimensions
+    const updateDimensions = () => {
+      setPageHeight(document.documentElement.scrollHeight)
+      setViewportHeight(window.innerHeight)
+    }
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+
+    // Animate draw progress
+    animate(drawProgress, 1, {
+      duration: 2.5,
+      ease: [0.25, 0.1, 0.25, 1],
+    })
+
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [drawProgress])
 
   if (!mounted) return null
 
+  // Calculate convergence point (center-bottom of page)
+  const convergenceX = 960
+  const convergenceY = pageHeight - viewportHeight * 0.3
+
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
-      {/* Background gradient for consistency */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 0%, rgba(6, 182, 212, 0.06) 0%, transparent 50%)',
-        }}
-      />
+    <div
+      ref={containerRef}
+      className="fixed inset-0 pointer-events-none overflow-hidden"
+      style={{ zIndex: 1 }}
+    >
+      {/* Background glow effects */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+            opacity: chaosIntensity
+          }}
+        />
+        <motion.div
+          className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+            opacity: chaosIntensity
+          }}
+        />
+      </div>
 
       <svg
         className="absolute inset-0 w-full h-full"
@@ -48,46 +176,16 @@ export default function FiberCableSystem() {
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          {/* Fiber optic color gradients */}
-          <linearGradient id="gCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gGreen" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#10b981" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#34d399" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gOrange" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#fbbf24" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gPink" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ec4899" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#f472b6" stopOpacity="0.9" />
-          </linearGradient>
-
           {/* Glow filters */}
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+          <filter id="cableGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="5" result="blur" />
+          <filter id="pulseGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="blur" />
@@ -96,321 +194,227 @@ export default function FiberCableSystem() {
           </filter>
         </defs>
 
-        {/* ===== LEFT SIDE CABLES ===== */}
-        <AnimatedCable
-          gradient="gCyan"
-          strokeWidth={4}
-          chaosPath="M-50 -100 C 200 50, 100 200, 350 300 C 500 400, 200 500, 450 600 C 300 750, 500 850, 350 950 C 200 1050, 400 1100, 300 1200"
-          organizedPath="M50 -50 C 100 200, 150 400, 200 600 C 300 800, 500 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0}
-          drawDuration={2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gBlue"
-          strokeWidth={3.5}
-          chaosPath="M-30 50 C 150 150, 50 300, 280 400 C 400 500, 150 650, 380 750 C 250 850, 420 950, 280 1050 C 150 1150, 350 1200, 250 1250"
-          organizedPath="M100 -50 C 150 200, 200 400, 280 600 C 400 800, 600 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.2}
-          drawDuration={2.2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gGreen"
-          strokeWidth={3}
-          chaosPath="M-80 200 C 180 280, 20 400, 320 500 C 450 600, 180 720, 400 820 C 280 920, 450 1000, 320 1100 C 180 1180, 380 1220, 280 1280"
-          organizedPath="M150 -50 C 200 200, 280 400, 380 600 C 520 800, 700 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.4}
-          drawDuration={2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gPurple"
-          strokeWidth={2.5}
-          chaosPath="M-100 350 C 200 400, 50 550, 350 650 C 480 750, 220 850, 450 950 C 320 1020, 480 1080, 380 1150 C 250 1200, 420 1250, 350 1300"
-          organizedPath="M200 -50 C 280 200, 380 400, 500 600 C 660 800, 800 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.6}
-          drawDuration={1.8}
-          initialAnimationDone={initialAnimationDone}
-        />
+        {/* Render all cables */}
+        {CABLES.map((cable, index) => (
+          <Cable
+            key={cable.id}
+            cable={cable}
+            index={index}
+            drawProgress={drawProgress}
+            chaosIntensity={chaosIntensity}
+            organizationIntensity={organizationIntensity}
+            smoothProgress={smoothProgress}
+          />
+        ))}
 
-        {/* ===== RIGHT SIDE CABLES ===== */}
-        <AnimatedCable
-          gradient="gOrange"
-          strokeWidth={4}
-          chaosPath="M1970 -100 C 1720 50, 1820 200, 1570 300 C 1420 400, 1720 500, 1470 600 C 1620 750, 1420 850, 1570 950 C 1720 1050, 1520 1100, 1620 1200"
-          organizedPath="M1870 -50 C 1820 200, 1770 400, 1720 600 C 1620 800, 1420 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.1}
-          drawDuration={2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gTeal"
-          strokeWidth={3.5}
-          chaosPath="M1950 50 C 1770 150, 1870 300, 1640 400 C 1520 500, 1770 650, 1540 750 C 1670 850, 1500 950, 1640 1050 C 1770 1150, 1570 1200, 1670 1250"
-          organizedPath="M1820 -50 C 1770 200, 1720 400, 1640 600 C 1520 800, 1320 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.3}
-          drawDuration={2.2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gPink"
-          strokeWidth={3}
-          chaosPath="M2000 200 C 1740 280, 1900 400, 1600 500 C 1470 600, 1740 720, 1520 820 C 1640 920, 1470 1000, 1600 1100 C 1740 1180, 1540 1220, 1640 1280"
-          organizedPath="M1770 -50 C 1720 200, 1640 400, 1540 600 C 1400 800, 1220 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.5}
-          drawDuration={2}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gBlue"
-          strokeWidth={2.5}
-          chaosPath="M2020 350 C 1720 400, 1870 550, 1570 650 C 1440 750, 1700 850, 1470 950 C 1600 1020, 1440 1080, 1540 1150 C 1670 1200, 1500 1250, 1570 1300"
-          organizedPath="M1720 -50 C 1640 200, 1540 400, 1420 600 C 1260 800, 1120 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.7}
-          drawDuration={1.8}
-          initialAnimationDone={initialAnimationDone}
-        />
+        {/* Light pulses traveling along cables */}
+        {CABLES.slice(0, 8).map((cable, index) => (
+          <LightPulse
+            key={`pulse-${cable.id}`}
+            color={cable.color}
+            delay={index * 0.7}
+            duration={4 + index * 0.3}
+            index={index}
+          />
+        ))}
 
-        {/* ===== CENTER/MIDDLE CABLES (subtle, behind text) ===== */}
-        <AnimatedCable
-          gradient="gCyan"
-          strokeWidth={2}
-          opacity={0.2}
-          chaosPath="M400 -50 C 600 100, 450 250, 700 350 C 850 450, 600 550, 800 650 C 700 750, 850 850, 750 950 C 650 1050, 800 1100, 700 1200"
-          organizedPath="M600 -50 C 700 200, 800 450, 850 650 C 900 850, 940 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.8}
-          drawDuration={2.5}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gPurple"
-          strokeWidth={1.5}
-          opacity={0.15}
-          chaosPath="M960 -50 C 1100 80, 820 180, 1050 280 C 1180 380, 900 480, 1100 580 C 980 680, 1120 780, 1000 880 C 920 980, 1020 1050, 960 1150"
-          organizedPath="M960 -50 C 960 200, 960 450, 960 650 C 960 850, 960 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={1}
-          drawDuration={2.5}
-          initialAnimationDone={initialAnimationDone}
-        />
-        <AnimatedCable
-          gradient="gGreen"
-          strokeWidth={2}
-          opacity={0.2}
-          chaosPath="M1520 -50 C 1320 100, 1470 250, 1220 350 C 1070 450, 1320 550, 1120 650 C 1220 750, 1070 850, 1170 950 C 1270 1050, 1120 1100, 1220 1200"
-          organizedPath="M1320 -50 C 1220 200, 1120 450, 1070 650 C 1020 850, 980 950, 960 1050"
-          scrollProgress={smoothProgress}
-          drawDelay={0.9}
-          drawDuration={2.5}
-          initialAnimationDone={initialAnimationDone}
-        />
-
-        {/* ===== CONVERGENCE POINT AT BOTTOM ===== */}
+        {/* Convergence point at bottom */}
         <motion.g style={{ opacity: convergenceOpacity }}>
-          {/* Outer glow */}
+          {/* Outer rings */}
+          {[0, 1, 2].map((i) => (
+            <motion.circle
+              key={i}
+              cx="960"
+              cy="950"
+              r={30 + i * 15}
+              fill="none"
+              stroke="#06b6d4"
+              strokeWidth={1}
+              filter="url(#cableGlow)"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{
+                opacity: [0.2, 0.5, 0.2],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.3,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+          {/* Central glow */}
           <motion.circle
             cx="960"
-            cy="1050"
-            r={outerRadius}
-            fill="url(#gCyan)"
-            filter="url(#strongGlow)"
-            style={{ opacity: outerOpacity }}
+            cy="950"
+            r={20}
+            fill="url(#convergenceGradient)"
+            filter="url(#pulseGlow)"
+            animate={{
+              r: [15, 25, 15],
+              opacity: [0.6, 1, 0.6]
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           />
-          {/* Inner bright point */}
+          {/* Inner bright core */}
           <motion.circle
             cx="960"
-            cy="1050"
-            r={innerRadius}
+            cy="950"
+            r={8}
             fill="#22d3ee"
-            filter="url(#strongGlow)"
-          />
-          {/* Pulsing animation */}
-          <motion.circle
-            cx="960"
-            cy="1050"
-            r="12"
-            fill="none"
-            stroke="#22d3ee"
-            strokeWidth="2"
-            filter="url(#glow)"
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: [0.5, 1.5, 0.5], opacity: [0, 0.8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            filter="url(#pulseGlow)"
           />
         </motion.g>
 
-        {/* ===== LIGHT PULSES ===== */}
-        <LightPulse
-          path="M50 0 C 100 200, 150 400, 200 600 C 300 800, 500 950, 960 1050"
-          color="#22d3ee"
-          size={7}
-          duration={5}
-          delay={0}
-          scrollProgress={smoothProgress}
-        />
-        <LightPulse
-          path="M100 0 C 150 200, 200 400, 280 600 C 400 800, 600 950, 960 1050"
-          color="#60a5fa"
-          size={6}
-          duration={5.5}
-          delay={1}
-          scrollProgress={smoothProgress}
-        />
-        <LightPulse
-          path="M1870 0 C 1820 200, 1770 400, 1720 600 C 1620 800, 1420 950, 960 1050"
-          color="#fbbf24"
-          size={7}
-          duration={5}
-          delay={0.5}
-          scrollProgress={smoothProgress}
-        />
-        <LightPulse
-          path="M1820 0 C 1770 200, 1720 400, 1640 600 C 1520 800, 1320 950, 960 1050"
-          color="#2dd4bf"
-          size={6}
-          duration={5.5}
-          delay={1.5}
-          scrollProgress={smoothProgress}
-        />
-        <LightPulse
-          path="M960 0 C 960 200, 960 450, 960 650 C 960 850, 960 950, 960 1050"
-          color="#a78bfa"
-          size={5}
-          duration={4}
-          delay={2}
-          scrollProgress={smoothProgress}
-        />
-        {/* Extra pulses for more activity */}
-        <LightPulse
-          path="M150 0 C 200 200, 280 400, 380 600 C 520 800, 700 950, 960 1050"
-          color="#34d399"
-          size={5}
-          duration={6}
-          delay={2.5}
-          scrollProgress={smoothProgress}
-        />
-        <LightPulse
-          path="M1770 0 C 1720 200, 1640 400, 1540 600 C 1400 800, 1220 950, 960 1050"
-          color="#f472b6"
-          size={5}
-          duration={6}
-          delay={3}
-          scrollProgress={smoothProgress}
-        />
+        {/* Gradient for convergence */}
+        <defs>
+          <radialGradient id="convergenceGradient">
+            <stop offset="0%" stopColor="#22d3ee" />
+            <stop offset="50%" stopColor="#06b6d4" />
+            <stop offset="100%" stopColor="#0891b2" stopOpacity="0.5" />
+          </radialGradient>
+        </defs>
       </svg>
     </div>
   )
 }
 
-// Animated Cable Component
-interface AnimatedCableProps {
-  gradient: string
-  strokeWidth: number
-  chaosPath: string
-  organizedPath: string
-  scrollProgress: any
-  drawDelay: number
-  drawDuration: number
-  initialAnimationDone: boolean
-  opacity?: number
+// Individual cable component with drawing and morphing animation
+interface CableProps {
+  cable: typeof CABLES[0]
+  index: number
+  drawProgress: any
+  chaosIntensity: any
+  organizationIntensity: any
+  smoothProgress: any
 }
 
-function AnimatedCable({
-  gradient,
-  strokeWidth,
-  chaosPath,
-  organizedPath,
-  scrollProgress,
-  drawDelay,
-  drawDuration,
-  initialAnimationDone,
-  opacity = 0.7
-}: AnimatedCableProps) {
-  // Interpolate path based on scroll progress
-  const currentPath = useTransform(scrollProgress, [0, 0.3, 0.7, 1], [
-    chaosPath,
-    chaosPath,
-    organizedPath,
-    organizedPath
-  ])
+function Cable({ cable, index, drawProgress, chaosIntensity, organizationIntensity, smoothProgress }: CableProps) {
+  const baseOpacity = cable.opacity || 0.8
 
-  // Initial chaotic movement (only at the start)
-  const chaoticOffset = useMotionValue(0)
+  // Create chaotic path
+  const chaosPath = `M ${cable.chaos.start[0]} ${cable.chaos.start[1]} C ${cable.chaos.cp1[0]} ${cable.chaos.cp1[1]}, ${cable.chaos.cp2[0]} ${cable.chaos.cp2[1]}, ${cable.chaos.end[0]} ${cable.chaos.end[1]}`
 
-  useAnimationFrame((t) => {
-    if (!initialAnimationDone) {
-      // Subtle chaotic movement at the start
-      chaoticOffset.set(Math.sin(t / 500) * 5)
-    } else {
-      chaoticOffset.set(0)
+  // Create organized path that converges to center-bottom
+  const orgStart = cable.organized.start
+  const organizedPath = `M ${orgStart[0]} 0 C ${cable.organized.cp1[0]} ${cable.organized.cp1[1]}, ${cable.organized.cp2[0]} ${cable.organized.cp2[1]}, 960 950`
+
+  // Path length for drawing animation
+  const pathLength = useTransform(drawProgress, [0, 1], [0, 1])
+
+  // Vertical offset based on scroll (cables move down as you scroll)
+  const yOffset = useTransform(smoothProgress, [0, 1], [0, 200])
+
+  // Slight horizontal wobble at the start
+  const [wobble, setWobble] = useState(0)
+
+  useEffect(() => {
+    let frame: number
+    let startTime = Date.now()
+    const duration = 4000 // 4 seconds of initial wobble
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime
+      if (elapsed < duration) {
+        const progress = elapsed / duration
+        const fadeOut = 1 - progress
+        const wobbleAmount = Math.sin(elapsed / 200 + index * 0.5) * 8 * fadeOut
+        setWobble(wobbleAmount)
+        frame = requestAnimationFrame(animate)
+      } else {
+        setWobble(0)
+      }
     }
-  })
+
+    frame = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(frame)
+  }, [index])
 
   return (
-    <motion.path
-      d={currentPath}
-      stroke={`url(#${gradient})`}
-      strokeWidth={strokeWidth}
-      fill="none"
-      filter="url(#glow)"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: opacity }}
-      transition={{
-        pathLength: { duration: drawDuration, delay: drawDelay, ease: "easeOut" },
-        opacity: { duration: 0.5, delay: drawDelay }
-      }}
-      style={{
-        translateX: chaoticOffset,
-        translateY: chaoticOffset
-      }}
-    />
+    <g>
+      {/* Chaotic path (visible at start, fades as you scroll) */}
+      <motion.path
+        d={chaosPath}
+        stroke={cable.color}
+        strokeWidth={cable.strokeWidth}
+        fill="none"
+        filter="url(#cableGlow)"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{
+          pathLength,
+          opacity: useTransform(chaosIntensity, (v: number) => v * baseOpacity),
+          translateX: wobble,
+          translateY: wobble * 0.5,
+        }}
+      />
+
+      {/* Organized path (fades in as you scroll) */}
+      <motion.path
+        d={organizedPath}
+        stroke={cable.color}
+        strokeWidth={cable.strokeWidth}
+        fill="none"
+        filter="url(#cableGlow)"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{
+          pathLength,
+          opacity: useTransform(organizationIntensity, (v: number) => v * baseOpacity),
+          translateY: yOffset,
+        }}
+      />
+    </g>
   )
 }
 
-// Light Pulse Component
+// Light pulse traveling effect - paths are deterministic based on index
+const PULSE_PATHS = [
+  "M 50 -50 Q 500 400, 960 950",
+  "M 150 -50 Q 600 400, 960 950",
+  "M 250 -50 Q 700 400, 960 950",
+  "M 350 -50 Q 750 400, 960 950",
+  "M 1870 -50 Q 1400 400, 960 950",
+  "M 1770 -50 Q 1300 400, 960 950",
+  "M 1670 -50 Q 1200 400, 960 950",
+  "M 1570 -50 Q 1150 400, 960 950",
+]
+
 interface LightPulseProps {
-  path: string
   color: string
-  size: number
-  duration: number
   delay: number
-  scrollProgress: any
+  duration: number
+  index: number
 }
 
-function LightPulse({ path, color, size, duration, delay, scrollProgress }: LightPulseProps) {
-  // Pulse size increases slightly as cables organize
-  const pulseSize = useTransform(scrollProgress, [0, 1], [size, size * 1.3])
+function LightPulse({ color, delay, duration, index }: LightPulseProps) {
+  const path = PULSE_PATHS[index % PULSE_PATHS.length]
 
   return (
     <motion.circle
-      r={pulseSize}
+      r={6}
       fill={color}
-      filter="url(#strongGlow)"
+      filter="url(#pulseGlow)"
       initial={{ offsetDistance: '0%', opacity: 0 }}
       animate={{
-        offsetDistance: '100%',
-        opacity: [0, 1, 1, 1, 0]
+        offsetDistance: ['0%', '100%'],
+        opacity: [0, 1, 1, 0.8, 0]
       }}
       transition={{
         duration: duration,
         repeat: Infinity,
         ease: "linear",
         delay: delay,
-        repeatDelay: 1.5
+        repeatDelay: 2
       }}
-      style={{ offsetPath: `path('${path}')` }}
+      style={{
+        offsetPath: `path('${path}')`
+      }}
     />
   )
 }
