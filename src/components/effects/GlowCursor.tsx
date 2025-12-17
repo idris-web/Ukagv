@@ -12,7 +12,7 @@ interface GlowCursorProps {
 export default function GlowCursor({
   color = '#06b6d4',
   size = 20,
-  trailLength = 8
+  trailLength = 6 // Reduced default for better performance
 }: GlowCursorProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [trail, setTrail] = useState<{ x: number; y: number; id: number }[]>([])
@@ -20,34 +20,41 @@ export default function GlowCursor({
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
-  const springConfig = { damping: 25, stiffness: 300 }
+  // Smoother spring config
+  const springConfig = { damping: 30, stiffness: 250, restDelta: 0.001 }
   const springX = useSpring(cursorX, springConfig)
   const springY = useSpring(cursorY, springConfig)
 
   useEffect(() => {
     let trailId = 0
+    let lastTrailUpdate = 0
+    const TRAIL_THROTTLE = 30 // Only update trail every 30ms
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
       setIsVisible(true)
 
-      // Add to trail
-      setTrail((prev) => {
-        const newTrail = [
-          ...prev,
-          { x: e.clientX, y: e.clientY, id: trailId++ }
-        ]
-        // Keep only last N positions
-        return newTrail.slice(-trailLength)
-      })
+      // Throttle trail updates for better performance
+      const now = Date.now()
+      if (now - lastTrailUpdate > TRAIL_THROTTLE) {
+        lastTrailUpdate = now
+        setTrail((prev) => {
+          const newTrail = [
+            ...prev,
+            { x: e.clientX, y: e.clientY, id: trailId++ }
+          ]
+          return newTrail.slice(-trailLength)
+        })
+      }
     }
 
     const handleMouseLeave = () => {
       setIsVisible(false)
+      setTrail([]) // Clear trail on leave
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     document.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
@@ -56,11 +63,11 @@ export default function GlowCursor({
     }
   }, [cursorX, cursorY, trailLength])
 
-  // Clean up old trail points
+  // Clean up old trail points - slower interval for smoother fade
   useEffect(() => {
     const interval = setInterval(() => {
-      setTrail((prev) => prev.slice(1))
-    }, 50)
+      setTrail((prev) => prev.length > 0 ? prev.slice(1) : prev)
+    }, 80) // Slower cleanup for smoother trails
 
     return () => clearInterval(interval)
   }, [])

@@ -128,23 +128,22 @@ function FiberCable({ color, index, side, scrollProgress }: FiberCableProps) {
   // Vertical position moves down as you scroll
   const yOffset = useTransform(scrollProgress, [0, 1], [0, 150])
 
-  // Cable opacity
-  const opacity = useTransform(scrollProgress, [0, 0.1, 0.9, 1], [0.7, 0.9, 0.9, 0.5])
+  // Cable opacity - more visible overall
+  const opacity = useTransform(scrollProgress, [0, 0.1, 0.9, 1], [0.8, 1, 1, 0.6])
 
-  // Path reveal (drawing effect)
-  const pathLength = useTransform(scrollProgress, [0, 0.1, 0.8], [0.3, 0.6, 1])
+  // Path reveal (drawing effect) - controlled by scroll
+  const pathLength = useTransform(scrollProgress, [0, 0.1, 0.8], [0.4, 0.7, 1])
 
   // Base positions for zigzag cable path
-  // Each cable has different starting position based on index
   const baseSpread = 200 + index * 120
 
+  // Calculate X offset from spread multiplier (must be outside of style prop)
+  const xOffset = useTransform(spreadMultiplier, (v) => isLeft ? -baseSpread * (1 - v) : baseSpread * (1 - v))
+
   // Create zigzag path from top to bottom
-  // Left cables: start from left side, zigzag toward center
-  // Right cables: start from right side, zigzag toward center
   const startX = isLeft ? -100 - index * 50 : 2020 + index * 50
   const startY = -200 - index * 80
 
-  // Zigzag waypoints
   const getPath = () => {
     if (isLeft) {
       return `
@@ -186,7 +185,7 @@ function FiberCable({ color, index, side, scrollProgress }: FiberCableProps) {
   return (
     <motion.g
       style={{
-        x: useTransform(spreadMultiplier, (v) => isLeft ? -baseSpread * (1 - v) : baseSpread * (1 - v)),
+        x: xOffset,
         y: yOffset,
       }}
     >
@@ -202,9 +201,6 @@ function FiberCable({ color, index, side, scrollProgress }: FiberCableProps) {
           pathLength,
           opacity,
         }}
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 0.3 }}
-        transition={{ duration: 2, ease: "easeOut", delay: index * 0.2 }}
       />
     </motion.g>
   )
@@ -224,7 +220,7 @@ function LightPulse({ index, side, color }: { index: number, side: 'left' | 'rig
 
   return (
     <motion.circle
-      r={5}
+      r={6}
       fill={color}
       filter="url(#glow)"
       style={{
@@ -232,14 +228,14 @@ function LightPulse({ index, side, color }: { index: number, side: 'left' | 'rig
       }}
       animate={{
         offsetDistance: ['0%', '100%'],
-        opacity: [0, 1, 1, 0],
+        opacity: [0, 1, 1, 0.8, 0],
       }}
       transition={{
-        duration: 6 + index,
+        duration: 3.5 + index * 0.3, // Faster: 3.5-4.7s instead of 6-10s
         repeat: Infinity,
         ease: "linear",
-        delay: index * 1.5 + (isLeft ? 0 : 0.5),
-        repeatDelay: 2,
+        delay: index * 0.8 + (isLeft ? 0 : 0.4),
+        repeatDelay: 1, // Shorter repeat delay
       }}
     />
   )

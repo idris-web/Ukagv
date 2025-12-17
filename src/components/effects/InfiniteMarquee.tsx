@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ReactNode, useRef, useState } from 'react'
+import { motion, useAnimationControls } from 'framer-motion'
+import { ReactNode, useEffect, useState } from 'react'
 
 interface InfiniteMarqueeProps {
   children: ReactNode
@@ -21,31 +21,35 @@ export default function InfiniteMarquee({
   gap = 40
 }: InfiniteMarqueeProps) {
   const [isPaused, setIsPaused] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const controls = useAnimationControls()
 
-  const baseVelocity = direction === 'left' ? -speed : speed
+  const duration = 50 / (speed / 30)
+
+  useEffect(() => {
+    if (isPaused) {
+      controls.stop()
+    } else {
+      controls.start({
+        x: direction === 'left' ? ['0%', '-50%'] : ['-50%', '0%'],
+        transition: {
+          duration,
+          ease: 'linear',
+          repeat: Infinity,
+        }
+      })
+    }
+  }, [isPaused, direction, duration, controls])
 
   return (
     <div
-      ref={containerRef}
       className={`overflow-hidden ${className}`}
       onMouseEnter={() => pauseOnHover && setIsPaused(true)}
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       <motion.div
         className="flex"
-        animate={{
-          x: direction === 'left' ? ['0%', '-50%'] : ['-50%', '0%']
-        }}
-        transition={{
-          duration: 50 / (speed / 30),
-          ease: 'linear',
-          repeat: Infinity,
-        }}
-        style={{
-          gap,
-          animationPlayState: isPaused ? 'paused' : 'running'
-        }}
+        animate={controls}
+        style={{ gap }}
       >
         {/* Duplicate content for seamless loop */}
         <div className="flex shrink-0" style={{ gap }}>

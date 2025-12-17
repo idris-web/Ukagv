@@ -24,10 +24,12 @@ export default function NumberCounter({
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   const motionValue = useMotionValue(0)
+  // Adjust spring physics based on desired duration
+  // Lower stiffness = slower animation, higher damping = smoother
   const springValue = useSpring(motionValue, {
-    damping: 50,
-    stiffness: 100,
-    duration: duration * 1000
+    damping: 30 + (3 - duration) * 10, // More damping for faster durations
+    stiffness: 50 / duration, // Lower stiffness for longer durations
+    restDelta: 0.01
   })
 
   const displayValue = useTransform(springValue, (latest) => {
