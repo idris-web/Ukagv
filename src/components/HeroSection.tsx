@@ -38,32 +38,45 @@ export default function HeroSection() {
       {/* Radial Glow */}
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 60%)' }} />
 
-      {/* Smooth Fiber Cables - Continuous Animation */}
+      {/* Fiber Cables - Around the edges, not over text */}
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 1920 1080"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <linearGradient id="heroFiberGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          {/* Realistic fiber optic colors */}
+          <linearGradient id="fiberCyan" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="20%" stopColor="#06b6d4" />
-            <stop offset="80%" stopColor="#22d3ee" />
+            <stop offset="15%" stopColor="#06b6d4" />
+            <stop offset="85%" stopColor="#22d3ee" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
-          <linearGradient id="heroFiberGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="fiberBlue" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="25%" stopColor="#0ea5e9" />
-            <stop offset="75%" stopColor="#06b6d4" />
+            <stop offset="15%" stopColor="#3b82f6" />
+            <stop offset="85%" stopColor="#60a5fa" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
-          <linearGradient id="heroFiberGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="fiberGreen" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="30%" stopColor="#3b82f6" />
-            <stop offset="70%" stopColor="#0891b2" />
+            <stop offset="15%" stopColor="#10b981" />
+            <stop offset="85%" stopColor="#34d399" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
-          <filter id="heroGlow">
+          <linearGradient id="fiberOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="15%" stopColor="#f59e0b" />
+            <stop offset="85%" stopColor="#fbbf24" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+          <linearGradient id="fiberTeal" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="15%" stopColor="#14b8a6" />
+            <stop offset="85%" stopColor="#2dd4bf" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+          <filter id="softGlow">
             <feGaussianBlur stdDeviation="2" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -72,92 +85,139 @@ export default function HeroSection() {
           </filter>
         </defs>
 
-        {/* Main Fiber Cable 1 - Draws fast then stays */}
-        <motion.path
-          d="M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600"
-          stroke="url(#heroFiberGradient1)"
-          strokeWidth="4"
+        {/* === LEFT SIDE CABLES === */}
+        <path
+          d="M-50 80 Q 150 60, 280 120 Q 400 200, 320 380"
+          stroke="url(#fiberCyan)"
+          strokeWidth="2.5"
           fill="none"
-          filter="url(#heroGlow)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.7 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          opacity="0.5"
+          filter="url(#softGlow)"
         />
-
-        {/* Main Fiber Cable 2 */}
-        <motion.path
-          d="M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680"
-          stroke="url(#heroFiberGradient2)"
-          strokeWidth="3"
-          fill="none"
-          filter="url(#heroGlow)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        />
-
-        {/* Main Fiber Cable 3 */}
-        <motion.path
-          d="M-150 880 Q 350 720, 700 850 T 1250 770 T 1750 880 T 2250 800"
-          stroke="url(#heroFiberGradient3)"
+        <path
+          d="M-30 250 Q 100 300, 140 450 Q 180 600, 80 780"
+          stroke="url(#fiberBlue)"
           strokeWidth="2"
           fill="none"
-          filter="url(#heroGlow)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.5 }}
-          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+          opacity="0.4"
+          filter="url(#softGlow)"
+        />
+        <path
+          d="M-40 850 Q 180 820, 350 870 Q 520 920, 650 980"
+          stroke="url(#fiberGreen)"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.45"
+          filter="url(#softGlow)"
         />
 
-        {/* Light pulse traveling along cable 1 - Continuous smooth movement */}
-        <motion.circle
-          r="6"
-          fill="#22d3ee"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 1.5 }}
-          style={{
-            offsetPath: "path('M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600')"
-          }}
+        {/* === RIGHT SIDE CABLES === */}
+        <path
+          d="M1970 100 Q 1750 80, 1620 160 Q 1500 250, 1600 400"
+          stroke="url(#fiberOrange)"
+          strokeWidth="2.5"
+          fill="none"
+          opacity="0.5"
+          filter="url(#softGlow)"
+        />
+        <path
+          d="M1960 320 Q 1820 380, 1780 530 Q 1740 680, 1860 820"
+          stroke="url(#fiberTeal)"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.4"
+          filter="url(#softGlow)"
+        />
+        <path
+          d="M1980 870 Q 1750 840, 1580 890 Q 1400 940, 1280 1000"
+          stroke="url(#fiberCyan)"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.45"
+          filter="url(#softGlow)"
         />
 
-        {/* Second pulse on cable 1 - offset timing */}
-        <motion.circle
-          r="5"
-          fill="#06b6d4"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 5.5 }}
-          style={{
-            offsetPath: "path('M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600')"
-          }}
+        {/* === BOTTOM CABLES === */}
+        <path
+          d="M150 820 Q 450 780, 750 810 Q 1050 840, 1350 800 Q 1650 760, 1800 820"
+          stroke="url(#fiberBlue)"
+          strokeWidth="2.5"
+          fill="none"
+          opacity="0.35"
+          filter="url(#softGlow)"
+        />
+        <path
+          d="M250 900 Q 550 870, 850 895 Q 1150 920, 1450 885 Q 1700 850, 1850 910"
+          stroke="url(#fiberGreen)"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.3"
+          filter="url(#softGlow)"
         />
 
-        {/* Light pulse traveling along cable 2 */}
-        <motion.circle
-          r="5"
-          fill="#0ea5e9"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 2 }}
-          style={{
-            offsetPath: "path('M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680')"
-          }}
-        />
-
-        {/* Light pulse traveling along cable 3 */}
+        {/* === LIGHT PULSES === */}
         <motion.circle
           r="4"
-          fill="#3b82f6"
-          filter="url(#heroGlow)"
+          fill="#22d3ee"
+          filter="url(#softGlow)"
           initial={{ offsetDistance: '0%' }}
           animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 2.5 }}
-          style={{
-            offsetPath: "path('M-150 880 Q 350 720, 700 850 T 1250 770 T 1750 880 T 2250 800')"
-          }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
+          style={{ offsetPath: "path('M-50 80 Q 150 60, 280 120 Q 400 200, 320 380')" }}
+        />
+        <motion.circle
+          r="3"
+          fill="#60a5fa"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 1, repeatDelay: 1.5 }}
+          style={{ offsetPath: "path('M-30 250 Q 100 300, 140 450 Q 180 600, 80 780')" }}
+        />
+        <motion.circle
+          r="4"
+          fill="#fbbf24"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 0.5, repeatDelay: 2 }}
+          style={{ offsetPath: "path('M1970 100 Q 1750 80, 1620 160 Q 1500 250, 1600 400')" }}
+        />
+        <motion.circle
+          r="3"
+          fill="#2dd4bf"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2, repeatDelay: 1.5 }}
+          style={{ offsetPath: "path('M1960 320 Q 1820 380, 1780 530 Q 1740 680, 1860 820')" }}
+        />
+        <motion.circle
+          r="4"
+          fill="#60a5fa"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 7, repeat: Infinity, ease: "linear", delay: 1.5 }}
+          style={{ offsetPath: "path('M150 820 Q 450 780, 750 810 Q 1050 840, 1350 800 Q 1650 760, 1800 820')" }}
+        />
+        <motion.circle
+          r="3"
+          fill="#34d399"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 3, repeatDelay: 2 }}
+          style={{ offsetPath: "path('M-40 850 Q 180 820, 350 870 Q 520 920, 650 980')" }}
+        />
+        <motion.circle
+          r="3"
+          fill="#22d3ee"
+          filter="url(#softGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2.5, repeatDelay: 2 }}
+          style={{ offsetPath: "path('M1980 870 Q 1750 840, 1580 890 Q 1400 940, 1280 1000')" }}
         />
       </svg>
 

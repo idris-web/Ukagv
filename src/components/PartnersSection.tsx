@@ -2,7 +2,7 @@
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, CheckCircle, BadgeCheck, Verified } from 'lucide-react'
+import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, BadgeCheck } from 'lucide-react'
 
 // Main highlight partner - Telekom Deutschland
 const mainPartner = {
@@ -109,9 +109,7 @@ export default function PartnersSection() {
                   <div className="text-center md:text-left">
                     {/* Official Partner Badge */}
                     <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#e20074]/15 border border-[#e20074]/40 mb-8">
-                      <BadgeCheck className="w-5 h-5 text-[#e20074]" />
                       <span className="text-sm font-bold text-[#e20074] tracking-wide">OFFIZIELLER PARTNER</span>
-                      <Verified className="w-5 h-5 text-[#e20074]" />
                     </div>
 
                     <div className="flex items-center gap-5 mb-8 justify-center md:justify-start">
@@ -125,8 +123,8 @@ export default function PartnersSection() {
                       <div>
                         <h3 className="text-3xl md:text-4xl font-bold text-white">{mainPartner.name}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <CheckCircle className="w-4 h-4 text-[#e20074]" />
-                          <p className="text-[#e20074] font-semibold">Verifizierter Glasfaser-Ausbaupartner</p>
+                          <BadgeCheck className="w-5 h-5 text-blue-500" />
+                          <p className="text-dark-200 font-semibold">Verifizierter Glasfaser-Ausbaupartner</p>
                         </div>
                       </div>
                     </div>
@@ -157,7 +155,9 @@ export default function PartnersSection() {
                         whileHover={{ scale: 1.05, y: -5 }}
                         className="p-5 rounded-2xl bg-dark-800/60 border border-[#e20074]/20 hover:border-[#e20074]/50 transition-all backdrop-blur-sm"
                       >
-                        <CheckCircle className="w-7 h-7 text-[#e20074] mb-3" />
+                        <div className="w-8 h-8 rounded-lg bg-[#e20074]/20 flex items-center justify-center mb-3">
+                          <span className="text-[#e20074] font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
+                        </div>
                         <p className="font-bold text-white mb-1">{feature.title}</p>
                         <p className="text-sm text-dark-400">{feature.desc}</p>
                       </motion.div>
@@ -168,12 +168,8 @@ export default function PartnersSection() {
           </div>
         </motion.div>
 
-        {/* Other Partners - Seamless Infinite Scroll */}
+        {/* Other Partners - Improved Design */}
         <div className="relative mb-20">
-          {/* Softer Gradient Overlays - Much longer fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-dark-900 via-dark-900/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-dark-900 via-dark-900/80 to-transparent z-10 pointer-events-none" />
-
           {/* Section Title */}
           <motion.h3
             initial={{ opacity: 0 }}
@@ -183,39 +179,34 @@ export default function PartnersSection() {
             Weitere Partner & Auftraggeber
           </motion.h3>
 
-          {/* CSS-based Infinite Marquee for truly seamless loop */}
-          <div className="overflow-hidden">
-            <div className="flex animate-marquee hover:[animation-play-state:paused]">
-              {/* Triple the content for seamless loop */}
-              {[...partners, ...partners, ...partners, ...partners].map((partner, index) => (
-                <div
+          {/* Clean Partner Grid */}
+          <div className="relative p-8 rounded-3xl bg-dark-800/30 border border-fiber-500/10">
+            {/* Subtle inner glow */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-fiber-500/5 via-transparent to-primary-500/5 pointer-events-none" />
+
+            <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4">
+              {partners.map((partner, index) => (
+                <motion.div
                   key={index}
-                  className="flex-shrink-0 w-64 mx-4 p-6 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all group cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.3 + index * 0.05 }}
+                  whileHover={{ scale: 1.03, y: -3 }}
+                  className="p-5 rounded-2xl bg-dark-900/60 border border-fiber-500/10 hover:border-fiber-500/30 transition-all group cursor-pointer"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-fiber-500/20 to-primary-500/20 flex items-center justify-center group-hover:from-fiber-500/30 group-hover:to-primary-500/30 transition-all">
-                      <partner.icon className="w-7 h-7 text-fiber-400" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-fiber-500/20 to-primary-500/20 flex items-center justify-center group-hover:from-fiber-500/30 group-hover:to-primary-500/30 transition-all">
+                      <partner.icon className="w-6 h-6 text-fiber-400" />
                     </div>
                     <div>
-                      <p className="font-semibold text-white">{partner.name}</p>
+                      <p className="font-semibold text-white text-sm">{partner.name}</p>
                       <p className="text-xs text-dark-400">{partner.category}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
-
-          {/* Add CSS for the marquee animation */}
-          <style jsx>{`
-            @keyframes marquee {
-              0% { transform: translateX(0); }
-              100% { transform: translateX(-50%); }
-            }
-            .animate-marquee {
-              animation: marquee 40s linear infinite;
-            }
-          `}</style>
         </div>
 
         {/* Certifications */}
