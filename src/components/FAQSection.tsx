@@ -18,7 +18,15 @@ const faqs = [
       },
       {
         question: 'Arbeitet UKAGV auch bundesweit?',
-        answer: 'Ja, wir sind in ganz Deutschland tätig. Unser Schwerpunkt liegt in Süddeutschland, aber wir haben auch Projekte in anderen Regionen erfolgreich umgesetzt. Sprechen Sie uns einfach an.'
+        answer: 'Ja, wir sind in ganz Deutschland tätig. Unser Schwerpunkt liegt in Süddeutschland (Bayern, Baden-Württemberg), aber wir haben auch Projekte in anderen Regionen erfolgreich umgesetzt. Sprechen Sie uns einfach an.'
+      },
+      {
+        question: 'Warum sollte ich UKAGV beauftragen?',
+        answer: 'Als zertifizierter Telekom Partner und FTTH-Fachbetrieb bringen wir über 15 Jahre Erfahrung mit. Wir bieten alles aus einer Hand: Von der Beratung über Tiefbau und Kabelverlegung bis zur Inbetriebnahme. Unser Team arbeitet zuverlässig, termingerecht und zu fairen Preisen.'
+      },
+      {
+        question: 'Bieten Sie auch Wartung und Support nach der Installation?',
+        answer: 'Ja, wir stehen auch nach der Installation für Sie bereit. Bei technischen Fragen oder Problemen können Sie uns jederzeit kontaktieren. Zudem bieten wir Wartungsverträge für Gewerbekunden und größere Liegenschaften an.'
       },
     ]
   },
@@ -27,15 +35,27 @@ const faqs = [
     questions: [
       {
         question: 'Was ist der Unterschied zwischen FTTH und FTTB?',
-        answer: 'FTTH (Fiber to the Home) bedeutet, dass das Glasfaserkabel direkt bis in Ihre Wohnung oder Ihr Haus verlegt wird. Bei FTTB (Fiber to the Building) endet die Glasfaser im Keller des Gebäudes, die letzten Meter werden über Kupferkabel überbrückt. FTTH bietet die beste Leistung.'
+        answer: 'FTTH (Fiber to the Home) bedeutet, dass das Glasfaserkabel direkt bis in Ihre Wohnung oder Ihr Haus verlegt wird. Bei FTTB (Fiber to the Building) endet die Glasfaser im Keller des Gebäudes, die letzten Meter werden über Kupferkabel überbrückt. FTTH bietet die beste Leistung und ist zukunftssicherer.'
       },
       {
         question: 'Welche Geschwindigkeiten sind mit Glasfaser möglich?',
-        answer: 'Mit einem Glasfaseranschluss sind Geschwindigkeiten von bis zu 10 Gbit/s möglich – symmetrisch, also sowohl im Download als auch im Upload. Die tatsächlich verfügbare Geschwindigkeit hängt von Ihrem Tarif beim Provider ab.'
+        answer: 'Mit einem Glasfaseranschluss sind Geschwindigkeiten von bis zu 10 Gbit/s möglich – symmetrisch, also sowohl im Download als auch im Upload. Die tatsächlich verfügbare Geschwindigkeit hängt von Ihrem Tarif beim Provider ab. Selbst Basis-Tarife bieten meist 100-250 Mbit/s.'
       },
       {
         question: 'Was passiert bei einem Stromausfall?',
-        answer: 'Bei einem Stromausfall funktioniert auch der Glasfaseranschluss nicht, da die aktiven Komponenten (ONT/Router) Strom benötigen. Mit einer USV (unterbrechungsfreie Stromversorgung) können Sie die Verfügbarkeit auch bei Stromausfall sicherstellen.'
+        answer: 'Bei einem Stromausfall funktioniert auch der Glasfaseranschluss nicht, da die aktiven Komponenten (ONT/Router) Strom benötigen. Mit einer USV (unterbrechungsfreie Stromversorgung) können Sie die Verfügbarkeit auch bei Stromausfall sicherstellen – besonders wichtig für Gewerbe und Homeoffice.'
+      },
+      {
+        question: 'Ist Glasfaser besser als Kabel-Internet?',
+        answer: 'Ja, Glasfaser bietet entscheidende Vorteile: Symmetrische Geschwindigkeiten (gleich schnell up- und download), geringere Latenz, keine Geschwindigkeitseinbrüche zu Stoßzeiten und deutlich höhere maximale Bandbreiten. Zudem ist Glasfaser unempfindlich gegen elektromagnetische Störungen.'
+      },
+      {
+        question: 'Was bedeutet symmetrische Geschwindigkeit?',
+        answer: 'Symmetrische Geschwindigkeit bedeutet, dass Upload und Download gleich schnell sind. Bei DSL ist der Upload meist deutlich langsamer (z.B. 250/40 Mbit/s). Bei Glasfaser haben Sie z.B. 1.000/1.000 Mbit/s – ideal für Videokonferenzen, Cloud-Backup und Smart Home.'
+      },
+      {
+        question: 'Wie störanfällig ist Glasfaser?',
+        answer: 'Glasfaserkabel sind sehr robust und störungsunanfällig. Sie sind immun gegen elektromagnetische Störungen, Blitzeinschläge und Übersprechen. Die typische Lebensdauer einer Glasfaserinfrastruktur liegt bei über 30 Jahren.'
       },
     ]
   },
@@ -44,15 +64,44 @@ const faqs = [
     questions: [
       {
         question: 'Muss ich während der Installation zu Hause sein?',
-        answer: 'Ja, bei der Hausinstallation sollte jemand vor Ort sein, um Zugang zu ermöglichen und die Kabelführung im Haus zu besprechen. Für den Tiefbau ist Ihre Anwesenheit in der Regel nicht erforderlich.'
+        answer: 'Ja, bei der Hausinstallation sollte jemand vor Ort sein, um Zugang zu ermöglichen und die Kabelführung im Haus zu besprechen. Für den Tiefbau ist Ihre Anwesenheit in der Regel nicht erforderlich. Wir stimmen alle Termine vorab mit Ihnen ab.'
       },
       {
         question: 'Wie wird der Garten nach den Arbeiten wiederhergestellt?',
-        answer: 'Wir legen großen Wert auf eine saubere Wiederherstellung. Nach dem Tiefbau wird der Boden verdichtet, Rasen neu angesät oder Pflaster wieder verlegt. Bei aufwendigeren Oberflächen stimmen wir das Vorgehen vorher mit Ihnen ab.'
+        answer: 'Wir legen großen Wert auf eine saubere Wiederherstellung. Nach dem Tiefbau wird der Boden verdichtet, Rasen neu angesät oder Pflaster wieder verlegt. Bei aufwendigeren Oberflächen (Naturstein, Spezialbeläge) stimmen wir das Vorgehen und die Kosten vorher mit Ihnen ab.'
       },
       {
         question: 'Brauche ich einen bestimmten Provider?',
-        answer: 'Nein, wir sind unabhängig von Providern. Wir verlegen die Infrastruktur – den Anbieter für Ihren Internettarif wählen Sie selbst. In vielen Fällen arbeiten wir im Auftrag von Netzbetreibern, die dann auch gleich Tarife anbieten.'
+        answer: 'Nein, wir sind unabhängig von Providern. Wir verlegen die Infrastruktur – den Anbieter für Ihren Internettarif wählen Sie selbst. In vielen Fällen arbeiten wir im Auftrag von Netzbetreibern wie der Telekom, die dann auch gleich Tarife anbieten.'
+      },
+      {
+        question: 'Was ist ein Hausübergabepunkt (HÜP)?',
+        answer: 'Der Hausübergabepunkt (HÜP) ist die Stelle, an der das Glasfaserkabel in Ihr Gebäude eintritt. Meist befindet er sich im Keller oder Hauswirtschaftsraum. Von dort wird das Signal zum Router bzw. zur Glasfaser-Dose weitergeleitet.'
+      },
+      {
+        question: 'Können Sie auch in Bestandsgebäuden verlegen?',
+        answer: 'Ja, wir haben viel Erfahrung mit der Nachrüstung von Bestandsgebäuden. Je nach Bauweise nutzen wir Leerrohre, verlegen in Kabelkanälen oder arbeiten mit minimalinvasiven Verfahren. Bei der Vor-Ort-Besichtigung zeigen wir Ihnen die beste Lösung.'
+      },
+    ]
+  },
+  {
+    category: 'Kosten & Förderung',
+    questions: [
+      {
+        question: 'Gibt es Förderprogramme für Glasfaser?',
+        answer: 'Ja, es gibt verschiedene Förderprogramme auf Bundes- und Landesebene. In vielen Regionen werden Glasfaseranschlüsse mit bis zu 500€ gefördert. Wir informieren Sie gerne über aktuelle Fördermöglichkeiten in Ihrer Region.'
+      },
+      {
+        question: 'Wie kann ich die Kosten reduzieren?',
+        answer: 'Kosten lassen sich reduzieren durch: Nutzung vorhandener Leerrohre, gemeinsame Beauftragung mit Nachbarn (Mengenrabatt), Eigenleistung beim Graben auf dem eigenen Grundstück und die Nutzung von Förderprogrammen.'
+      },
+      {
+        question: 'Werden die Kosten auch in Raten angeboten?',
+        answer: 'Bei größeren Projekten können wir individuelle Zahlungsvereinbarungen treffen. Sprechen Sie uns einfach an. Einige Netzbetreiber bieten auch die Möglichkeit, die Anschlusskosten über die monatliche Tarifgebühr abzuzahlen.'
+      },
+      {
+        question: 'Was kostet der Hausmeisterservice?',
+        answer: 'Die Kosten für unseren Hausmeisterservice richten sich nach Umfang und Art der Leistungen. Wir erstellen Ihnen gerne ein individuelles Angebot – ob für regelmäßige Betreuung oder einzelne Aufträge.'
       },
     ]
   },

@@ -2,18 +2,18 @@
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { Building, Zap, Globe, Network, Server, Cpu, Radio, Satellite, Star, Award, Shield, CheckCircle } from 'lucide-react'
-import { InfiniteMarquee, CardTilt3D, RevealOnScroll, TextMarquee } from './effects'
+import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, CheckCircle, BadgeCheck, Verified } from 'lucide-react'
+import { CardTilt3D, RevealOnScroll } from './effects'
 
 // Main highlight partner - Telekom Deutschland
 const mainPartner = {
   name: 'Telekom Deutschland',
-  description: 'Als offizieller Partner der Telekom Deutschland setzen wir Glasfaser-Ausbauprojekte in höchster Qualität um.',
+  description: 'Als offizieller und zertifizierter Partner der Telekom Deutschland setzen wir Glasfaser-Ausbauprojekte in höchster Qualität um. Vertrauen Sie auf unsere langjährige Zusammenarbeit.',
   features: [
-    'Zertifizierter Glasfaser-Partner',
-    'Bevorzugter Dienstleister',
-    'Direkter Projektzugang',
-    'Gemeinsame Qualitätsstandards'
+    { title: 'Zertifizierter Partner', desc: 'Offizielle Anerkennung' },
+    { title: 'Bevorzugter Dienstleister', desc: 'Prioritäre Aufträge' },
+    { title: 'Direkter Projektzugang', desc: 'Schnelle Umsetzung' },
+    { title: 'Qualitätsstandards', desc: 'Höchste Anforderungen' }
   ]
 }
 
@@ -123,65 +123,83 @@ export default function PartnersSection() {
           </p>
         </motion.div>
 
-        {/* TELEKOM HIGHLIGHT SECTION */}
-        <RevealOnScroll direction="center" className="mb-16">
+        {/* TELEKOM HIGHLIGHT SECTION - Enhanced */}
+        <RevealOnScroll direction="center" className="mb-20">
           <div className="relative group">
             {/* Magenta Glow Effect */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-[#e20074]/30 via-[#e20074]/20 to-[#e20074]/30 rounded-3xl blur-2xl opacity-50 group-hover:opacity-80 transition-all duration-500" />
+            <div className="absolute -inset-4 bg-gradient-to-r from-[#e20074]/20 via-[#e20074]/30 to-[#e20074]/20 rounded-[2rem] blur-3xl opacity-60 group-hover:opacity-90 transition-all duration-700" />
 
-            <CardTilt3D tiltAmount={5} glareEnabled={true}>
-              <div className="relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-dark-900/90 to-dark-950/90 border-2 border-[#e20074]/30 group-hover:border-[#e20074]/50 transition-all overflow-hidden">
+            <CardTilt3D tiltAmount={3} glareEnabled={true}>
+              <div className="relative p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-dark-900/95 to-dark-950/95 border-2 border-[#e20074]/40 group-hover:border-[#e20074]/60 transition-all overflow-hidden backdrop-blur-xl">
                 {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0 opacity-[0.03]">
                   <div className="absolute inset-0" style={{
                     backgroundImage: 'repeating-linear-gradient(45deg, #e20074 0, #e20074 1px, transparent 0, transparent 50%)',
-                    backgroundSize: '20px 20px'
+                    backgroundSize: '30px 30px'
                   }} />
                 </div>
 
-                <div className="relative grid md:grid-cols-2 gap-8 items-center">
+                {/* Animated Border Glow */}
+                <div className="absolute inset-0 rounded-[2rem] opacity-30">
+                  <motion.div
+                    className="absolute inset-0 rounded-[2rem]"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, #e20074, transparent)',
+                      backgroundSize: '200% 100%',
+                    }}
+                    animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                  />
+                </div>
+
+                <div className="relative grid md:grid-cols-2 gap-10 items-center">
                   {/* Left - Logo & Badge */}
                   <div className="text-center md:text-left">
+                    {/* Official Partner Badge */}
                     <motion.div
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#e20074]/10 border border-[#e20074]/30 mb-6"
-                      animate={{ scale: [1, 1.02, 1] }}
+                      className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#e20074]/15 border border-[#e20074]/40 mb-8"
+                      animate={{ boxShadow: ['0 0 20px rgba(226,0,116,0.2)', '0 0 40px rgba(226,0,116,0.4)', '0 0 20px rgba(226,0,116,0.2)'] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <Star className="w-4 h-4 text-[#e20074]" />
-                      <span className="text-sm font-semibold text-[#e20074]">Offizieller Partner</span>
+                      <BadgeCheck className="w-5 h-5 text-[#e20074]" />
+                      <span className="text-sm font-bold text-[#e20074] tracking-wide">OFFIZIELLER PARTNER</span>
+                      <Verified className="w-5 h-5 text-[#e20074]" />
                     </motion.div>
 
-                    <div className="flex items-center gap-4 mb-6 justify-center md:justify-start">
+                    <div className="flex items-center gap-5 mb-8 justify-center md:justify-start">
                       <motion.div
-                        className="w-20 h-20 rounded-2xl bg-[#e20074] flex items-center justify-center shadow-lg shadow-[#e20074]/30"
+                        className="w-24 h-24 rounded-2xl bg-[#e20074] flex items-center justify-center shadow-2xl shadow-[#e20074]/40"
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <span className="text-white font-bold text-2xl">T</span>
+                        <span className="text-white font-bold text-4xl">T</span>
                       </motion.div>
                       <div>
-                        <h3 className="text-3xl font-bold text-white">{mainPartner.name}</h3>
-                        <p className="text-[#e20074] font-medium">Glasfaser-Ausbaupartner</p>
+                        <h3 className="text-3xl md:text-4xl font-bold text-white">{mainPartner.name}</h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          <CheckCircle className="w-4 h-4 text-[#e20074]" />
+                          <p className="text-[#e20074] font-semibold">Verifizierter Glasfaser-Ausbaupartner</p>
+                        </div>
                       </div>
                     </div>
 
-                    <p className="text-dark-300 leading-relaxed mb-6">
+                    <p className="text-dark-200 leading-relaxed mb-8 text-lg">
                       {mainPartner.description}
                     </p>
 
                     <motion.a
                       href="#contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#e20074] text-white font-medium hover:bg-[#e20074]/90 transition-all"
-                      whileHover={{ scale: 1.05 }}
+                      className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-[#e20074] text-white font-semibold text-lg hover:bg-[#e20074]/90 transition-all shadow-lg shadow-[#e20074]/30"
+                      whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(226,0,116,0.4)' }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      Projekt anfragen
-                      <Zap className="w-4 h-4" />
+                      Telekom-Projekt anfragen
+                      <Zap className="w-5 h-5" />
                     </motion.a>
                   </div>
 
                   {/* Right - Features */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-5">
                     {mainPartner.features.map((feature, index) => (
                       <motion.div
                         key={index}
@@ -189,10 +207,11 @@ export default function PartnersSection() {
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 0.5 + index * 0.1 }}
                         whileHover={{ scale: 1.05, y: -5 }}
-                        className="p-4 rounded-xl bg-dark-800/50 border border-[#e20074]/10 hover:border-[#e20074]/30 transition-all"
+                        className="p-5 rounded-2xl bg-dark-800/60 border border-[#e20074]/20 hover:border-[#e20074]/50 transition-all backdrop-blur-sm"
                       >
-                        <CheckCircle className="w-6 h-6 text-[#e20074] mb-2" />
-                        <p className="text-sm text-dark-200 font-medium">{feature}</p>
+                        <CheckCircle className="w-7 h-7 text-[#e20074] mb-3" />
+                        <p className="font-bold text-white mb-1">{feature.title}</p>
+                        <p className="text-sm text-dark-400">{feature.desc}</p>
                       </motion.div>
                     ))}
                   </div>
@@ -202,51 +221,54 @@ export default function PartnersSection() {
           </div>
         </RevealOnScroll>
 
-        {/* Text Marquee */}
-        <div className="mb-12 -mx-4 md:-mx-8">
-          <TextMarquee
-            text="GLASFASER • TIEFBAU • HAUSANSCHLÜSSE • FTTH • GEWERBEANSCHLÜSSE • NETZAUSBAU"
-            speed={40}
-            className="py-4 border-y border-fiber-500/10"
-            textClassName="text-2xl font-bold text-dark-600"
-          />
-        </div>
-
-        {/* Other Partners - Infinite Marquee */}
-        <div className="relative mb-16">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-dark-900 to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-dark-900 to-transparent z-10" />
+        {/* Other Partners - Seamless Infinite Scroll */}
+        <div className="relative mb-20">
+          {/* Softer Gradient Overlays - Much longer fade */}
+          <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-dark-900 via-dark-900/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-dark-900 via-dark-900/80 to-transparent z-10 pointer-events-none" />
 
           {/* Section Title */}
           <motion.h3
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            className="text-center text-lg font-semibold text-dark-400 mb-8"
+            className="text-center text-xl font-semibold text-dark-300 mb-10"
           >
             Weitere Partner & Auftraggeber
           </motion.h3>
 
-          {/* Infinite Marquee */}
-          <InfiniteMarquee speed={35} pauseOnHover={true} gap={24}>
-            {partners.map((partner, index) => (
-              <motion.div
-                key={index}
-                className="flex-shrink-0 w-56 p-5 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all group"
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-fiber-500/20 to-primary-500/20 flex items-center justify-center group-hover:from-fiber-500/30 group-hover:to-primary-500/30 transition-all">
-                    <partner.icon className="w-6 h-6 text-fiber-400" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white text-sm">{partner.name}</p>
-                    <p className="text-xs text-dark-400">{partner.category}</p>
+          {/* CSS-based Infinite Marquee for truly seamless loop */}
+          <div className="overflow-hidden">
+            <div className="flex animate-marquee hover:[animation-play-state:paused]">
+              {/* Triple the content for seamless loop */}
+              {[...partners, ...partners, ...partners, ...partners].map((partner, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-64 mx-4 p-6 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all group cursor-pointer"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-fiber-500/20 to-primary-500/20 flex items-center justify-center group-hover:from-fiber-500/30 group-hover:to-primary-500/30 transition-all">
+                      <partner.icon className="w-7 h-7 text-fiber-400" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white">{partner.name}</p>
+                      <p className="text-xs text-dark-400">{partner.category}</p>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </InfiniteMarquee>
+              ))}
+            </div>
+          </div>
+
+          {/* Add CSS for the marquee animation */}
+          <style jsx>{`
+            @keyframes marquee {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-marquee {
+              animation: marquee 40s linear infinite;
+            }
+          `}</style>
         </div>
 
         {/* Certifications */}
@@ -255,7 +277,7 @@ export default function PartnersSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h3 className="text-center text-lg font-semibold text-dark-400 mb-8">
+          <h3 className="text-center text-xl font-semibold text-dark-300 mb-10">
             Zertifizierungen & Qualifikationen
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -268,9 +290,9 @@ export default function PartnersSection() {
                   className="relative group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-fiber-500/20 to-primary-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative p-6 rounded-2xl glass border border-fiber-500/20 text-center">
-                    <Award className="w-8 h-8 text-fiber-400 mx-auto mb-3" />
-                    <div className="text-xl font-bold gradient-text mb-1">{cert.name}</div>
+                  <div className="relative p-8 rounded-2xl glass border border-fiber-500/20 text-center">
+                    <Award className="w-10 h-10 text-fiber-400 mx-auto mb-4" />
+                    <div className="text-2xl font-bold gradient-text mb-2">{cert.name}</div>
                     <div className="text-sm text-dark-400">{cert.desc}</div>
                   </div>
                 </motion.div>
@@ -284,7 +306,7 @@ export default function PartnersSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-8 mt-16 pt-12 border-t border-dark-800"
+          className="flex flex-wrap items-center justify-center gap-10 mt-20 pt-12 border-t border-dark-800"
         >
           {[
             'Zertifizierter Fachbetrieb',
@@ -294,13 +316,13 @@ export default function PartnersSection() {
           ].map((text, index) => (
             <motion.div
               key={index}
-              className="flex items-center gap-2"
+              className="flex items-center gap-3"
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: 1 + index * 0.1 }}
             >
-              <Shield className="w-4 h-4 text-fiber-400" />
-              <span className="text-dark-300">{text}</span>
+              <Shield className="w-5 h-5 text-fiber-400" />
+              <span className="text-dark-200 font-medium">{text}</span>
             </motion.div>
           ))}
         </motion.div>

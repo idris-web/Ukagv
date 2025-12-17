@@ -211,124 +211,204 @@ export default function ProcessSection() {
           </div>
 
           {/* Steps */}
-          <div className="space-y-16 lg:space-y-32">
+          <div className="space-y-16 lg:space-y-24">
             {steps.map((step, index) => {
               const isEven = index % 2 === 0
+              const colors = [
+                'from-cyan-400 to-blue-500',
+                'from-blue-400 to-indigo-500',
+                'from-indigo-400 to-purple-500',
+                'from-purple-400 to-pink-500',
+                'from-pink-400 to-rose-500',
+                'from-emerald-400 to-cyan-500',
+              ]
+              const stepColor = colors[index % colors.length]
 
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: isEven ? -100 : 100, y: 50 }}
+                  initial={{ opacity: 0, x: isEven ? -80 : 80, y: 30 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
-                    duration: 0.8,
+                    duration: 0.7,
                     delay: 0.1,
                     type: "spring",
-                    stiffness: 100
+                    stiffness: 80
                   }}
-                  className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-20 ${
+                  className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
                     !isEven ? 'lg:flex-row-reverse' : ''
                   }`}
                 >
                   {/* Content Card */}
                   <motion.div
                     className={`flex-1 ${!isEven ? 'lg:text-right' : ''}`}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, y: -5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className={`relative p-8 rounded-3xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all group ${!isEven ? 'lg:ml-auto' : ''} max-w-lg`}>
+                    <div className={`relative p-8 rounded-3xl glass border border-fiber-500/10 hover:border-fiber-500/40 transition-all duration-500 group ${!isEven ? 'lg:ml-auto' : ''} max-w-xl overflow-hidden`}>
+                      {/* Animated Background Gradient */}
+                      <motion.div
+                        className={`absolute inset-0 bg-gradient-to-br ${stepColor} opacity-0 group-hover:opacity-10 transition-all duration-500`}
+                      />
+
                       {/* Glow on hover */}
-                      <div className="absolute -inset-1 bg-gradient-to-br from-fiber-500/20 to-primary-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-all duration-500" />
+                      <motion.div
+                        className={`absolute -inset-2 bg-gradient-to-br ${stepColor} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-all duration-500`}
+                      />
+
+                      {/* Animated Border */}
+                      <motion.div
+                        className="absolute inset-0 rounded-3xl"
+                        style={{
+                          background: `linear-gradient(${isEven ? '90deg' : '-90deg'}, transparent, rgba(6,182,212,0.3), transparent)`,
+                          backgroundSize: '200% 100%',
+                        }}
+                        initial={{ backgroundPosition: '100% 0%' }}
+                        whileInView={{ backgroundPosition: '-100% 0%' }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5, delay: 0.3 + index * 0.1 }}
+                      />
 
                       <div className="relative">
                         {/* Number & Title Row */}
-                        <div className={`flex items-center gap-4 mb-4 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
-                          <motion.span
-                            className="text-7xl font-bold bg-gradient-to-br from-dark-700 to-dark-800 bg-clip-text text-transparent"
-                            whileInView={{
-                              backgroundImage: [
-                                'linear-gradient(to bottom right, #374151, #1f2937)',
-                                'linear-gradient(to bottom right, #06b6d4, #0ea5e9)',
-                                'linear-gradient(to bottom right, #374151, #1f2937)'
-                              ]
-                            }}
-                            transition={{ duration: 2, delay: index * 0.2 }}
+                        <div className={`flex items-center gap-5 mb-5 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+                          {/* Large Step Number with Animation */}
+                          <motion.div
+                            className="relative"
+                            initial={{ scale: 0, rotate: -30 }}
+                            whileInView={{ scale: 1, rotate: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 + index * 0.1, type: "spring", stiffness: 150 }}
                           >
-                            {step.number}
-                          </motion.span>
-                          <div>
-                            <h3 className="text-2xl font-bold text-white group-hover:text-fiber-400 transition-colors">
-                              {step.title}
-                            </h3>
-                            <span className="text-xs text-fiber-400 font-medium uppercase tracking-wider">
-                              {step.highlight}
+                            <span className={`text-8xl font-black bg-gradient-to-br ${stepColor} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity`}>
+                              {step.number}
                             </span>
+                          </motion.div>
+                          <div className="flex-1">
+                            <motion.h3
+                              className="text-2xl md:text-3xl font-bold text-white group-hover:text-fiber-400 transition-colors"
+                              initial={{ opacity: 0, x: isEven ? -20 : 20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: 0.3 + index * 0.1 }}
+                            >
+                              {step.title}
+                            </motion.h3>
+                            <motion.span
+                              className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-1 mt-2 rounded-full bg-gradient-to-r ${stepColor} text-white`}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: 0.4 + index * 0.1 }}
+                            >
+                              {step.highlight}
+                            </motion.span>
                           </div>
                         </div>
 
-                        {/* Description */}
-                        <p className="text-dark-300 leading-relaxed">
+                        {/* Description with stagger animation */}
+                        <motion.p
+                          className="text-dark-300 text-lg leading-relaxed"
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.5 + index * 0.1 }}
+                        >
                           {step.description}
-                        </p>
+                        </motion.p>
 
-                        {/* Decorative corner */}
-                        <div className={`absolute ${isEven ? 'bottom-0 right-0' : 'bottom-0 left-0'} w-16 h-16 bg-gradient-to-tl from-fiber-500/10 to-transparent ${isEven ? 'rounded-tl-full' : 'rounded-tr-full'} opacity-0 group-hover:opacity-100 transition-opacity`} />
+                        {/* Progress indicator */}
+                        <motion.div
+                          className={`mt-6 h-1 rounded-full bg-dark-800 overflow-hidden ${!isEven ? 'lg:ml-auto' : ''}`}
+                          style={{ width: '80%' }}
+                        >
+                          <motion.div
+                            className={`h-full rounded-full bg-gradient-to-r ${stepColor}`}
+                            initial={{ width: '0%' }}
+                            whileInView={{ width: '100%' }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.6 + index * 0.1, duration: 1 }}
+                          />
+                        </motion.div>
                       </div>
                     </div>
                   </motion.div>
 
-                  {/* Center Icon Node */}
+                  {/* Center Icon Node - Enhanced */}
                   <motion.div
                     className="relative z-10"
-                    whileInView={{ scale: [0, 1.2, 1] }}
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3, type: "spring" }}
+                    transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
                   >
-                    {/* Outer glow ring */}
+                    {/* Multiple pulsing rings */}
+                    {[...Array(3)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className={`absolute rounded-full border-2 border-fiber-400`}
+                        style={{
+                          inset: -8 - i * 12,
+                        }}
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.3 - i * 0.1, 0.6 - i * 0.1, 0.3 - i * 0.1],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 + index * 0.2 }}
+                      />
+                    ))}
+
+                    {/* Rotating outer glow */}
                     <motion.div
-                      className="absolute -inset-4 rounded-full bg-gradient-to-br from-fiber-500/30 to-primary-500/30 blur-xl"
+                      className={`absolute -inset-4 rounded-2xl bg-gradient-to-br ${stepColor} blur-xl opacity-40`}
                       animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
+                        rotate: [0, 360],
                       }}
-                      transition={{ duration: 3, repeat: Infinity, delay: index * 0.3 }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                     />
 
-                    {/* Rotating border */}
+                    {/* Icon Container */}
                     <motion.div
-                      className="absolute -inset-2 rounded-2xl"
-                      style={{
-                        background: 'linear-gradient(45deg, #06b6d4, #0ea5e9, #06b6d4, #0ea5e9)',
-                        backgroundSize: '300% 300%',
-                      }}
-                      animate={{
-                        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                      }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                    />
-
-                    {/* Inner container */}
-                    <motion.div
-                      className="relative w-24 h-24 rounded-2xl bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center shadow-2xl"
+                      className={`relative w-28 h-28 rounded-2xl bg-gradient-to-br ${stepColor} flex items-center justify-center shadow-2xl`}
                       whileHover={{
                         scale: 1.15,
-                        rotate: 5,
-                        boxShadow: '0 0 40px rgba(6, 182, 212, 0.5)'
+                        rotate: 10,
+                        boxShadow: '0 0 50px rgba(6, 182, 212, 0.6)'
                       }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <step.icon className="w-12 h-12 text-white" />
+                      {/* Inner glow */}
+                      <div className="absolute inset-2 rounded-xl bg-white/10" />
+                      <motion.div
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      >
+                        <step.icon className="w-14 h-14 text-white relative z-10" />
+                      </motion.div>
                     </motion.div>
 
-                    {/* Connection dots for mobile */}
-                    <div className="lg:hidden absolute -bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+                    {/* Step Number Badge */}
+                    <motion.div
+                      className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-dark-900 border-2 border-fiber-400 flex items-center justify-center font-bold text-fiber-400 shadow-lg"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 + index * 0.1, type: "spring" }}
+                    >
+                      {index + 1}
+                    </motion.div>
+
+                    {/* Connection Line to next step (mobile) */}
+                    <div className="lg:hidden absolute -bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
                       {index < steps.length - 1 && (
-                        <>
-                          <div className="w-1 h-1 rounded-full bg-fiber-400" />
-                          <div className="w-1 h-1 rounded-full bg-fiber-400/70" />
-                          <div className="w-1 h-1 rounded-full bg-fiber-400/40" />
-                        </>
+                        <motion.div
+                          className="w-0.5 h-8 bg-gradient-to-b from-fiber-400 to-transparent"
+                          initial={{ height: 0 }}
+                          whileInView={{ height: 32 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.8, duration: 0.5 }}
+                        />
                       )}
                     </div>
                   </motion.div>
@@ -340,22 +420,116 @@ export default function ProcessSection() {
             })}
           </div>
 
-          {/* Final success indicator */}
+          {/* Final success indicator - Großes, beeindruckendes Finale */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.8, y: 50 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
-            className="mt-20 text-center"
+            transition={{ duration: 1, delay: 0.3, type: "spring", stiffness: 80 }}
+            className="mt-24 relative"
           >
-            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-fiber-500/10 to-primary-500/10 border border-fiber-500/20">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              >
-                <CheckCircle className="w-6 h-6 text-fiber-400" />
-              </motion.div>
-              <span className="text-lg font-medium gradient-text">Ihr Glasfaseranschluss ist bereit!</span>
+            {/* Glow Background */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-fiber-500/20 via-cyan-500/30 to-primary-500/20 blur-3xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+            />
+
+            <div className="relative">
+              {/* Success Card */}
+              <div className="relative max-w-2xl mx-auto p-10 rounded-3xl bg-gradient-to-br from-dark-900/90 to-dark-950/90 backdrop-blur-xl border border-fiber-500/30 overflow-hidden">
+                {/* Animated Border Glow */}
+                <motion.div
+                  className="absolute inset-0 rounded-3xl"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(6,182,212,0.3), transparent)',
+                    backgroundSize: '200% 100%',
+                  }}
+                  animate={{
+                    backgroundPosition: ['200% 0%', '-200% 0%'],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                />
+
+                {/* Content */}
+                <div className="relative z-10 text-center">
+                  {/* Animated Check Icon */}
+                  <motion.div
+                    className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-fiber-500 to-primary-500 mb-6 shadow-2xl shadow-fiber-500/30"
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5, duration: 0.8, type: "spring", stiffness: 100 }}
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <CheckCircle className="w-12 h-12 text-white" />
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Title */}
+                  <motion.h3
+                    className="text-3xl md:text-4xl font-bold mb-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <span className="gradient-text">Willkommen in der Zukunft!</span>
+                  </motion.h3>
+
+                  <motion.p
+                    className="text-xl text-dark-300 mb-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    Ihr Glasfaseranschluss ist <span className="text-fiber-400 font-semibold">einsatzbereit</span>.
+                  </motion.p>
+
+                  {/* Speed Badge */}
+                  <motion.div
+                    className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-fiber-500/10 border border-fiber-500/30"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1 }}
+                  >
+                    <Zap className="w-5 h-5 text-fiber-400" />
+                    <span className="text-white font-medium">Bis zu 10 Gbit/s – symmetrisch</span>
+                  </motion.div>
+
+                  {/* Animated Particles */}
+                  <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(12)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 rounded-full bg-fiber-400"
+                        style={{
+                          left: `${10 + Math.random() * 80}%`,
+                          top: `${10 + Math.random() * 80}%`,
+                        }}
+                        animate={{
+                          y: [0, -30, 0],
+                          opacity: [0, 1, 0],
+                          scale: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 2 + Math.random() * 2,
+                          repeat: Infinity,
+                          delay: Math.random() * 2,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

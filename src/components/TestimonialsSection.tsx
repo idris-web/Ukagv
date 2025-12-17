@@ -3,6 +3,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { Star, ChevronLeft, ChevronRight, Quote, Pause, Play } from 'lucide-react'
+import Image from 'next/image'
 
 const testimonials = [
   {
@@ -11,7 +12,9 @@ const testimonials = [
     content: 'UKAGV hat bei uns im Neubaugebiet die Glasfaser verlegt. Die Jungs waren pünktlich, haben sauber gearbeitet und der Garten sieht wieder aus wie vorher. Top!',
     rating: 5,
     avatar: 'TM',
-    project: 'Hausanschluss'
+    project: 'Hausanschluss',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop&crop=face',
+    color: 'from-cyan-400 to-blue-500'
   },
   {
     name: 'Sandra K.',
@@ -19,7 +22,9 @@ const testimonials = [
     content: 'Wir arbeiten seit 3 Jahren mit UKAGV zusammen. Die Kommunikation stimmt, die Termine werden eingehalten und die Qualität ist immer einwandfrei. Sehr empfehlenswert!',
     rating: 5,
     avatar: 'SK',
-    project: 'Neubaugebiet'
+    project: 'Neubaugebiet',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=face',
+    color: 'from-blue-400 to-indigo-500'
   },
   {
     name: 'Michael B.',
@@ -27,7 +32,9 @@ const testimonials = [
     content: 'Endlich eine stabile Leitung fürs Büro! UKAGV hat das Kabel vom Verteiler bis zu uns ins Haus gezogen. Schnell, unkompliziert, guter Preis. Jetzt haben wir symmetrische 1 Gbit/s.',
     rating: 5,
     avatar: 'MB',
-    project: 'Gewerbeanschluss'
+    project: 'Gewerbeanschluss',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face',
+    color: 'from-indigo-400 to-purple-500'
   },
   {
     name: 'Anna W.',
@@ -35,7 +42,9 @@ const testimonials = [
     content: 'Auch der Hausmeisterservice von UKAGV ist klasse. Zuverlässig, freundlich und flexibel. Betreuen jetzt 3 unserer Objekte. Kann ich nur empfehlen.',
     rating: 5,
     avatar: 'AW',
-    project: 'Hausmeisterservice'
+    project: 'Hausmeisterservice',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face',
+    color: 'from-purple-400 to-pink-500'
   },
   {
     name: 'Frank H.',
@@ -43,7 +52,9 @@ const testimonials = [
     content: 'Ich hatte Bedenken wegen der Tiefbauarbeiten – aber die Truppe hat alles ordentlich hinterlassen. Pflaster perfekt wieder verlegt. Und das Internet ist jetzt endlich schnell!',
     rating: 5,
     avatar: 'FH',
-    project: 'Tiefbau & Anschluss'
+    project: 'Tiefbau & Anschluss',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face',
+    color: 'from-pink-400 to-rose-500'
   },
   {
     name: 'Dr. Peter S.',
@@ -51,7 +62,9 @@ const testimonials = [
     content: 'Für unsere Arztpraxis brauchten wir eine zuverlässige Verbindung für die Telematik-Infrastruktur. UKAGV hat das Projekt professionell und schnell umgesetzt.',
     rating: 5,
     avatar: 'PS',
-    project: 'Praxisanbindung'
+    project: 'Praxisanbindung',
+    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=120&h=120&fit=crop&crop=face',
+    color: 'from-emerald-400 to-cyan-500'
   },
   {
     name: 'Martina L.',
@@ -59,7 +72,9 @@ const testimonials = [
     content: 'Glasfaser für unser Mehrfamilienhaus mit 12 Parteien. Alles aus einer Hand, von der Planung bis zur Abnahme. Sehr zufrieden mit der Abwicklung.',
     rating: 5,
     avatar: 'ML',
-    project: 'Mehrfamilienhaus'
+    project: 'Mehrfamilienhaus',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&crop=face',
+    color: 'from-teal-400 to-cyan-500'
   }
 ]
 
@@ -220,12 +235,45 @@ export default function TestimonialsSection() {
 
                     {/* Author */}
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center text-white font-bold text-lg">
-                        {testimonials[activeIndex].avatar}
+                      <div className="relative">
+                        {/* Gradient Ring */}
+                        <motion.div
+                          className={`absolute -inset-1 rounded-full bg-gradient-to-br ${testimonials[activeIndex].color}`}
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                        />
+                        {/* Image Container */}
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-dark-900">
+                          {testimonials[activeIndex].image ? (
+                            <Image
+                              src={testimonials[activeIndex].image}
+                              alt={testimonials[activeIndex].name}
+                              width={64}
+                              height={64}
+                              className="w-full h-full object-cover"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className={`w-full h-full bg-gradient-to-br ${testimonials[activeIndex].color} flex items-center justify-center text-white font-bold text-lg`}>
+                              {testimonials[activeIndex].avatar}
+                            </div>
+                          )}
+                        </div>
+                        {/* Verified Badge */}
+                        <motion.div
+                          className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-fiber-500 flex items-center justify-center border-2 border-dark-900"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.3 }}
+                        >
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </motion.div>
                       </div>
                       <div>
-                        <p className="font-semibold text-white">{testimonials[activeIndex].name}</p>
-                        <p className="text-dark-400">{testimonials[activeIndex].role}</p>
+                        <p className="font-semibold text-white text-lg">{testimonials[activeIndex].name}</p>
+                        <p className="text-dark-400 text-sm">{testimonials[activeIndex].role}</p>
                       </div>
                     </div>
                   </motion.div>

@@ -2,10 +2,10 @@
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { Award, Users, MapPin, TrendingUp, CheckCircle, Shield, Clock, Sparkles, ArrowRight, Briefcase, Building } from 'lucide-react'
+import { Award, Users, MapPin, TrendingUp, CheckCircle, Shield, Clock, Sparkles, ArrowRight, Briefcase, Building, Zap, Target, Rocket, Star, Cable } from 'lucide-react'
 
 const stats = [
-  { icon: Award, value: '15+', label: 'Jahre Erfahrung', color: 'from-cyan-400 to-blue-500' },
+  { icon: Award, value: '15+', label: 'Jahre Erfahrung im Team', color: 'from-cyan-400 to-blue-500' },
   { icon: Users, value: '52', label: 'Fachkräfte im Team', color: 'from-blue-400 to-cyan-500' },
   { icon: MapPin, value: '1.250+', label: 'km verlegtes Kabel', color: 'from-cyan-500 to-teal-500' },
   { icon: TrendingUp, value: '99.8%', label: 'Kundenzufriedenheit', color: 'from-teal-400 to-cyan-500' },
@@ -19,11 +19,34 @@ const values = [
 ]
 
 const milestones = [
-  { year: '2008', event: 'Gründung der UKAGV GmbH' },
-  { year: '2012', event: 'Erste Großprojekte für Netzbetreiber' },
-  { year: '2016', event: '500 km Glasfaser verlegt' },
-  { year: '2020', event: 'Ausbau auf 40+ Mitarbeiter' },
-  { year: '2024', event: '1.000+ km Glasfaser Meilenstein' },
+  {
+    year: '2009-2023',
+    title: 'Berufserfahrung',
+    event: 'Unser Team sammelt über 15 Jahre Erfahrung in der Glasfaserbranche bei führenden Netzbetreibern und Dienstleistern',
+    icon: Briefcase,
+    color: 'from-blue-400 to-cyan-500'
+  },
+  {
+    year: '2024',
+    title: 'Gründung',
+    event: 'UKAGV GmbH wird offiziell in Nürnberg gegründet – vereintes Know-how unter einem Dach',
+    icon: Rocket,
+    color: 'from-cyan-400 to-teal-500'
+  },
+  {
+    year: '2024',
+    title: 'Telekom Partner',
+    event: 'Zertifizierung als offizieller Telekom Deutschland Partner für Glasfaserausbau',
+    icon: Award,
+    color: 'from-teal-400 to-emerald-500'
+  },
+  {
+    year: '2025',
+    title: 'Expansion',
+    event: 'Ausbau des Teams auf 50+ Mitarbeiter und Start weiterer Großprojekte in ganz Bayern',
+    icon: Target,
+    color: 'from-emerald-400 to-cyan-500'
+  },
 ]
 
 export default function AboutSection() {
@@ -196,16 +219,20 @@ export default function AboutSection() {
               transition={{ delay: 0.3 }}
             >
               <p>
-                Die UKAGV GmbH mit Sitz in Nürnberg wurde 2008 gegründet und hat sich seitdem
-                zu einem der führenden Dienstleister für Glasfaserinfrastruktur in der
-                Metropolregion Nürnberg und ganz Bayern entwickelt. Mit einem Team aus über
-                50 qualifizierten Fachkräften betreuen wir Projekte jeder Größenordnung.
+                Die UKAGV GmbH mit Sitz in Nürnberg wurde <span className="text-fiber-400 font-medium">2024 gegründet</span> –
+                mit einem Team, das über <span className="text-white font-medium">15 Jahre Erfahrung</span> in der
+                Glasfaserbranche mitbringt. Unser Know-how stammt von führenden Netzbetreibern
+                und Dienstleistern, das wir jetzt unter einem Dach vereinen.
+              </p>
+              <p>
+                Als <span className="text-white font-medium">offizieller Telekom Deutschland Partner</span> und
+                zertifizierter FTTH-Fachbetrieb betreuen wir Projekte jeder Größenordnung –
+                von der Hausanschlussverlegung bis zum Großprojekt mit mehreren hundert Anschlüssen.
               </p>
               <p>
                 Unser Erfolg basiert auf drei Säulen: <span className="text-white font-medium">erstklassige Qualität</span>,
                 <span className="text-white font-medium"> absolute Termintreue</span> und
-                <span className="text-white font-medium"> faire Preise</span>. Wir arbeiten eng mit den
-                großen Netzbetreibern zusammen und setzen auch komplexe Projekte zuverlässig um.
+                <span className="text-white font-medium"> faire Preise</span>.
               </p>
             </motion.div>
 
@@ -277,41 +304,112 @@ export default function AboutSection() {
           ))}
         </motion.div>
 
-        {/* Timeline */}
+        {/* Timeline - Unsere Geschichte */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 1.2 }}
-          className="mt-24"
+          className="mt-32"
         >
-          <h3 className="text-2xl font-bold text-center mb-12">
-            Unsere <span className="gradient-text">Geschichte</span>
-          </h3>
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-fiber-500/50 via-fiber-500/20 to-transparent hidden md:block" />
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <motion.span
+              className="inline-flex items-center gap-2 text-fiber-400 text-sm font-semibold tracking-wider uppercase px-4 py-2 rounded-full glass border border-fiber-500/20 mb-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 1.3 }}
+            >
+              <Rocket className="w-4 h-4" />
+              Unsere Reise
+            </motion.span>
+            <h3 className="text-3xl md:text-5xl font-bold">
+              Erfahrung trifft <span className="gradient-text">Innovation</span>
+            </h3>
+            <p className="text-dark-400 mt-4 max-w-2xl mx-auto">
+              Neu gegründet, aber mit jahrzehntelanger Expertise – wir vereinen das Beste aus beiden Welten.
+            </p>
+          </div>
 
-            <div className="space-y-8 md:space-y-0">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 1.3 + index * 0.1 }}
-                  className={`flex items-center gap-4 md:gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} md:justify-center`}
-                >
-                  <div className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                    <div className="inline-block p-4 rounded-xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all">
-                      <span className="text-fiber-400 font-bold text-lg">{milestone.year}</span>
-                      <p className="text-dark-300 text-sm">{milestone.event}</p>
+          {/* Big Timeline Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {milestones.map((milestone, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ delay: 1.4 + index * 0.15, type: "spring", stiffness: 100 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="group relative"
+              >
+                {/* Glow Background */}
+                <div className={`absolute -inset-1 bg-gradient-to-br ${milestone.color} rounded-3xl blur-xl opacity-0 group-hover:opacity-30 transition-all duration-500`} />
+
+                {/* Card */}
+                <div className="relative h-full p-8 rounded-3xl glass border border-fiber-500/10 group-hover:border-fiber-500/30 transition-all overflow-hidden">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 grid-pattern opacity-10" />
+
+                  {/* Animated Corner Accent */}
+                  <motion.div
+                    className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${milestone.color} opacity-10 rounded-bl-full`}
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
+                  />
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    {/* Icon */}
+                    <motion.div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${milestone.color} mb-6 shadow-lg`}
+                      whileHover={{ rotate: 10, scale: 1.1 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <milestone.icon className="w-8 h-8 text-white" />
+                    </motion.div>
+
+                    {/* Year */}
+                    <div className="text-fiber-400 font-bold text-sm tracking-wider mb-2">
+                      {milestone.year}
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="text-2xl font-bold text-white mb-3 group-hover:text-fiber-400 transition-colors">
+                      {milestone.title}
+                    </h4>
+
+                    {/* Description */}
+                    <p className="text-dark-400 text-sm leading-relaxed">
+                      {milestone.event}
+                    </p>
+
+                    {/* Index Number */}
+                    <div className="absolute bottom-4 right-4 text-8xl font-black text-dark-800/30 select-none">
+                      {String(index + 1).padStart(2, '0')}
                     </div>
                   </div>
-                  <div className="w-4 h-4 rounded-full bg-gradient-to-br from-fiber-500 to-primary-500 flex-shrink-0 hidden md:block" />
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
+                </div>
+
+                {/* Connection Line (not on last item) */}
+                {index < milestones.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-gradient-to-r from-fiber-500/50 to-transparent" />
+                )}
+              </motion.div>
+            ))}
           </div>
+
+          {/* Call to Action under Timeline */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 2 }}
+            className="mt-12 text-center"
+          >
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-fiber-500/10 to-primary-500/10 border border-fiber-500/20">
+              <Star className="w-5 h-5 text-fiber-400" />
+              <span className="text-white font-medium">Werden Sie Teil unserer Erfolgsgeschichte</span>
+              <ArrowRight className="w-5 h-5 text-fiber-400" />
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
