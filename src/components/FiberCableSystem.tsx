@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion, useScroll, useSpring, useMotionValueEvent } from 'framer-motion'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 
 // Realistic fiber optic colors
 const CABLE_COLORS = [
@@ -13,65 +13,313 @@ const CABLE_COLORS = [
   '#14b8a6', // teal
   '#ec4899', // pink
   '#60a5fa', // light blue
-  '#22d3ee', // light cyan
-  '#a78bfa', // light purple
 ]
 
-// Chaotic curved paths - natural, flowing, messy
-const CHAOTIC_PATHS = [
-  // Left side - wild curves
-  "M -100 -50 C 200 100, 100 300, 350 400 C 500 500, 200 600, 450 750 C 600 850, 400 950, 600 1100",
-  "M -50 100 C 300 50, 150 250, 400 350 C 550 450, 250 550, 500 700 C 650 800, 450 900, 650 1100",
-  "M -150 200 C 250 150, 50 350, 300 450 C 450 550, 150 650, 400 800 C 550 900, 350 1000, 550 1150",
-  "M -80 -100 C 350 0, 100 200, 450 300 C 600 400, 300 500, 550 650 C 700 750, 500 850, 700 1050",
-  "M 100 -80 C 400 50, 200 250, 500 350 C 650 450, 350 550, 600 700 C 750 800, 550 900, 750 1100",
-  // Right side - wild curves
-  "M 2020 -50 C 1720 100, 1820 300, 1570 400 C 1420 500, 1720 600, 1470 750 C 1320 850, 1520 950, 1320 1100",
-  "M 1970 100 C 1620 50, 1770 250, 1520 350 C 1370 450, 1670 550, 1420 700 C 1270 800, 1470 900, 1270 1100",
-  "M 2070 200 C 1670 150, 1870 350, 1620 450 C 1470 550, 1770 650, 1520 800 C 1370 900, 1570 1000, 1370 1150",
-  "M 2000 -100 C 1570 0, 1820 200, 1470 300 C 1320 400, 1620 500, 1370 650 C 1220 750, 1420 850, 1220 1050",
-  "M 1820 -80 C 1520 50, 1720 250, 1420 350 C 1270 450, 1570 550, 1320 700 C 1170 800, 1370 900, 1170 1100",
+// Each cable is defined by control points that will interpolate
+// Structure: [startX, startY, ...bezier control points..., endX, endY]
+// Each cable has: M (start) + 5 cubic beziers (C command needs 3 points each = 6 coords per curve)
+// Total: 2 (start) + 5 * 6 (5 curves) = 32 coordinates per cable
+
+interface CableDefinition {
+  chaotic: number[]  // Control points in chaotic state
+  organized: number[] // Control points in organized state (all end at center bottom)
+}
+
+// Define 8 cables with chaotic and organized states
+// Cables go through the entire page - from edges through hero, content, to footer
+const CABLES: CableDefinition[] = [
+  // Cable 1 - From top-left, wild curves through page
+  {
+    chaotic: [
+      -50, 50,      // Start
+      150, -30, 80, 180, 250, 120,     // Curve 1 - loops up then down
+      400, 60, 180, 320, 350, 280,     // Curve 2 - zigzags through hero
+      500, 240, 280, 450, 420, 480,    // Curve 3 - continues wildly
+      560, 510, 380, 620, 500, 680,    // Curve 4 - through content
+      620, 740, 450, 850, 550, 920,    // Curve 5 - approaches bottom
+    ],
+    organized: [
+      -50, 50,      // Start (same)
+      100, 100, 200, 200, 300, 300,    // Smooth curve
+      400, 400, 450, 500, 480, 600,    // Continues smoothly
+      510, 700, 520, 780, 530, 850,    // Getting straighter
+      540, 900, 545, 940, 550, 970,    // Approaching center
+      555, 990, 558, 1000, 560, 1010,  // Ends near center
+    ]
+  },
+  // Cable 2 - From left side, weaves through content
+  {
+    chaotic: [
+      -80, 200,     // Start
+      200, 150, 50, 350, 280, 250,     // Wild loop
+      450, 150, 180, 400, 380, 350,    // Through hero text area
+      550, 300, 320, 520, 480, 500,    // Continues
+      620, 480, 400, 680, 540, 700,    // Through sections
+      680, 720, 500, 880, 580, 950,    // To bottom
+    ],
+    organized: [
+      -80, 200,     // Start (same)
+      80, 250, 180, 320, 280, 400,     // Smooth
+      380, 480, 430, 560, 470, 640,    // Flow
+      510, 720, 530, 790, 545, 860,    // Converging
+      555, 920, 558, 960, 560, 990,    // Approaching center
+      562, 1005, 563, 1010, 565, 1015, // Ends near center
+    ]
+  },
+  // Cable 3 - From top, dips down wildly
+  {
+    chaotic: [
+      400, -50,     // Start from top
+      350, 120, 500, 80, 420, 200,     // Loops in hero
+      340, 320, 550, 250, 450, 380,    // Weaves around
+      350, 510, 580, 450, 480, 560,    // Through content
+      380, 670, 600, 620, 520, 720,    // Continues
+      440, 820, 620, 900, 560, 980,    // To bottom
+    ],
+    organized: [
+      400, -50,     // Start (same)
+      420, 100, 460, 200, 500, 320,    // Flowing down
+      530, 440, 545, 540, 555, 640,    // Smooth curve
+      560, 740, 562, 820, 563, 890,    // Straightening
+      564, 940, 565, 970, 566, 1000,   // Approaching center
+      567, 1010, 568, 1015, 570, 1020, // End
+    ]
+  },
+  // Cable 4 - From right side
+  {
+    chaotic: [
+      1150, 100,    // Start from right
+      1000, 50, 1100, 250, 950, 180,   // Loops left
+      800, 110, 1020, 350, 880, 300,   // Through hero
+      740, 250, 950, 480, 820, 450,    // Wild
+      680, 400, 880, 620, 760, 600,    // Through content
+      640, 580, 800, 800, 680, 850,    // Approaches
+    ],
+    organized: [
+      1150, 100,    // Start (same)
+      1000, 180, 900, 280, 800, 380,   // Flowing
+      700, 480, 650, 580, 620, 680,    // Smooth
+      600, 780, 590, 860, 585, 920,    // Converging
+      580, 960, 578, 990, 575, 1010,   // Center
+      572, 1015, 570, 1018, 568, 1020, // End
+    ]
+  },
+  // Cable 5 - From top-right, dramatic curves
+  {
+    chaotic: [
+      1100, -30,    // Start
+      1150, 150, 950, 50, 1050, 220,   // Wild start
+      1150, 390, 880, 180, 1000, 380,  // Loops
+      1100, 580, 820, 350, 950, 520,   // Through page
+      1050, 690, 780, 500, 900, 660,   // Continues
+      980, 800, 750, 720, 850, 880,    // To bottom
+    ],
+    organized: [
+      1100, -30,    // Start (same)
+      1000, 100, 920, 220, 850, 340,   // Flowing
+      780, 460, 720, 560, 680, 660,    // Smooth
+      640, 760, 615, 840, 600, 910,    // Converging
+      590, 960, 583, 990, 578, 1010,   // Center
+      575, 1018, 573, 1022, 572, 1025, // End
+    ]
+  },
+  // Cable 6 - From bottom-left, rises then falls
+  {
+    chaotic: [
+      -60, 600,     // Start from side lower
+      180, 500, 50, 700, 250, 550,     // Goes up
+      400, 400, 150, 650, 350, 520,    // Loops through
+      500, 390, 280, 600, 450, 540,    // Content area
+      600, 480, 380, 700, 520, 650,    // Continues
+      660, 600, 480, 800, 580, 820,    // Approaches bottom
+    ],
+    organized: [
+      -60, 600,     // Start (same)
+      100, 620, 200, 660, 300, 710,    // Flowing
+      400, 760, 460, 810, 500, 860,    // Smooth
+      530, 900, 550, 940, 560, 970,    // Converging
+      565, 990, 568, 1005, 570, 1015,  // Center
+      572, 1020, 573, 1022, 574, 1025, // End
+    ]
+  },
+  // Cable 7 - From right side middle
+  {
+    chaotic: [
+      1150, 400,    // Start
+      1050, 300, 1120, 520, 980, 380,  // Loops
+      840, 240, 1050, 550, 900, 470,   // Through content
+      750, 390, 980, 640, 840, 580,    // Wild curves
+      700, 520, 900, 750, 780, 700,    // Continues
+      660, 650, 850, 880, 720, 860,    // Approaches
+    ],
+    organized: [
+      1150, 400,    // Start (same)
+      1000, 450, 900, 510, 820, 580,   // Flowing
+      740, 650, 690, 720, 650, 790,    // Smooth
+      620, 860, 600, 910, 590, 950,    // Converging
+      582, 980, 578, 1000, 575, 1015,  // Center
+      573, 1020, 572, 1023, 571, 1025, // End
+    ]
+  },
+  // Cable 8 - From top center, spreads out then converges
+  {
+    chaotic: [
+      560, -40,     // Start from top center
+      480, 100, 650, 50, 520, 180,     // Loops
+      390, 260, 680, 150, 550, 300,    // Wild in hero
+      420, 440, 700, 350, 580, 480,    // Through content
+      460, 620, 720, 550, 600, 640,    // Continues
+      520, 760, 740, 800, 620, 900,    // Approaches bottom
+    ],
+    organized: [
+      560, -40,     // Start (same)
+      560, 100, 560, 200, 560, 320,    // Straight down initially
+      560, 440, 562, 540, 565, 640,    // Slight curve
+      568, 740, 570, 830, 572, 900,    // Converging
+      573, 950, 574, 980, 575, 1005,   // Center
+      575, 1015, 575, 1020, 575, 1025, // End
+    ]
+  },
 ]
 
-// Organized paths - all converging smoothly to center bottom
-const ORGANIZED_PATHS = [
-  // Left side - organized, flowing to center
-  "M -100 -50 C 100 100, 200 300, 400 500 C 600 700, 800 850, 960 1000",
-  "M -50 100 C 150 150, 300 350, 500 550 C 700 750, 850 880, 960 1000",
-  "M -150 200 C 50 250, 250 400, 450 600 C 650 800, 820 900, 960 1000",
-  "M -80 -100 C 200 50, 350 250, 550 450 C 750 650, 880 820, 960 1000",
-  "M 100 -80 C 250 100, 400 300, 600 500 C 800 700, 900 850, 960 1000",
-  // Right side - organized, flowing to center
-  "M 2020 -50 C 1820 100, 1720 300, 1520 500 C 1320 700, 1120 850, 960 1000",
-  "M 1970 100 C 1770 150, 1620 350, 1420 550 C 1220 750, 1070 880, 960 1000",
-  "M 2070 200 C 1870 250, 1670 400, 1470 600 C 1270 800, 1100 900, 960 1000",
-  "M 2000 -100 C 1720 50, 1570 250, 1370 450 C 1170 650, 1040 820, 960 1000",
-  "M 1820 -80 C 1670 100, 1520 300, 1320 500 C 1120 700, 1020 850, 960 1000",
-]
+// Interpolate between two arrays of numbers
+function interpolatePoints(from: number[], to: number[], progress: number): number[] {
+  return from.map((val, i) => val + (to[i] - val) * progress)
+}
+
+// Convert control points array to SVG path string
+function pointsToPath(points: number[]): string {
+  const [startX, startY, ...rest] = points
+  let path = `M ${startX} ${startY}`
+
+  // Each curve needs 6 numbers (3 points × 2 coords)
+  for (let i = 0; i < rest.length; i += 6) {
+    path += ` C ${rest[i]} ${rest[i+1]}, ${rest[i+2]} ${rest[i+3]}, ${rest[i+4]} ${rest[i+5]}`
+  }
+
+  return path
+}
+
+// Single cable component that morphs based on scroll
+function MorphingCable({
+  cable,
+  color,
+  index,
+  progress
+}: {
+  cable: CableDefinition
+  color: string
+  index: number
+  progress: number
+}) {
+  const path = useMemo(() => {
+    const interpolated = interpolatePoints(cable.chaotic, cable.organized, progress)
+    return pointsToPath(interpolated)
+  }, [cable, progress])
+
+  return (
+    <g>
+      {/* Main cable */}
+      <motion.path
+        d={path}
+        stroke={color}
+        strokeWidth={3 + (index % 3) * 0.5}
+        fill="none"
+        filter="url(#cableGlow)"
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 0.9 }}
+        transition={{
+          pathLength: { duration: 2, ease: "easeOut", delay: index * 0.12 },
+          opacity: { duration: 0.6, delay: index * 0.08 }
+        }}
+      />
+      {/* Glow layer */}
+      <motion.path
+        d={path}
+        stroke={color}
+        strokeWidth={8 + (index % 3)}
+        fill="none"
+        opacity={0.3}
+        filter="url(#cableGlow)"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          pathLength: { duration: 2, ease: "easeOut", delay: index * 0.12 },
+        }}
+      />
+    </g>
+  )
+}
+
+// Light pulse that travels along a cable
+function LightPulse({
+  cable,
+  color,
+  index,
+  progress
+}: {
+  cable: CableDefinition
+  color: string
+  index: number
+  progress: number
+}) {
+  const path = useMemo(() => {
+    const interpolated = interpolatePoints(cable.chaotic, cable.organized, progress)
+    return pointsToPath(interpolated)
+  }, [cable, progress])
+
+  // Only show pulses after some scroll progress
+  if (progress < 0.2) return null
+
+  return (
+    <motion.circle
+      r={5}
+      fill={color}
+      filter="url(#strongGlow)"
+      style={{
+        offsetPath: `path('${path}')`,
+      }}
+      animate={{
+        offsetDistance: ['0%', '100%'],
+      }}
+      transition={{
+        duration: 2.5 + index * 0.3,
+        repeat: Infinity,
+        ease: "linear",
+        delay: index * 0.4 + 1,
+        repeatDelay: 2,
+      }}
+    />
+  )
+}
 
 export default function FiberCableSystem() {
   const [mounted, setMounted] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const { scrollYProgress } = useScroll()
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 25,
+    stiffness: 80,
+    damping: 20,
     restDelta: 0.001
   })
 
-  // Transform values for animations
-  const chaosOpacity = useTransform(smoothProgress, [0, 0.3, 0.5], [1, 0.5, 0])
-  const organizedOpacity = useTransform(smoothProgress, [0, 0.3, 0.5], [0, 0.5, 1])
-  const organizedPathLength = useTransform(smoothProgress, [0.2, 0.8], [0.3, 1])
-  const convergenceOpacity = useTransform(smoothProgress, [0.7, 0.9], [0, 1])
-  const ctaOpacity = useTransform(smoothProgress, [0.75, 0.92], [0, 1])
-  const ctaY = useTransform(smoothProgress, [0.75, 0.92], [50, 0])
-  const ctaScale = useTransform(smoothProgress, [0.75, 0.92], [0.8, 1])
-  const subtitleOpacity = useTransform(smoothProgress, [0.88, 0.98], [0, 1])
+  // Update scroll progress state
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    setScrollProgress(latest)
+  })
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Calculate derived values
+  const convergenceOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.6) / 0.3))
+  const ctaOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.7) / 0.2))
+  const ctaY = Math.max(0, 50 - (scrollProgress - 0.7) * 250)
+  const ctaScale = 0.8 + Math.min(0.2, (scrollProgress - 0.7) * 1)
 
   if (!mounted) return null
 
@@ -79,19 +327,19 @@ export default function FiberCableSystem() {
     <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1920 1080"
+        viewBox="0 0 1100 1050"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
           <filter id="cableGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
           <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="blur" />
@@ -100,75 +348,49 @@ export default function FiberCableSystem() {
           </filter>
         </defs>
 
-        {/* CHAOTIC CABLES - visible at start, fade out as you scroll */}
-        <motion.g style={{ opacity: chaosOpacity }}>
-          {CHAOTIC_PATHS.map((path, index) => (
-            <motion.path
-              key={`chaos-${index}`}
-              d={path}
-              stroke={CABLE_COLORS[index]}
-              strokeWidth={3.5 - (index % 3) * 0.5}
-              fill="none"
-              filter="url(#cableGlow)"
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.85 }}
-              transition={{
-                pathLength: { duration: 2.5, ease: "easeOut", delay: index * 0.15 },
-                opacity: { duration: 0.8, delay: index * 0.1 }
-              }}
-            />
-          ))}
-        </motion.g>
-
-        {/* ORGANIZED CABLES - fade in as you scroll */}
-        <motion.g style={{ opacity: organizedOpacity }}>
-          {ORGANIZED_PATHS.map((path, index) => (
-            <motion.path
-              key={`org-${index}`}
-              d={path}
-              stroke={CABLE_COLORS[index]}
-              strokeWidth={3.5 - (index % 3) * 0.5}
-              fill="none"
-              filter="url(#cableGlow)"
-              strokeLinecap="round"
-              style={{ pathLength: organizedPathLength }}
-            />
-          ))}
-        </motion.g>
-
-        {/* Light pulses on organized cables */}
-        {ORGANIZED_PATHS.slice(0, 6).map((path, index) => (
-          <LightPulse
-            key={`pulse-${index}`}
-            path={path}
+        {/* All cables - they morph as you scroll */}
+        {CABLES.map((cable, index) => (
+          <MorphingCable
+            key={`cable-${index}`}
+            cable={cable}
             color={CABLE_COLORS[index]}
             index={index}
-            scrollProgress={smoothProgress}
+            progress={scrollProgress}
           />
         ))}
 
-        {/* Convergence point - glowing center where all cables meet */}
-        <motion.g style={{ opacity: convergenceOpacity }}>
-          {/* Outer pulsing rings */}
+        {/* Light pulses traveling along cables */}
+        {CABLES.slice(0, 5).map((cable, index) => (
+          <LightPulse
+            key={`pulse-${index}`}
+            cable={cable}
+            color={CABLE_COLORS[index]}
+            index={index}
+            progress={scrollProgress}
+          />
+        ))}
+
+        {/* Convergence point - where all cables meet at bottom */}
+        <g style={{ opacity: convergenceOpacity }}>
+          {/* Pulsing rings */}
           {[0, 1, 2].map((i) => (
             <motion.circle
               key={i}
-              cx="960"
-              cy="1000"
-              r={25 + i * 18}
+              cx="570"
+              cy="1020"
+              r={20 + i * 15}
               fill="none"
               stroke="#06b6d4"
-              strokeWidth={2.5 - i * 0.5}
+              strokeWidth={2 - i * 0.4}
               filter="url(#strongGlow)"
               animate={{
-                opacity: [0.2, 0.5, 0.2],
-                r: [25 + i * 18, 30 + i * 18, 25 + i * 18],
+                opacity: [0.3, 0.6, 0.3],
+                r: [20 + i * 15, 25 + i * 15, 20 + i * 15],
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: i * 0.25,
+                delay: i * 0.2,
                 ease: "easeInOut"
               }}
             />
@@ -176,14 +398,14 @@ export default function FiberCableSystem() {
 
           {/* Bright center */}
           <motion.circle
-            cx="960"
-            cy="1000"
-            r={18}
+            cx="570"
+            cy="1020"
+            r={12}
             fill="#06b6d4"
             filter="url(#strongGlow)"
             animate={{
-              opacity: [0.7, 1, 0.7],
-              r: [15, 22, 15]
+              opacity: [0.8, 1, 0.8],
+              r: [10, 15, 10]
             }}
             transition={{
               duration: 1.5,
@@ -193,8 +415,8 @@ export default function FiberCableSystem() {
           />
 
           {/* White core */}
-          <circle cx="960" cy="1000" r={8} fill="white" filter="url(#cableGlow)" />
-        </motion.g>
+          <circle cx="570" cy="1020" r={6} fill="white" filter="url(#cableGlow)" />
+        </g>
       </svg>
 
       {/* CTA Button at convergence */}
@@ -203,8 +425,7 @@ export default function FiberCableSystem() {
         style={{
           bottom: '5%',
           opacity: ctaOpacity,
-          y: ctaY,
-          scale: ctaScale
+          transform: `translateX(-50%) translateY(${ctaY}px) scale(${ctaScale})`,
         }}
       >
         <motion.a
@@ -254,44 +475,11 @@ export default function FiberCableSystem() {
 
         <motion.p
           className="text-center text-dark-400 text-sm mt-4 font-medium"
-          style={{ opacity: subtitleOpacity }}
+          style={{ opacity: Math.max(0, (scrollProgress - 0.85) / 0.1) }}
         >
           Alle Leitungen verbunden – jetzt sind Sie dran!
         </motion.p>
       </motion.div>
     </div>
-  )
-}
-
-// Light pulse traveling along cable
-function LightPulse({ path, color, index, scrollProgress }: {
-  path: string
-  color: string
-  index: number
-  scrollProgress: MotionValue<number>
-}) {
-  const pulseOpacity = useTransform(scrollProgress, [0.3, 0.5], [0, 1])
-
-  return (
-    <motion.circle
-      r={6}
-      fill={color}
-      filter="url(#strongGlow)"
-      style={{
-        offsetPath: `path('${path}')`,
-        opacity: pulseOpacity
-      }}
-      animate={{
-        offsetDistance: ['0%', '100%'],
-        opacity: [0, 1, 1, 0.8, 0],
-      }}
-      transition={{
-        duration: 3 + index * 0.2,
-        repeat: Infinity,
-        ease: "linear",
-        delay: index * 0.6,
-        repeatDelay: 1.5,
-      }}
-    />
   )
 }
