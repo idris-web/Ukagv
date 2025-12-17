@@ -7,109 +7,132 @@ import { useEffect, useState, useMemo } from 'react'
 const CABLE_COLORS = [
   '#22d3ee', // cyan
   '#3b82f6', // blue
-  '#10b981', // emerald
-  '#f59e0b', // amber
+  '#f59e0b', // amber/orange
   '#a855f7', // purple
+  '#10b981', // emerald
+  '#ec4899', // pink
 ]
 
 interface CableDefinition {
-  start: number[]   // Hero: wavy, around text
-  end: number[]     // Bottom: straight, converging to CTA
+  start: number[]  // Chaotic/wavy state
+  end: number[]    // Organized/straight, converging to CTA
 }
 
-// 5 cables that:
-// - Start: Flow around hero text (top/bottom of viewport, not through center)
-// - End: Converge to center bottom where CTA button is
-// Each cable: M + 5 cubic beziers = 32 coordinates
+// ViewBox: 1920 x 1080
+// Content area (to avoid): roughly x: 400-1520, y: 150-750
+// CTA convergence point: x: 960, y: 1000
+
 const CABLES: CableDefinition[] = [
-  // Cable 1 - Top area, flows above hero text
+  // === LEFT SIDE CABLES (come from top-left, flow down left side) ===
+
+  // Cable 1 - Leftmost
   {
     start: [
-      -100, 80,
-      200, 100, 350, 60, 500, 90,
-      650, 120, 800, 70, 950, 100,
-      1100, 80, 1250, 110, 1400, 85,
-      1550, 95, 1700, 75, 1850, 90,
+      -50, -100,  // Start above viewport
+      50, 100, -30, 250, 80, 350,
+      150, 500, 30, 600, 100, 720,
+      180, 850, 50, 920, 200, 950,
+      400, 980, 700, 1000, 960, 1020,
     ],
     end: [
-      -100, 80,
-      100, 150, 300, 300, 500, 500,
-      650, 650, 750, 780, 850, 880,
-      900, 930, 940, 970, 960, 1000,
-      970, 1020, 975, 1030, 980, 1040,
+      -50, -100,
+      30, 50, 60, 200, 80, 350,
+      100, 500, 110, 650, 130, 780,
+      200, 880, 400, 950, 600, 990,
+      750, 1010, 880, 1020, 960, 1030,
     ]
   },
-  // Cable 2 - Upper area
+  // Cable 2 - Left side inner
   {
     start: [
-      -100, 160,
-      180, 140, 320, 180, 480, 150,
-      640, 190, 780, 140, 940, 170,
-      1100, 150, 1260, 185, 1420, 155,
-      1580, 175, 1740, 145, 1900, 165,
+      100, -80,
+      180, 80, 50, 200, 150, 320,
+      250, 480, 100, 580, 200, 700,
+      300, 840, 150, 900, 350, 960,
+      550, 990, 780, 1010, 960, 1025,
     ],
     end: [
-      -100, 160,
-      80, 250, 280, 400, 480, 580,
-      640, 720, 760, 830, 860, 910,
-      920, 960, 955, 990, 975, 1015,
-      985, 1030, 990, 1038, 993, 1045,
+      100, -80,
+      120, 80, 140, 220, 160, 360,
+      180, 500, 200, 640, 230, 770,
+      300, 880, 500, 960, 700, 1000,
+      820, 1015, 900, 1025, 960, 1032,
     ]
   },
-  // Cable 3 - Lower area (below hero text)
+  // Cable 3 - Left side, starts more center-top
   {
     start: [
-      -100, 750,
-      200, 780, 360, 720, 520, 760,
-      680, 800, 840, 730, 1000, 770,
-      1160, 750, 1320, 790, 1480, 755,
-      1640, 775, 1800, 740, 1960, 760,
+      300, -60,
+      250, 50, 150, 150, 200, 280,
+      120, 420, 220, 550, 150, 680,
+      250, 800, 180, 880, 380, 940,
+      580, 980, 800, 1005, 960, 1028,
     ],
     end: [
-      -100, 750,
-      100, 780, 320, 820, 540, 880,
-      700, 920, 820, 960, 900, 990,
-      950, 1010, 980, 1030, 1000, 1045,
-      1010, 1052, 1015, 1055, 1018, 1058,
+      300, -60,
+      280, 100, 250, 250, 230, 400,
+      220, 550, 240, 690, 280, 810,
+      400, 900, 600, 970, 780, 1010,
+      870, 1022, 930, 1030, 960, 1035,
     ]
   },
-  // Cable 4 - Bottom area
+
+  // === RIGHT SIDE CABLES (come from top-right, flow down right side) ===
+
+  // Cable 4 - Rightmost
   {
     start: [
-      -100, 850,
-      220, 880, 400, 820, 580, 860,
-      760, 900, 920, 830, 1100, 870,
-      1280, 850, 1440, 890, 1620, 855,
-      1780, 875, 1940, 840, 2100, 860,
+      1970, -100,
+      1870, 100, 1950, 250, 1840, 350,
+      1770, 500, 1890, 600, 1820, 720,
+      1740, 850, 1870, 920, 1720, 950,
+      1520, 980, 1220, 1000, 960, 1020,
     ],
     end: [
-      -100, 850,
-      120, 870, 360, 900, 580, 940,
-      750, 970, 880, 1000, 960, 1025,
-      1010, 1042, 1030, 1052, 1040, 1058,
-      1045, 1062, 1048, 1065, 1050, 1067,
+      1970, -100,
+      1890, 50, 1860, 200, 1840, 350,
+      1820, 500, 1810, 650, 1790, 780,
+      1720, 880, 1520, 950, 1320, 990,
+      1170, 1010, 1040, 1020, 960, 1030,
     ]
   },
-  // Cable 5 - Very bottom
+  // Cable 5 - Right side inner
   {
     start: [
-      -100, 920,
-      200, 950, 380, 900, 560, 940,
-      740, 970, 900, 910, 1080, 945,
-      1260, 930, 1420, 960, 1600, 935,
-      1760, 950, 1920, 920, 2080, 940,
+      1820, -80,
+      1740, 80, 1870, 200, 1770, 320,
+      1670, 480, 1820, 580, 1720, 700,
+      1620, 840, 1770, 900, 1570, 960,
+      1370, 990, 1140, 1010, 960, 1025,
     ],
     end: [
-      -100, 920,
-      100, 940, 340, 960, 560, 990,
-      740, 1010, 880, 1030, 980, 1048,
-      1030, 1058, 1055, 1065, 1070, 1070,
-      1078, 1073, 1082, 1075, 1085, 1076,
+      1820, -80,
+      1800, 80, 1780, 220, 1760, 360,
+      1740, 500, 1720, 640, 1690, 770,
+      1620, 880, 1420, 960, 1220, 1000,
+      1100, 1015, 1020, 1025, 960, 1032,
+    ]
+  },
+  // Cable 6 - Right side, starts more center-top
+  {
+    start: [
+      1620, -60,
+      1670, 50, 1770, 150, 1720, 280,
+      1800, 420, 1700, 550, 1770, 680,
+      1670, 800, 1740, 880, 1540, 940,
+      1340, 980, 1120, 1005, 960, 1028,
+    ],
+    end: [
+      1620, -60,
+      1640, 100, 1670, 250, 1690, 400,
+      1700, 550, 1680, 690, 1640, 810,
+      1520, 900, 1320, 970, 1140, 1010,
+      1050, 1022, 990, 1030, 960, 1035,
     ]
   },
 ]
 
-// Smooth interpolation with easing
+// Smooth interpolation
 function interpolatePoints(from: number[], to: number[], progress: number): number[] {
   const eased = progress < 0.5
     ? 2 * progress * progress
@@ -152,25 +175,25 @@ function Cable({
         stroke={color}
         strokeWidth={6}
         fill="none"
-        opacity={0.1}
-        filter="url(#outerGlow)"
+        opacity={0.15}
+        filter="url(#glow)"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.2 }}
+        transition={{ duration: 2, ease: "easeOut", delay: index * 0.2 }}
       />
       {/* Main cable */}
       <motion.path
         d={path}
         stroke={color}
-        strokeWidth={2}
+        strokeWidth={2.5}
         fill="none"
         strokeLinecap="round"
         initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.85 }}
+        animate={{ pathLength: 1, opacity: 0.9 }}
         transition={{
-          pathLength: { duration: 1.5, ease: "easeOut", delay: index * 0.2 },
-          opacity: { duration: 0.4, delay: index * 0.15 }
+          pathLength: { duration: 2, ease: "easeOut", delay: index * 0.2 },
+          opacity: { duration: 0.5, delay: index * 0.15 }
         }}
       />
     </g>
@@ -196,19 +219,19 @@ function LightPulse({
 
   return (
     <motion.circle
-      r={3}
+      r={4}
       fill="white"
       style={{
         offsetPath: `path('${path}')`,
-        filter: `drop-shadow(0 0 4px ${color}) drop-shadow(0 0 8px ${color})`
+        filter: `drop-shadow(0 0 6px ${color}) drop-shadow(0 0 12px ${color})`
       }}
       animate={{ offsetDistance: ['0%', '100%'] }}
       transition={{
-        duration: 2.5 + index * 0.2,
+        duration: 3 + index * 0.3,
         repeat: Infinity,
         ease: "linear",
-        delay: index * 0.6,
-        repeatDelay: 1.5,
+        delay: index * 0.5,
+        repeatDelay: 1,
       }}
     />
   )
@@ -221,7 +244,7 @@ export default function FiberCableSystem() {
 
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 50,
-    damping: 20,
+    damping: 25,
     restDelta: 0.001
   })
 
@@ -233,8 +256,7 @@ export default function FiberCableSystem() {
     setMounted(true)
   }, [])
 
-  // CTA visibility based on scroll
-  const ctaVisible = scrollProgress > 0.75
+  // CTA visibility
   const ctaOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.75) / 0.15))
   const ctaScale = 0.9 + Math.min(0.1, (scrollProgress - 0.75) * 0.5)
 
@@ -244,18 +266,19 @@ export default function FiberCableSystem() {
     <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1920 1100"
+        viewBox="0 0 1920 1080"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
           <filter id="ctaGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="blur" />
@@ -286,49 +309,45 @@ export default function FiberCableSystem() {
           />
         ))}
 
-        {/* Connection point where all cables meet */}
-        {ctaVisible && (
-          <g style={{ opacity: ctaOpacity }}>
-            {/* Glowing rings */}
-            {[0, 1, 2].map((i) => (
-              <motion.circle
-                key={i}
-                cx="1000"
-                cy="1060"
-                r={8 + i * 6}
-                fill="none"
-                stroke="#06b6d4"
-                strokeWidth={1.5 - i * 0.3}
-                filter="url(#ctaGlow)"
-                animate={{
-                  opacity: [0.5, 0.8, 0.5],
-                  r: [8 + i * 6, 12 + i * 6, 8 + i * 6],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.1,
-                  ease: "easeInOut"
-                }}
-              />
-            ))}
-            {/* Center point */}
+        {/* Convergence point at bottom */}
+        <g style={{ opacity: ctaOpacity }}>
+          {[0, 1, 2].map((i) => (
             <motion.circle
-              cx="1000"
-              cy="1060"
-              r={5}
-              fill="#06b6d4"
+              key={i}
+              cx="960"
+              cy="1030"
+              r={10 + i * 8}
+              fill="none"
+              stroke="#06b6d4"
+              strokeWidth={2 - i * 0.4}
               filter="url(#ctaGlow)"
-              animate={{ r: [4, 6, 4], opacity: [0.8, 1, 0.8] }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+              animate={{
+                opacity: [0.4, 0.8, 0.4],
+                r: [10 + i * 8, 15 + i * 8, 10 + i * 8],
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                delay: i * 0.15,
+                ease: "easeInOut"
+              }}
             />
-            <circle cx="1000" cy="1060" r={2} fill="white" />
-          </g>
-        )}
+          ))}
+          <motion.circle
+            cx="960"
+            cy="1030"
+            r={6}
+            fill="#06b6d4"
+            filter="url(#ctaGlow)"
+            animate={{ r: [5, 8, 5], opacity: [0.8, 1, 0.8] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <circle cx="960" cy="1030" r={3} fill="white" />
+        </g>
       </svg>
 
       {/* CTA Button */}
-      {ctaVisible && (
+      {ctaOpacity > 0 && (
         <motion.div
           className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
           style={{
@@ -336,20 +355,17 @@ export default function FiberCableSystem() {
             opacity: ctaOpacity,
             transform: `translateX(-50%) scale(${ctaScale})`,
           }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: ctaOpacity, y: 0 }}
-          transition={{ duration: 0.4 }}
         >
           <motion.a
             href="#contact"
             className="relative inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-base overflow-hidden"
             style={{
               background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
-              boxShadow: '0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.2)',
+              boxShadow: '0 0 40px rgba(6, 182, 212, 0.5), 0 0 80px rgba(6, 182, 212, 0.25)',
             }}
             whileHover={{
               scale: 1.05,
-              boxShadow: '0 0 50px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.3)',
+              boxShadow: '0 0 60px rgba(6, 182, 212, 0.7), 0 0 100px rgba(6, 182, 212, 0.35)',
             }}
             whileTap={{ scale: 0.98 }}
           >
@@ -375,9 +391,7 @@ export default function FiberCableSystem() {
           </motion.a>
           <motion.p
             className="text-center text-dark-400 text-sm mt-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: scrollProgress > 0.9 ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
+            style={{ opacity: scrollProgress > 0.9 ? 1 : 0 }}
           >
             Alle Leitungen verbunden
           </motion.p>
