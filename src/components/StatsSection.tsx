@@ -197,34 +197,47 @@ export default function StatsSection() {
           </div>
         </motion.div>
 
-        {/* Progress Bars */}
+        {/* Progress Bars - Symmetric Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="mt-16 grid md:grid-cols-2 gap-8"
+          transition={{ duration: 0.6, delay: 1 }}
+          className="mt-16"
         >
-          {[
-            { label: 'Termingerechte Fertigstellung', value: 98 },
-            { label: 'Erstprüfung bestanden', value: 99 },
-            { label: 'Weiterempfehlungsrate', value: 97 },
-            { label: 'Projekte im Budget', value: 95 },
-          ].map((item, index) => (
-            <div key={index} className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-dark-300">{item.label}</span>
-                <span className="text-fiber-400 font-semibold">{item.value}%</span>
-              </div>
-              <div className="h-2 rounded-full bg-dark-800 overflow-hidden">
+          <div className="p-8 rounded-3xl glass border border-fiber-500/10">
+            <h3 className="text-center text-lg font-semibold text-dark-300 mb-8">Unsere Qualitätskennzahlen</h3>
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
+              {[
+                { label: 'Termingerechte Fertigstellung', value: 98, color: 'from-cyan-400 to-blue-500' },
+                { label: 'Erstprüfung bestanden', value: 99, color: 'from-emerald-400 to-teal-500' },
+                { label: 'Weiterempfehlungsrate', value: 97, color: 'from-blue-400 to-indigo-500' },
+                { label: 'Projekte im Budget', value: 95, color: 'from-purple-400 to-pink-500' },
+              ].map((item, index) => (
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-fiber-500 to-primary-500"
-                  initial={{ width: 0 }}
-                  animate={isInView ? { width: `${item.value}%` } : {}}
-                  transition={{ duration: 1.5, delay: 1.4 + index * 0.2, ease: "easeOut" }}
-                />
-              </div>
+                  key={index}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
+                  className="space-y-3"
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-white font-medium">{item.label}</span>
+                    <span className={`text-lg font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                      {item.value}%
+                    </span>
+                  </div>
+                  <div className="h-3 rounded-full bg-dark-800/80 overflow-hidden">
+                    <motion.div
+                      className={`h-full rounded-full bg-gradient-to-r ${item.color}`}
+                      initial={{ width: 0 }}
+                      animate={isInView ? { width: `${item.value}%` } : {}}
+                      transition={{ duration: 1.5, delay: 1.4 + index * 0.15, ease: "easeOut" }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          ))}
+          </div>
         </motion.div>
       </div>
     </section>

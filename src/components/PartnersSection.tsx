@@ -28,10 +28,10 @@ const partners = [
 ]
 
 const certifications = [
-  { name: 'ISO 9001', desc: 'Qualitätsmanagement' },
-  { name: 'ISO 45001', desc: 'Arbeitssicherheit' },
-  { name: 'DVGW', desc: 'Zertifiziert' },
-  { name: 'TÜV', desc: 'Geprüft' },
+  { name: 'ISO 9001', desc: 'Qualitätsmanagement', icon: Shield, color: 'from-cyan-400 to-blue-500' },
+  { name: 'ISO 45001', desc: 'Arbeitssicherheit', icon: Award, color: 'from-emerald-400 to-teal-500' },
+  { name: 'DVGW', desc: 'Zertifiziert', icon: BadgeCheck, color: 'from-blue-400 to-indigo-500' },
+  { name: 'TÜV', desc: 'Geprüft', icon: Zap, color: 'from-amber-400 to-orange-500' },
 ]
 
 export default function PartnersSection() {
@@ -225,10 +225,16 @@ export default function PartnersSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="p-8 rounded-2xl glass border border-fiber-500/20 hover:border-fiber-500/30 transition-colors text-center"
+                whileHover={{ scale: 1.03, y: -5 }}
+                className="group p-8 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all text-center relative overflow-hidden"
               >
-                <Award className="w-10 h-10 text-fiber-400 mx-auto mb-4" />
-                <div className="text-2xl font-bold gradient-text mb-2">{cert.name}</div>
+                {/* Background glow on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
+
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${cert.color} flex items-center justify-center shadow-lg`}>
+                  <cert.icon className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-2xl font-bold text-white mb-2">{cert.name}</div>
                 <div className="text-sm text-dark-400">{cert.desc}</div>
               </motion.div>
             ))}

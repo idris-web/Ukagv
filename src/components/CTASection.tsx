@@ -2,7 +2,7 @@
 
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle, AlertCircle, Loader2, PhoneCall, AtSign, Navigation, Calendar } from 'lucide-react'
 import PLZCheck from './PLZCheck'
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error'
@@ -271,13 +271,13 @@ export default function CTASection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="space-y-6"
           >
-            {/* Contact Cards */}
-            <div className="space-y-4">
+            {/* Contact Cards - Symmetric 2x2 Grid */}
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: Phone, label: 'Telefon', value: '+49 (0) 911 123 456 78', href: 'tel:+4991112345678' },
-                { icon: Mail, label: 'E-Mail', value: 'info@ukagv.de', href: 'mailto:info@ukagv.de' },
-                { icon: MapPin, label: 'Adresse', value: 'Glasfaserweg 42, 90403 Nürnberg', href: '#' },
-                { icon: Clock, label: 'Erreichbarkeit', value: 'Mo-Fr: 7:00 - 17:00 Uhr', href: '#' },
+                { icon: PhoneCall, label: 'Telefon', value: '+49 (0) 911 123 456 78', href: 'tel:+4991112345678', color: 'from-cyan-400 to-blue-500' },
+                { icon: AtSign, label: 'E-Mail', value: 'info@ukagv.de', href: 'mailto:info@ukagv.de', color: 'from-blue-400 to-indigo-500' },
+                { icon: Navigation, label: 'Adresse', value: 'Glasfaserweg 42, 90403 Nürnberg', href: '#', color: 'from-emerald-400 to-teal-500' },
+                { icon: Calendar, label: 'Erreichbarkeit', value: 'Mo-Fr: 7:00 - 17:00 Uhr', href: '#', color: 'from-purple-400 to-pink-500' },
               ].map((item, index) => (
                 <motion.a
                   key={index}
@@ -285,32 +285,34 @@ export default function CTASection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  className="flex items-center gap-4 p-4 rounded-xl glass border border-fiber-500/10 hover:bg-fiber-500/5 hover:border-fiber-500/20 transition-all group"
+                  whileHover={{ scale: 1.03, y: -3 }}
+                  className="flex flex-col items-center text-center p-5 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all group"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center shrink-0">
-                    <item.icon className="w-6 h-6 text-white" />
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-3 shadow-lg`}>
+                    <item.icon className="w-7 h-7 text-white" />
                   </div>
-                  <div>
-                    <p className="text-sm text-dark-400">{item.label}</p>
-                    <p className="font-medium group-hover:text-fiber-400 transition-colors">{item.value}</p>
-                  </div>
+                  <p className="text-xs text-dark-400 uppercase tracking-wider mb-1">{item.label}</p>
+                  <p className="font-medium text-sm group-hover:text-fiber-400 transition-colors leading-tight">{item.value}</p>
                 </motion.a>
               ))}
             </div>
 
-            {/* Quick Info Card */}
+            {/* Quick Callback Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.9 }}
               className="p-6 rounded-2xl bg-gradient-to-br from-fiber-500/10 to-primary-500/10 border border-fiber-500/20"
             >
-              <h3 className="text-xl font-bold mb-3">Schneller Rückruf</h3>
-              <p className="text-dark-300 mb-4">
-                Sie möchten lieber telefonieren? Hinterlassen Sie Ihre Nummer
-                und wir rufen Sie zurück – meist noch am selben Tag.
-              </p>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Schneller Rückruf</h3>
+                  <p className="text-dark-400 text-sm">Meist noch am selben Tag</p>
+                </div>
+              </div>
               <div className="flex gap-3">
                 <input
                   type="tel"
@@ -318,35 +320,53 @@ export default function CTASection() {
                   className="flex-1 px-4 py-3 rounded-xl bg-dark-800 border border-dark-700 focus:border-fiber-500 focus:ring-1 focus:ring-fiber-500 outline-none transition-colors text-sm"
                 />
                 <motion.button
-                  className="btn-primary text-sm whitespace-nowrap"
+                  className="btn-primary text-sm whitespace-nowrap px-6"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Rückruf
+                  Anfordern
                 </motion.button>
               </div>
             </motion.div>
 
-            {/* Map Placeholder */}
+            {/* Map - Larger */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 1 }}
-              className="aspect-video rounded-2xl overflow-hidden border border-fiber-500/20"
+              className="rounded-2xl overflow-hidden border border-fiber-500/20"
+              style={{ height: '300px' }}
             >
               <div className="w-full h-full bg-dark-800 flex items-center justify-center relative">
                 {/* Simulated map background */}
-                <div className="absolute inset-0 opacity-30">
+                <div className="absolute inset-0 opacity-20">
                   <div className="w-full h-full" style={{
-                    backgroundImage: 'radial-gradient(circle at 50% 50%, #06b6d4 1px, transparent 1px)',
-                    backgroundSize: '30px 30px'
+                    backgroundImage: `
+                      linear-gradient(to right, rgba(6,182,212,0.1) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(6,182,212,0.1) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '40px 40px'
                   }} />
                 </div>
+                {/* Radial glow */}
+                <div className="absolute inset-0 bg-gradient-radial from-fiber-500/10 via-transparent to-transparent" />
+
                 <div className="text-center relative z-10">
-                  <MapPin className="w-12 h-12 text-fiber-400 mx-auto mb-2" />
-                  <p className="text-white font-medium">UKAGV GmbH</p>
-                  <p className="text-dark-400 text-sm">Glasfaserweg 42</p>
-                  <p className="text-dark-400 text-sm">90403 Nürnberg</p>
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center shadow-xl shadow-fiber-500/30">
+                    <MapPin className="w-10 h-10 text-white" />
+                  </div>
+                  <p className="text-xl font-bold text-white mb-2">UKAGV GmbH</p>
+                  <p className="text-dark-300">Glasfaserweg 42</p>
+                  <p className="text-dark-300">90403 Nürnberg</p>
+                  <motion.a
+                    href="https://maps.google.com"
+                    target="_blank"
+                    className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-fiber-500/20 border border-fiber-500/30 text-fiber-400 text-sm font-medium hover:bg-fiber-500/30 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <Navigation className="w-4 h-4" />
+                    Route planen
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

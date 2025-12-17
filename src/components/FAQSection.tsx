@@ -2,7 +2,7 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ChevronDown, MessageCircle, Phone } from 'lucide-react'
+import { ChevronDown, MessageCircle, Phone, HelpCircle, Send, Headphones } from 'lucide-react'
 
 const faqs = [
   {
@@ -255,30 +255,38 @@ export default function FAQSection() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-16"
         >
-          <div className="animated-border">
-            <div className="relative p-8 md:p-12 rounded-2xl bg-dark-900/80 backdrop-blur-sm text-center">
-              <MessageCircle className="w-12 h-12 text-fiber-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Noch Fragen?</h3>
-              <p className="text-dark-300 mb-6 max-w-lg mx-auto">
+          <div className="relative p-10 md:p-14 rounded-3xl glass border border-fiber-500/20 overflow-hidden">
+            {/* Background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-fiber-500/5 via-transparent to-primary-500/5" />
+
+            <div className="relative text-center">
+              {/* Modern icon with glow */}
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-fiber-500 to-primary-500 mb-6 shadow-lg shadow-fiber-500/30">
+                <HelpCircle className="w-10 h-10 text-white" />
+              </div>
+
+              <h3 className="text-3xl font-bold mb-4">Noch Fragen?</h3>
+              <p className="text-dark-300 mb-8 max-w-lg mx-auto text-lg">
                 Ihre Frage wurde nicht beantwortet? Kein Problem! Unser Team hilft Ihnen gerne persönlich weiter.
               </p>
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <motion.a
                   href="#contact"
-                  className="btn-primary flex items-center gap-2"
+                  className="btn-primary flex items-center gap-3 text-lg px-8 py-4"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <Send className="w-5 h-5" />
                   Nachricht senden
                 </motion.a>
                 <motion.a
-                  href="tel:+4912345678"
-                  className="btn-secondary flex items-center gap-2"
+                  href="tel:+4991112345678"
+                  className="btn-secondary flex items-center gap-3 text-lg px-8 py-4"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Phone className="w-5 h-5" />
+                  <Headphones className="w-5 h-5" />
                   Anrufen
                 </motion.a>
               </div>
