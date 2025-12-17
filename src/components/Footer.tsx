@@ -79,9 +79,9 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div className="space-y-2 mb-6 text-sm text-dark-400">
-              <a href="tel:+4912345678" className="flex items-center gap-2 hover:text-fiber-400 transition-colors">
+              <a href="tel:+4991112345678" className="flex items-center gap-2 hover:text-fiber-400 transition-colors">
                 <Phone className="w-4 h-4" />
-                +49 (0) 123 456 78
+                +49 (0) 911 123 456 78
               </a>
               <a href="mailto:info@ukagv.de" className="flex items-center gap-2 hover:text-fiber-400 transition-colors">
                 <Mail className="w-4 h-4" />
@@ -89,7 +89,7 @@ export default function Footer() {
               </a>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                Musterstraße 123, 12345 Stadt
+                Glasfaserweg 42, 90403 Nürnberg
               </div>
             </div>
 

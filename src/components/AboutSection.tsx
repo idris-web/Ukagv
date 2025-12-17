@@ -196,10 +196,10 @@ export default function AboutSection() {
               transition={{ delay: 0.3 }}
             >
               <p>
-                Die UKAGV GmbH wurde 2008 gegründet und hat sich seitdem zu einem der
-                führenden Dienstleister für Glasfaserinfrastruktur in Süddeutschland entwickelt.
-                Mit einem Team aus über 50 qualifizierten Fachkräften betreuen wir Projekte
-                jeder Größenordnung.
+                Die UKAGV GmbH mit Sitz in Nürnberg wurde 2008 gegründet und hat sich seitdem
+                zu einem der führenden Dienstleister für Glasfaserinfrastruktur in der
+                Metropolregion Nürnberg und ganz Bayern entwickelt. Mit einem Team aus über
+                50 qualifizierten Fachkräften betreuen wir Projekte jeder Größenordnung.
               </p>
               <p>
                 Unser Erfolg basiert auf drei Säulen: <span className="text-white font-medium">erstklassige Qualität</span>,

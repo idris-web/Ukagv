@@ -160,9 +160,9 @@ export default function CTASection() {
             {/* Contact Cards */}
             <div className="space-y-4">
               {[
-                { icon: Phone, label: 'Telefon', value: '+49 (0) 123 456 78', href: 'tel:+4912345678' },
+                { icon: Phone, label: 'Telefon', value: '+49 (0) 911 123 456 78', href: 'tel:+4991112345678' },
                 { icon: Mail, label: 'E-Mail', value: 'info@ukagv.de', href: 'mailto:info@ukagv.de' },
-                { icon: MapPin, label: 'Adresse', value: 'Musterstraße 123, 12345 Stadt', href: '#' },
+                { icon: MapPin, label: 'Adresse', value: 'Glasfaserweg 42, 90403 Nürnberg', href: '#' },
                 { icon: Clock, label: 'Erreichbarkeit', value: 'Mo-Fr: 7:00 - 17:00 Uhr', href: '#' },
               ].map((item, index) => (
                 <motion.a

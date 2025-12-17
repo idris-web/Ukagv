@@ -314,13 +314,13 @@ export default function HeroSection() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.a>
             <motion.a
-              href="tel:+4912345678"
+              href="tel:+4991112345678"
               className="btn-secondary flex items-center gap-2 text-lg px-10 py-5"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
               <Phone className="w-5 h-5" />
-              +49 (0) 123 456 78
+              +49 (0) 911 123 456 78
             </motion.a>
           </motion.div>
 
