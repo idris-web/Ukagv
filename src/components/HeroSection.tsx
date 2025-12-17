@@ -2,7 +2,8 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { ArrowRight, Phone, Wifi, Shield, Clock, Zap, ChevronDown, Award, Users, Building2, MapPin } from 'lucide-react'
+import { ArrowRight, Phone, Wifi, Award, Users, MapPin, ChevronDown } from 'lucide-react'
+import { MorphingText, MagneticButton, TextScramble, NumberCounter, CardTilt3D, GradientMesh, DecorativeParallax } from './effects'
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -26,17 +27,24 @@ export default function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Dark Background Base */}
-      <div className="absolute inset-0 bg-dark-950" />
+      {/* Gradient Mesh Background */}
+      <GradientMesh
+        colors={['#06b6d4', '#3b82f6', '#0891b2', '#0ea5e9']}
+        speed={0.5}
+        className="opacity-30"
+      />
 
-      {/* Background Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900/95 to-dark-950" />
+      {/* Dark Background Base */}
+      <div className="absolute inset-0 bg-dark-950/80" />
+
+      {/* Parallax Decorative Elements */}
+      <DecorativeParallax />
 
       {/* Grid Pattern - subtle */}
       <div className="absolute inset-0 grid-pattern opacity-20" />
 
-      {/* Radial Glow - more subtle */}
-      <div className="absolute inset-0 bg-radial-gradient" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.08) 0%, transparent 60%)' }} />
+      {/* Radial Glow */}
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 60%)' }} />
 
       {/* Animated Fiber Cables */}
       <svg
@@ -80,7 +88,7 @@ export default function HeroSection() {
           </filter>
         </defs>
 
-        {/* Main Fiber Cable 1 - Bold, bottom */}
+        {/* Main Fiber Cable 1 */}
         <motion.path
           d="M-200 750 Q 300 550, 600 650 T 1200 580 T 1800 700 T 2200 600"
           stroke="url(#heroFiberGradient1)"
@@ -119,31 +127,6 @@ export default function HeroSection() {
           transition={{ duration: 3.5, ease: "easeInOut", delay: 0.6 }}
         />
 
-        {/* Top subtle fiber lines */}
-        <motion.path
-          d="M-200 200 Q 400 150, 800 220 T 1400 180 T 2000 250"
-          stroke="url(#heroFiberGradient2)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#heroGlow)"
-          opacity={0.3}
-          style={{ y: fiberY1 }}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 4, ease: "easeInOut", delay: 1 }}
-        />
-        <motion.path
-          d="M-100 300 Q 500 250, 900 320 T 1500 280 T 2100 350"
-          stroke="url(#heroFiberGradient3)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#heroGlow)"
-          opacity={0.25}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 4.5, ease: "easeInOut", delay: 1.2 }}
-        />
-
         {/* Animated Data Pulses */}
         <motion.circle
           r="12"
@@ -179,38 +162,12 @@ export default function HeroSection() {
           }}
         />
 
-        {/* Additional data pulses for more activity */}
-        <motion.circle
-          r="6"
-          fill="#67e8f9"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "linear", delay: 0.5 }}
-          style={{
-            offsetPath: "path('M-200 750 Q 300 550, 600 650 T 1200 580 T 1800 700 T 2200 600')"
-          }}
-        />
-        <motion.circle
-          r="5"
-          fill="#a5f3fc"
-          filter="url(#heroGlow)"
-          initial={{ offsetDistance: '0%' }}
-          animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "linear", delay: 2.5 }}
-          style={{
-            offsetPath: "path('M-100 850 Q 400 650, 700 800 T 1300 700 T 1900 850 T 2300 750')"
-          }}
-        />
-
         {/* Glow points at intersections */}
         {[
           { cx: 600, cy: 650, r: 5 },
           { cx: 1200, cy: 580, r: 4 },
           { cx: 700, cy: 800, r: 4 },
           { cx: 1300, cy: 700, r: 5 },
-          { cx: 900, cy: 320, r: 3 },
-          { cx: 1500, cy: 280, r: 3 },
         ].map((dot, i) => (
           <motion.circle
             key={i}
@@ -222,14 +179,13 @@ export default function HeroSection() {
             animate={{
               opacity: [0.2, 0.9, 0.2],
               scale: [1, 1.5, 1],
-              r: [dot.r, dot.r * 1.5, dot.r]
             }}
             transition={{ duration: 2 + i * 0.3, repeat: Infinity, delay: i * 0.4 }}
           />
         ))}
       </svg>
 
-      {/* Floating Orbs - positioned at bottom */}
+      {/* Floating Orbs */}
       <motion.div
         className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-fiber-500/10 blur-[100px]"
         animate={{
@@ -249,12 +205,11 @@ export default function HeroSection() {
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Main Content with backdrop for readability */}
+      {/* Main Content */}
       <motion.div
         style={{ y, opacity, scale }}
         className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center"
       >
-        {/* Content backdrop for better readability */}
         <div className="absolute inset-0 -mx-8 -my-12 bg-gradient-to-b from-dark-950/80 via-dark-900/60 to-transparent rounded-3xl blur-xl" />
 
         <div className="relative">
@@ -273,7 +228,7 @@ export default function HeroSection() {
             <span className="text-sm font-medium text-white">Jetzt verfügbar in Ihrer Region</span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline with Morphing Text */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -282,49 +237,57 @@ export default function HeroSection() {
           >
             <span className="text-white drop-shadow-lg">Glasfaser.</span>
             <br />
-            <span className="gradient-text drop-shadow-lg">Professionell verlegt.</span>
+            <span className="gradient-text drop-shadow-lg">
+              <MorphingText
+                words={['Professionell verlegt.', 'Schnell installiert.', 'Zuverlässig verbunden.', 'Zukunftssicher gebaut.']}
+                interval={4000}
+              />
+            </span>
           </motion.h1>
 
-          {/* Subheadline */}
-          <motion.p
+          {/* Subheadline with Text Scramble */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-dark-200 max-w-3xl mx-auto mb-12 leading-relaxed"
           >
-            UKAGV GmbH ist Ihr Partner für Glasfaserverlegung und Hausmeisterdienste.
+            <TextScramble
+              text="UKAGV GmbH ist Ihr Partner für Glasfaserverlegung und Hausmeisterdienste."
+              duration={1500}
+              delay={800}
+            />
             <span className="text-white font-medium"> Wir bringen Highspeed-Internet direkt zu Ihnen</span> –
             zuverlässig, termingerecht und zu fairen Preisen.
-          </motion.p>
+          </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons with Magnetic Effect */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <motion.a
+            <MagneticButton
               href="#contact"
               className="btn-primary flex items-center gap-2 group text-lg px-10 py-5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
+              strength={0.4}
             >
               Kostenloses Angebot
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.a>
-            <motion.a
+            </MagneticButton>
+
+            <MagneticButton
               href="tel:+4991112345678"
               className="btn-secondary flex items-center gap-2 text-lg px-10 py-5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
+              strength={0.4}
             >
               <Phone className="w-5 h-5" />
               +49 (0) 911 123 456 78
-            </motion.a>
+            </MagneticButton>
           </motion.div>
 
-          {/* Stats Grid */}
+          {/* Stats Grid with 3D Tilt Cards and Number Counter */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -332,27 +295,28 @@ export default function HeroSection() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto"
           >
             {[
-              { icon: Wifi, value: '10 Gbit/s', label: 'Maximale Geschwindigkeit', color: 'from-cyan-400 to-blue-500' },
-              { icon: Award, value: '500+', label: 'Projekte abgeschlossen', color: 'from-blue-400 to-cyan-500' },
-              { icon: Users, value: '15+ Jahre', label: 'Erfahrung im Markt', color: 'from-cyan-500 to-teal-500' },
-              { icon: MapPin, value: '1000+ km', label: 'Kabel verlegt', color: 'from-teal-400 to-cyan-500' },
+              { icon: Wifi, value: 10, suffix: ' Gbit/s', label: 'Maximale Geschwindigkeit', color: 'from-cyan-400 to-blue-500' },
+              { icon: Award, value: 500, suffix: '+', label: 'Projekte abgeschlossen', color: 'from-blue-400 to-cyan-500' },
+              { icon: Users, value: 15, suffix: '+ Jahre', label: 'Erfahrung im Markt', color: 'from-cyan-500 to-teal-500' },
+              { icon: MapPin, value: 1000, suffix: '+ km', label: 'Kabel verlegt', color: 'from-teal-400 to-cyan-500' },
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="relative group"
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: 1 + index * 0.1, type: "spring" }}
-                whileHover={{ scale: 1.05, y: -5 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity rounded-2xl" style={{ backgroundImage: `linear-gradient(135deg, var(--tw-gradient-stops))` }} />
-                <div className="relative p-6 rounded-2xl glass border border-fiber-500/10 group-hover:border-fiber-500/30 transition-all">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} mb-4`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                <CardTilt3D tiltAmount={10} glareEnabled={true} className="h-full">
+                  <div className="relative p-6 rounded-2xl glass border border-fiber-500/10 h-full">
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} mb-4`}>
+                      <stat.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                      <NumberCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
+                    </div>
+                    <div className="text-sm text-dark-400">{stat.label}</div>
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-sm text-dark-400">{stat.label}</div>
-                </div>
+                </CardTilt3D>
               </motion.div>
             ))}
           </motion.div>
