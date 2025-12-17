@@ -8,10 +8,13 @@ import {
   StatsSection,
   AboutSection,
   ProcessSection,
+  ProjectGallery,
   TestimonialsSection,
   FAQSection,
   CTASection,
-  Footer
+  Footer,
+  FloatingCTA,
+  CookieBanner
 } from '@/components'
 
 export default function Home() {
@@ -24,10 +27,13 @@ export default function Home() {
       <StatsSection />
       <AboutSection />
       <ProcessSection />
+      <ProjectGallery />
       <TestimonialsSection />
       <FAQSection />
       <CTASection />
       <Footer />
+      <FloatingCTA />
+      <CookieBanner />
     </main>
   )
 }
