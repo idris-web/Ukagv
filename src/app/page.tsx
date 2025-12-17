@@ -18,6 +18,7 @@ import {
   CookieBanner
 } from '@/components'
 import { ScrollProgress, GlowCursor } from '@/components/effects'
+import FiberCableOverlay from '@/components/FiberCableOverlay'
 
 // Dynamic import for Three.js scene to avoid SSR issues
 const FiberScene3D = dynamic(
@@ -28,6 +29,11 @@ const FiberScene3D = dynamic(
 export default function Home() {
   return (
     <main className="relative">
+      {/* Global Fiber Cable Overlay - visible throughout the page */}
+      <div className="fixed inset-0 pointer-events-none z-[1]">
+        <FiberCableOverlay intensity="medium" />
+      </div>
+
       {/* Global Effects */}
       <ScrollProgress position="top" />
       <GlowCursor color="#06b6d4" size={24} trailLength={10} />
