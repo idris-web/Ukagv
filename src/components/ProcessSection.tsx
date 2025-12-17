@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useRef } from 'react'
 import { Phone, FileSearch, HardHat, Wrench, CheckCircle, Headphones, Zap } from 'lucide-react'
 
@@ -49,10 +49,129 @@ const steps = [
   }
 ]
 
+// Individual Step Component with its own scroll tracking
+function ProcessStep({ step, index, isEven }: { step: typeof steps[0], index: number, isEven: boolean }) {
+  const stepRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: stepRef,
+    offset: ['start 0.9', 'start 0.3']
+  })
+
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 1])
+  const x = useTransform(scrollYProgress, [0, 0.5, 1], [isEven ? -100 : 100, 0, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1])
+
+  const colors = [
+    'from-cyan-400 to-blue-500',
+    'from-blue-400 to-indigo-500',
+    'from-indigo-400 to-purple-500',
+    'from-purple-400 to-pink-500',
+    'from-pink-400 to-rose-500',
+    'from-emerald-400 to-cyan-500',
+  ]
+  const stepColor = colors[index % colors.length]
+
+  return (
+    <motion.div
+      ref={stepRef}
+      style={{ opacity, x, scale }}
+      className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
+        !isEven ? 'lg:flex-row-reverse' : ''
+      }`}
+    >
+      {/* Content Card */}
+      <div className={`flex-1 ${!isEven ? 'lg:text-right' : ''}`}>
+        <motion.div
+          whileHover={{ scale: 1.02, y: -5 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className={`relative p-8 rounded-3xl glass border border-fiber-500/10 hover:border-fiber-500/40 transition-all duration-500 group ${!isEven ? 'lg:ml-auto' : ''} max-w-xl overflow-hidden`}
+        >
+          {/* Animated Background Gradient */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${stepColor} opacity-0 group-hover:opacity-10 transition-all duration-500`} />
+
+          {/* Glow on hover */}
+          <div className={`absolute -inset-2 bg-gradient-to-br ${stepColor} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-all duration-500`} />
+
+          <div className="relative">
+            {/* Number & Title Row */}
+            <div className={`flex items-center gap-5 mb-5 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+              {/* Large Step Number */}
+              <div className="relative">
+                <span className={`text-8xl font-black bg-gradient-to-br ${stepColor} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity`}>
+                  {step.number}
+                </span>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-fiber-400 transition-colors">
+                  {step.title}
+                </h3>
+                <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-1 mt-2 rounded-full bg-gradient-to-r ${stepColor} text-white`}>
+                  {step.highlight}
+                </span>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-dark-300 text-lg leading-relaxed">
+              {step.description}
+            </p>
+
+            {/* Progress indicator */}
+            <div className={`mt-6 h-1 rounded-full bg-dark-800 overflow-hidden ${!isEven ? 'lg:ml-auto' : ''}`} style={{ width: '80%' }}>
+              <motion.div
+                className={`h-full rounded-full bg-gradient-to-r ${stepColor}`}
+                initial={{ width: '0%' }}
+                whileInView={{ width: '100%' }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.3, duration: 1 }}
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Center Icon Node */}
+      <motion.div
+        className="relative z-10"
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 150 }}
+      >
+        {/* Icon Container */}
+        <div className={`relative w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${stepColor} flex items-center justify-center shadow-xl`}>
+          <step.icon className="w-10 h-10 md:w-12 md:h-12 text-white" />
+        </div>
+
+        {/* Step Number Badge */}
+        <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-dark-900 border-2 border-fiber-400 flex items-center justify-center text-sm font-bold text-fiber-400">
+          {index + 1}
+        </div>
+
+        {/* Connection Line to next step (mobile) */}
+        {index < steps.length - 1 && (
+          <div className="lg:hidden absolute -bottom-12 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-fiber-400 to-transparent" />
+        )}
+      </motion.div>
+
+      {/* Spacer for alternating layout */}
+      <div className="flex-1 hidden lg:block" />
+    </motion.div>
+  )
+}
+
 export default function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
   const containerRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress: headerScrollProgress } = useScroll({
+    target: headerRef,
+    offset: ['start 0.9', 'start 0.5']
+  })
+
+  const headerOpacity = useTransform(headerScrollProgress, [0, 1], [0, 1])
+  const headerY = useTransform(headerScrollProgress, [0, 1], [50, 0])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -65,53 +184,39 @@ export default function ProcessSection() {
 
   return (
     <section id="process" className="section-padding relative overflow-hidden">
-      {/* Background - Clean and simple */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-950 to-dark-900" />
+      {/* Smooth top transition */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-dark-950 to-transparent pointer-events-none z-10" />
+
+      {/* Background - Smooth gradient transition */}
+      <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
       <div className="absolute inset-0 grid-pattern opacity-5" />
 
       {/* Subtle static orbs */}
       <div className="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-fiber-500/3 blur-3xl" />
       <div className="absolute -bottom-32 -right-32 w-[350px] h-[350px] rounded-full bg-primary-500/3 blur-3xl" />
 
-      <div
-        className="relative z-10 max-w-7xl mx-auto"
-        ref={ref}
-      >
-        {/* Header */}
+      {/* Smooth bottom transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Header - Scroll triggered */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, type: "spring" }}
+          ref={headerRef}
+          style={{ opacity: headerOpacity, y: headerY }}
           className="text-center mb-20"
         >
-          <motion.span
-            className="inline-flex items-center gap-2 text-fiber-400 text-sm font-semibold tracking-wider uppercase px-4 py-2 rounded-full glass border border-fiber-500/20"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 0.2 }}
-          >
+          <span className="inline-flex items-center gap-2 text-fiber-400 text-sm font-semibold tracking-wider uppercase px-4 py-2 rounded-full glass border border-fiber-500/20">
             <Zap className="w-4 h-4" />
             So funktioniert es
-          </motion.span>
-          <motion.h2
-            className="text-3xl md:text-6xl font-bold mt-6 mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3 }}
-          >
+          </span>
+          <h2 className="text-3xl md:text-6xl font-bold mt-6 mb-6">
             Von der Anfrage
             <br />
             <span className="gradient-text">zum schnellen Internet</span>
-          </motion.h2>
-          <motion.p
-            className="text-dark-300 max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.4 }}
-          >
+          </h2>
+          <p className="text-dark-300 max-w-2xl mx-auto text-lg">
             Unkompliziert und transparent – so arbeiten wir bei UKAGV GmbH in Nürnberg.
-          </motion.p>
-
+          </p>
         </motion.div>
 
         {/* Timeline */}
@@ -125,169 +230,23 @@ export default function ProcessSection() {
             />
           </div>
 
-          {/* Steps */}
+          {/* Steps - Each with individual scroll tracking */}
           <div className="space-y-16 lg:space-y-24">
-            {steps.map((step, index) => {
-              const isEven = index % 2 === 0
-              const colors = [
-                'from-cyan-400 to-blue-500',
-                'from-blue-400 to-indigo-500',
-                'from-indigo-400 to-purple-500',
-                'from-purple-400 to-pink-500',
-                'from-pink-400 to-rose-500',
-                'from-emerald-400 to-cyan-500',
-              ]
-              const stepColor = colors[index % colors.length]
-
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: isEven ? -80 : 80, y: 30 }}
-                  whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.7,
-                    delay: 0.1,
-                    type: "spring",
-                    stiffness: 80
-                  }}
-                  className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
-                    !isEven ? 'lg:flex-row-reverse' : ''
-                  }`}
-                >
-                  {/* Content Card */}
-                  <motion.div
-                    className={`flex-1 ${!isEven ? 'lg:text-right' : ''}`}
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className={`relative p-8 rounded-3xl glass border border-fiber-500/10 hover:border-fiber-500/40 transition-all duration-500 group ${!isEven ? 'lg:ml-auto' : ''} max-w-xl overflow-hidden`}>
-                      {/* Animated Background Gradient */}
-                      <motion.div
-                        className={`absolute inset-0 bg-gradient-to-br ${stepColor} opacity-0 group-hover:opacity-10 transition-all duration-500`}
-                      />
-
-                      {/* Glow on hover */}
-                      <motion.div
-                        className={`absolute -inset-2 bg-gradient-to-br ${stepColor} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-all duration-500`}
-                      />
-
-                      {/* Animated Border */}
-                      <motion.div
-                        className="absolute inset-0 rounded-3xl"
-                        style={{
-                          background: `linear-gradient(${isEven ? '90deg' : '-90deg'}, transparent, rgba(6,182,212,0.3), transparent)`,
-                          backgroundSize: '200% 100%',
-                        }}
-                        initial={{ backgroundPosition: '100% 0%' }}
-                        whileInView={{ backgroundPosition: '-100% 0%' }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, delay: 0.3 + index * 0.1 }}
-                      />
-
-                      <div className="relative">
-                        {/* Number & Title Row */}
-                        <div className={`flex items-center gap-5 mb-5 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
-                          {/* Large Step Number with Animation */}
-                          <motion.div
-                            className="relative"
-                            initial={{ scale: 0, rotate: -30 }}
-                            whileInView={{ scale: 1, rotate: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 + index * 0.1, type: "spring", stiffness: 150 }}
-                          >
-                            <span className={`text-8xl font-black bg-gradient-to-br ${stepColor} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity`}>
-                              {step.number}
-                            </span>
-                          </motion.div>
-                          <div className="flex-1">
-                            <motion.h3
-                              className="text-2xl md:text-3xl font-bold text-white group-hover:text-fiber-400 transition-colors"
-                              initial={{ opacity: 0, x: isEven ? -20 : 20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 0.3 + index * 0.1 }}
-                            >
-                              {step.title}
-                            </motion.h3>
-                            <motion.span
-                              className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-1 mt-2 rounded-full bg-gradient-to-r ${stepColor} text-white`}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: 0.4 + index * 0.1 }}
-                            >
-                              {step.highlight}
-                            </motion.span>
-                          </div>
-                        </div>
-
-                        {/* Description with stagger animation */}
-                        <motion.p
-                          className="text-dark-300 text-lg leading-relaxed"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.5 + index * 0.1 }}
-                        >
-                          {step.description}
-                        </motion.p>
-
-                        {/* Progress indicator */}
-                        <motion.div
-                          className={`mt-6 h-1 rounded-full bg-dark-800 overflow-hidden ${!isEven ? 'lg:ml-auto' : ''}`}
-                          style={{ width: '80%' }}
-                        >
-                          <motion.div
-                            className={`h-full rounded-full bg-gradient-to-r ${stepColor}`}
-                            initial={{ width: '0%' }}
-                            whileInView={{ width: '100%' }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.6 + index * 0.1, duration: 1 }}
-                          />
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Center Icon Node - Clean */}
-                  <motion.div
-                    className="relative z-10"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 150 }}
-                  >
-                    {/* Icon Container */}
-                    <div
-                      className={`relative w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${stepColor} flex items-center justify-center shadow-xl`}
-                    >
-                      <step.icon className="w-10 h-10 md:w-12 md:h-12 text-white" />
-                    </div>
-
-                    {/* Step Number Badge */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-dark-900 border-2 border-fiber-400 flex items-center justify-center text-sm font-bold text-fiber-400">
-                      {index + 1}
-                    </div>
-
-                    {/* Connection Line to next step (mobile) */}
-                    {index < steps.length - 1 && (
-                      <div className="lg:hidden absolute -bottom-12 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-fiber-400 to-transparent" />
-                    )}
-                  </motion.div>
-
-                  {/* Spacer for alternating layout */}
-                  <div className="flex-1 hidden lg:block" />
-                </motion.div>
-              )
-            })}
+            {steps.map((step, index) => (
+              <ProcessStep
+                key={index}
+                step={step}
+                index={index}
+                isEven={index % 2 === 0}
+              />
+            ))}
           </div>
 
-          {/* Final success indicator - Clean */}
+          {/* Final success indicator */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
             className="mt-20"
           >

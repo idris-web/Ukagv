@@ -70,6 +70,9 @@ export default function ServicesSection() {
 
   return (
     <section id="services" ref={containerRef} className="section-padding relative overflow-hidden">
+      {/* Smooth top transition */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-dark-950 to-transparent pointer-events-none z-10" />
+
       {/* Background - Clean */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
       <div className="absolute inset-0 grid-pattern opacity-5" />
@@ -77,6 +80,9 @@ export default function ServicesSection() {
       {/* Static Background Orbs */}
       <div className="absolute top-20 left-10 w-80 h-80 rounded-full bg-fiber-500/3 blur-3xl" />
       <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-primary-500/3 blur-3xl" />
+
+      {/* Smooth bottom transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}

@@ -3,7 +3,6 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, CheckCircle, BadgeCheck, Verified } from 'lucide-react'
-import { RevealOnScroll } from './effects'
 
 // Main highlight partner - Telekom Deutschland
 const mainPartner = {
@@ -50,12 +49,18 @@ export default function PartnersSection() {
 
   return (
     <section ref={containerRef} className="section-padding relative overflow-hidden">
+      {/* Smooth top transition from Hero */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-dark-950 to-transparent pointer-events-none z-10" />
+
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
 
       {/* Subtle static orbs */}
       <div className="absolute top-20 right-20 w-80 h-80 rounded-full bg-[#e20074]/3 blur-3xl" />
       <div className="absolute bottom-20 left-20 w-96 h-96 rounded-full bg-fiber-500/3 blur-3xl" />
+
+      {/* Smooth bottom transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
@@ -78,8 +83,13 @@ export default function PartnersSection() {
           </p>
         </motion.div>
 
-        {/* TELEKOM HIGHLIGHT SECTION - Enhanced */}
-        <RevealOnScroll direction="center" className="mb-20">
+        {/* TELEKOM HIGHLIGHT SECTION */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-20"
+        >
           <div className="relative group">
             {/* Magenta Glow Effect */}
             <div className="absolute -inset-4 bg-gradient-to-r from-[#e20074]/20 via-[#e20074]/30 to-[#e20074]/20 rounded-[2rem] blur-3xl opacity-60 group-hover:opacity-90 transition-all duration-700" />
@@ -156,7 +166,7 @@ export default function PartnersSection() {
                 </div>
               </div>
           </div>
-        </RevealOnScroll>
+        </motion.div>
 
         {/* Other Partners - Seamless Infinite Scroll */}
         <div className="relative mb-20">

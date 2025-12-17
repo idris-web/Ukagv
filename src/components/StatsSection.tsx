@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Cable, Users, CheckCircle, Building2 } from 'lucide-react'
-import { NumberCounter, CardTilt3D, StaggeredGrid, RevealOnScroll, SplitReveal } from './effects'
+import { NumberCounter } from './effects'
 
 const stats = [
   {
@@ -62,8 +62,14 @@ export default function StatsSection() {
 
   return (
     <section ref={containerRef} className="section-padding relative overflow-hidden">
+      {/* Smooth top transition */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-dark-950 to-transparent pointer-events-none z-10" />
+
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-950 to-dark-900" />
+      <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
+
+      {/* Smooth bottom transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
 
       {/* Animated Background Elements */}
       <motion.div
@@ -101,107 +107,95 @@ export default function StatsSection() {
       </svg>
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
-        {/* Header with Split Reveal */}
-        <SplitReveal direction="horizontal" leftColor="#06b6d4" rightColor="#3b82f6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-20"
-          >
-            <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
-              Zahlen & Fakten
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
-              Unsere Erfolgsbilanz
-              <br />
-              <span className="gradient-text">spricht für sich</span>
-            </h2>
-            <p className="text-dark-300 max-w-2xl mx-auto text-lg">
-              Qualität, die sich in Zahlen messen lässt. Vertrauen Sie auf unsere Erfahrung.
-            </p>
-          </motion.div>
-        </SplitReveal>
-
-        {/* Main Stats Grid with Staggered Animation */}
-        <StaggeredGrid
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-          staggerDelay={0.15}
-          direction="up"
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
         >
+          <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
+            Zahlen & Fakten
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
+            Unsere Erfolgsbilanz
+            <br />
+            <span className="gradient-text">spricht für sich</span>
+          </h2>
+          <p className="text-dark-300 max-w-2xl mx-auto text-lg">
+            Qualität, die sich in Zahlen messen lässt. Vertrauen Sie auf unsere Erfahrung.
+          </p>
+        </motion.div>
+
+        {/* Main Stats Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (
-            <CardTilt3D key={index} tiltAmount={8} glareEnabled={true}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="relative group h-full"
-              >
-                {/* Glow Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              whileHover={{ scale: 1.02, y: -5 }}
+              className="relative group h-full"
+            >
+              {/* Glow Effect */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
 
-                <div className="relative h-full p-8 rounded-3xl glass border border-fiber-500/10 group-hover:border-fiber-500/30 transition-all duration-300">
-                  {/* Icon */}
-                  <motion.div
-                    className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} mb-6`}
-                    whileHover={{ rotate: 5, scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <stat.icon className="w-8 h-8 text-white" />
-                  </motion.div>
-
-                  {/* Counter with NumberCounter effect */}
-                  <div className="text-5xl md:text-6xl font-bold text-white mb-3 tracking-tight">
-                    <NumberCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
-                  </div>
-
-                  {/* Label */}
-                  <h3 className="text-xl font-semibold text-white mb-2">{stat.label}</h3>
-
-                  {/* Description */}
-                  <p className="text-dark-400 text-sm leading-relaxed">{stat.description}</p>
-
-                  {/* Decorative Corner */}
-                  <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-fiber-500/20 rounded-tr-xl group-hover:border-fiber-500/40 transition-colors" />
+              <div className="relative h-full p-8 rounded-3xl glass border border-fiber-500/10 group-hover:border-fiber-500/30 transition-all duration-300">
+                {/* Icon */}
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} mb-6`}>
+                  <stat.icon className="w-8 h-8 text-white" />
                 </div>
-              </motion.div>
-            </CardTilt3D>
+
+                {/* Counter with NumberCounter effect */}
+                <div className="text-5xl md:text-6xl font-bold text-white mb-3 tracking-tight">
+                  <NumberCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
+                </div>
+
+                {/* Label */}
+                <h3 className="text-xl font-semibold text-white mb-2">{stat.label}</h3>
+
+                {/* Description */}
+                <p className="text-dark-400 text-sm leading-relaxed">{stat.description}</p>
+
+                {/* Decorative Corner */}
+                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-fiber-500/20 rounded-tr-xl group-hover:border-fiber-500/40 transition-colors" />
+              </div>
+            </motion.div>
           ))}
-        </StaggeredGrid>
+        </div>
 
         {/* Secondary Stats Bar */}
-        <RevealOnScroll direction="up">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="relative"
-          >
-            <div className="animated-border">
-              <div className="relative p-8 rounded-2xl bg-dark-900/80 backdrop-blur-sm">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {additionalStats.map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
-                      className="text-center"
-                    >
-                      <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-                        <NumberCounter
-                          value={stat.value}
-                          suffix={stat.suffix}
-                          duration={2}
-                          decimals={stat.decimals}
-                        />
-                      </div>
-                      <div className="text-dark-400">{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="relative"
+        >
+          <div className="p-8 rounded-2xl glass border border-fiber-500/20">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {additionalStats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
+                    <NumberCounter
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      duration={2}
+                      decimals={stat.decimals}
+                    />
+                  </div>
+                  <div className="text-dark-400">{stat.label}</div>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
-        </RevealOnScroll>
+          </div>
+        </motion.div>
 
         {/* Progress Bars */}
         <motion.div

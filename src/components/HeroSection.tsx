@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { ArrowRight, Phone, Wifi, Award, Users, MapPin, ChevronDown } from 'lucide-react'
-import { MorphingText, NumberCounter, GradientMesh } from './effects'
+import { NumberCounter, GradientMesh } from './effects'
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* Radial Glow */}
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 60%)' }} />
 
-      {/* Prominent Fiber Cables - High visibility in Hero */}
+      {/* Smooth Fiber Cables - Continuous Animation */}
       <svg
         className="absolute inset-0 w-full h-full"
         viewBox="0 0 1920 1080"
@@ -64,7 +64,7 @@ export default function HeroSection() {
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
           <filter id="heroGlow">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feGaussianBlur stdDeviation="2" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -72,50 +72,63 @@ export default function HeroSection() {
           </filter>
         </defs>
 
-        {/* Main Fiber Cable 1 - Prominent */}
+        {/* Main Fiber Cable 1 - Draws fast then stays */}
         <motion.path
           d="M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600"
           stroke="url(#heroFiberGradient1)"
-          strokeWidth="5"
+          strokeWidth="4"
           fill="none"
           filter="url(#heroGlow)"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.9 }}
-          transition={{ duration: 2.5, ease: "easeInOut" }}
+          animate={{ pathLength: 1, opacity: 0.7 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         />
 
         {/* Main Fiber Cable 2 */}
         <motion.path
           d="M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680"
           stroke="url(#heroFiberGradient2)"
-          strokeWidth="4"
+          strokeWidth="3"
           fill="none"
           filter="url(#heroGlow)"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.8 }}
-          transition={{ duration: 3, ease: "easeInOut", delay: 0.3 }}
+          animate={{ pathLength: 1, opacity: 0.6 }}
+          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         />
 
         {/* Main Fiber Cable 3 */}
         <motion.path
           d="M-150 880 Q 350 720, 700 850 T 1250 770 T 1750 880 T 2250 800"
           stroke="url(#heroFiberGradient3)"
-          strokeWidth="3"
+          strokeWidth="2"
           fill="none"
           filter="url(#heroGlow)"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.7 }}
-          transition={{ duration: 3.5, ease: "easeInOut", delay: 0.6 }}
+          animate={{ pathLength: 1, opacity: 0.5 }}
+          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
         />
 
-        {/* Light pulse traveling along cable 1 */}
+        {/* Light pulse traveling along cable 1 - Continuous smooth movement */}
         <motion.circle
-          r="8"
+          r="6"
           fill="#22d3ee"
           filter="url(#heroGlow)"
           initial={{ offsetDistance: '0%' }}
           animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2.5 }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 1.5 }}
+          style={{
+            offsetPath: "path('M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600')"
+          }}
+        />
+
+        {/* Second pulse on cable 1 - offset timing */}
+        <motion.circle
+          r="5"
+          fill="#06b6d4"
+          filter="url(#heroGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 5.5 }}
           style={{
             offsetPath: "path('M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600')"
           }}
@@ -123,14 +136,27 @@ export default function HeroSection() {
 
         {/* Light pulse traveling along cable 2 */}
         <motion.circle
-          r="6"
+          r="5"
           fill="#0ea5e9"
           filter="url(#heroGlow)"
           initial={{ offsetDistance: '0%' }}
           animate={{ offsetDistance: '100%' }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear", delay: 4 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 2 }}
           style={{
             offsetPath: "path('M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680')"
+          }}
+        />
+
+        {/* Light pulse traveling along cable 3 */}
+        <motion.circle
+          r="4"
+          fill="#3b82f6"
+          filter="url(#heroGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 2.5 }}
+          style={{
+            offsetPath: "path('M-150 880 Q 350 720, 700 850 T 1250 770 T 1750 880 T 2250 800')"
           }}
         />
       </svg>
@@ -144,8 +170,6 @@ export default function HeroSection() {
         style={{ y, opacity, scale }}
         className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center"
       >
-        <div className="absolute inset-0 -mx-8 -my-12 bg-gradient-to-b from-dark-950/80 via-dark-900/60 to-transparent rounded-3xl blur-xl" />
-
         <div className="relative">
           {/* Badge */}
           <motion.div
@@ -162,21 +186,16 @@ export default function HeroSection() {
             <span className="text-sm font-medium text-white">Jetzt verfügbar in Ihrer Region</span>
           </motion.div>
 
-          {/* Headline with Morphing Text */}
+          {/* Headline - Clean and Professional */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] tracking-tight"
           >
-            <span className="text-white drop-shadow-lg">Glasfaser.</span>
+            <span className="text-white">Glasfaser.</span>
             <br />
-            <span className="gradient-text drop-shadow-lg">
-              <MorphingText
-                words={['Professionell verlegt.', 'Schnell installiert.', 'Zuverlässig verbunden.', 'Zukunftssicher gebaut.']}
-                interval={4000}
-              />
-            </span>
+            <span className="gradient-text">Professionell verlegt.</span>
           </motion.h1>
 
           {/* Subheadline - Clean and professional */}
@@ -252,7 +271,7 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
         <span className="text-xs text-dark-400 uppercase tracking-widest">Scroll</span>
         <motion.div
@@ -262,6 +281,9 @@ export default function HeroSection() {
           <ChevronDown className="w-6 h-6 text-fiber-400" />
         </motion.div>
       </motion.div>
+
+      {/* Smooth bottom transition to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark-950 via-dark-950/80 to-transparent pointer-events-none z-10" />
     </section>
   )
 }
