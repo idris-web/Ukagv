@@ -5,9 +5,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --fiber-cyan: #0ea5e9;
-  --fiber-purple: #d946ef;
-  --fiber-blue: #3b82f6;
+  /* UKAGV Brand Colors */
+  --ukagv-blue: #0ca5ea;
+  --ukagv-cyan: #06b6d4;
+  --ukagv-silver: #adb5bd;
+  --ukagv-dark: #0f172a;
+  --fiber-glow: #22d3ee;
 }
 
 * {
@@ -22,12 +25,12 @@ html {
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #020617;
+  background: #030712;
   color: #f8fafc;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Blau Theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -37,15 +40,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #0ea5e9, #d946ef);
+  background: linear-gradient(180deg, #0ca5ea, #06b6d4);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #38bdf8, #e879f9);
+  background: linear-gradient(180deg, #36bffa, #22d3ee);
 }
 
-/* Fiber Optic Glow Effect */
+/* Fiber Optic Glow Effect - Cyan/Blau */
 .fiber-glow {
   position: relative;
 }
@@ -54,35 +57,49 @@ body {
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, var(--fiber-cyan), var(--fiber-purple), var(--fiber-cyan));
+  background: linear-gradient(135deg, var(--ukagv-blue), var(--ukagv-cyan), var(--ukagv-blue));
   border-radius: inherit;
   z-index: -1;
   filter: blur(15px);
   opacity: 0.5;
-  animation: pulse 3s ease-in-out infinite;
+  animation: fiberPulse 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.02); }
+@keyframes fiberPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.02); }
 }
 
-/* Gradient Text */
+/* Gradient Text - UKAGV Blau */
 .gradient-text {
-  background: linear-gradient(135deg, #0ea5e9 0%, #d946ef 50%, #3b82f6 100%);
+  background: linear-gradient(135deg, #36bffa 0%, #06b6d4 50%, #0ca5ea 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glass Morphism */
+/* Metallic/Silver Gradient Text */
+.metallic-text {
+  background: linear-gradient(135deg, #f8f9fa 0%, #adb5bd 50%, #dee2e6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass Morphism - Dunkler */
 .glass {
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(6, 182, 212, 0.1);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Animated Border */
+/* Animated Border - Blau/Cyan */
 .animated-border {
   position: relative;
   background: #0f172a;
@@ -95,7 +112,9 @@ body {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(135deg, #0ea5e9, #d946ef, #0ea5e9);
+  background: linear-gradient(135deg, #0ca5ea, #06b6d4, #22d3ee, #0ca5ea);
+  background-size: 300% 300%;
+  animation: borderGlow 4s ease infinite;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -106,21 +125,56 @@ body {
   mask-composite: exclude;
 }
 
-/* Button Styles */
+@keyframes borderGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Shimmer Effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6, 182, 212, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Button Styles - UKAGV Theme */
 .btn-primary {
-  @apply relative px-8 py-4 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full font-semibold text-white overflow-hidden transition-all duration-300;
+  @apply relative px-8 py-4 bg-gradient-to-r from-primary-500 via-fiber-500 to-primary-600 rounded-full font-semibold text-white overflow-hidden transition-all duration-300;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.btn-primary:hover::before {
+  transform: translateX(100%);
 }
 
 .btn-primary:hover {
-  @apply shadow-lg shadow-primary-500/30 scale-105;
+  @apply shadow-fiber scale-105;
 }
 
 .btn-secondary {
-  @apply relative px-8 py-4 rounded-full font-semibold text-white border border-white/20 backdrop-blur-sm transition-all duration-300;
+  @apply relative px-8 py-4 rounded-full font-semibold text-white border border-fiber-500/30 backdrop-blur-sm transition-all duration-300;
 }
 
 .btn-secondary:hover {
-  @apply bg-white/10 border-white/40;
+  @apply bg-fiber-500/10 border-fiber-400/50;
 }
 
 /* Section Styles */
@@ -139,35 +193,46 @@ body {
 
 /* Fiber Line Animation */
 @keyframes fiberFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .fiber-line {
   background: linear-gradient(90deg,
     transparent 0%,
-    var(--fiber-cyan) 25%,
-    var(--fiber-purple) 50%,
-    var(--fiber-cyan) 75%,
+    var(--ukagv-cyan) 25%,
+    var(--ukagv-blue) 50%,
+    var(--ukagv-cyan) 75%,
     transparent 100%
   );
   background-size: 200% 100%;
   animation: fiberFlow 3s linear infinite;
 }
 
+/* Data Flow Animation */
+@keyframes dataFlow {
+  0% { transform: translateX(-100%) scale(0); opacity: 0; }
+  10% { transform: translateX(-80%) scale(1); opacity: 1; }
+  90% { transform: translateX(80%) scale(1); opacity: 1; }
+  100% { transform: translateX(100%) scale(0); opacity: 0; }
+}
+
+.data-particle {
+  animation: dataFlow 3s ease-in-out infinite;
+}
+
 /* Grid Pattern Background */
 .grid-pattern {
   background-image:
-    linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
+    linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Radial Glow */
+.radial-glow {
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
 }
 
 /* Noise Texture */
@@ -180,12 +245,30 @@ body {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  opacity: 0.015;
   pointer-events: none;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(14, 165, 233, 0.3);
+  background: rgba(6, 182, 212, 0.3);
   color: #fff;
+}
+
+/* Glow Orb */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Counter Animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+  animation: countUp 0.6s ease-out forwards;
 }

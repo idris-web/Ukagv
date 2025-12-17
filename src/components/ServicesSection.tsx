@@ -2,50 +2,50 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Home, Building2, Factory, Network, Cable, Settings, ArrowRight } from 'lucide-react'
+import { Home, Building2, Wrench, Network, Cable, HardHat, ArrowRight } from 'lucide-react'
 
 const services = [
   {
     icon: Home,
     title: 'Privatanschlüsse',
-    description: 'FTTH-Lösungen für Ihr Zuhause. Schnelles, stabiles Internet für die ganze Familie mit bis zu 1 Gbit/s.',
-    features: ['Komplette Hausinstallation', 'Router-Konfiguration', '24/7 Support'],
-    gradient: 'from-primary-500 to-blue-500'
+    description: 'Wir verlegen Glasfaser direkt bis in Ihr Zuhause. Vom Hausanschluss bis zur Inbetriebnahme – alles aus einer Hand.',
+    features: ['Hausanschluss-Herstellung', 'Innenhausverkabelung', 'ONT-Installation'],
+    gradient: 'from-fiber-500 to-primary-500'
   },
   {
     icon: Building2,
-    title: 'Gewerbekunden',
-    description: 'Maßgeschneiderte Business-Lösungen für KMUs und Großunternehmen mit garantierter Bandbreite.',
-    features: ['Symmetrische Leitungen', 'SLA-Garantien', 'Redundante Anbindung'],
-    gradient: 'from-accent-500 to-pink-500'
+    title: 'Gewerbe & Industrie',
+    description: 'Leistungsstarke Glasfaseranbindung für Ihr Unternehmen. Wir realisieren auch komplexe Projekte termingerecht.',
+    features: ['Gewerbeanschlüsse', 'Bürogebäude-Verkabelung', 'Server-Anbindung'],
+    gradient: 'from-primary-500 to-fiber-600'
   },
   {
-    icon: Factory,
-    title: 'Industrievernetzung',
-    description: 'Hochverfügbare Netzwerke für Produktionsanlagen und Industrie 4.0 Anwendungen.',
-    features: ['Echtzeit-Kommunikation', 'IoT-Integration', 'Industriestandards'],
-    gradient: 'from-purple-500 to-indigo-500'
+    icon: HardHat,
+    title: 'Tiefbauarbeiten',
+    description: 'Professioneller Tiefbau für die Glasfaserinfrastruktur. Erdarbeiten, Leerrohrverlegung und fachgerechte Wiederherstellung.',
+    features: ['Grabenarbeiten', 'Leerrohrverlegung', 'Oberflächenwiederherstellung'],
+    gradient: 'from-fiber-600 to-primary-600'
   },
   {
     icon: Network,
-    title: 'Quartierserschließung',
-    description: 'Komplette Glasfasererschließung für Neubaugebiete und Bestandsquartiere.',
-    features: ['Tiefbauarbeiten', 'Hausanschlüsse', 'Projektmanagement'],
-    gradient: 'from-cyan-500 to-teal-500'
+    title: 'Netzwerkinstallation',
+    description: 'Komplette Netzwerkinfrastruktur für Ihr Gebäude. Von der Planung bis zur Dokumentation.',
+    features: ['Strukturierte Verkabelung', 'Netzwerkschränke', 'Patchfelder'],
+    gradient: 'from-primary-600 to-fiber-500'
   },
   {
     icon: Cable,
-    title: 'Inhouse-Verkabelung',
-    description: 'Professionelle Glasfaserverkabelung innerhalb von Gebäuden und Rechenzentren.',
-    features: ['LWL-Verteilung', 'Patchfelder', 'Dokumentation'],
-    gradient: 'from-orange-500 to-amber-500'
+    title: 'Spleißarbeiten',
+    description: 'Präzise Glasfaser-Spleißungen durch zertifizierte Techniker. Messprotokoll inklusive.',
+    features: ['Fusionsspleißen', 'OTDR-Messungen', 'Dokumentation'],
+    gradient: 'from-fiber-500 to-primary-500'
   },
   {
-    icon: Settings,
-    title: 'Wartung & Service',
-    description: 'Umfassende Wartungsverträge und schneller Support im Störungsfall.',
-    features: ['Regelmäßige Prüfung', 'Notfall-Hotline', 'Schnelle Entstörung'],
-    gradient: 'from-emerald-500 to-green-500'
+    icon: Wrench,
+    title: 'Hausmeisterdienste',
+    description: 'Zuverlässige Hausmeisterservices für Ihre Immobilie. Wir kümmern uns um den reibungslosen Betrieb.',
+    features: ['Gebäudepflege', 'Kleinreparaturen', 'Winterdienst'],
+    gradient: 'from-primary-500 to-fiber-600'
   }
 ]
 
@@ -60,7 +60,27 @@ export default function ServicesSection() {
       <div className="absolute inset-0 grid-pattern opacity-30" />
 
       {/* Decorative Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-primary-500/50 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-fiber-500/50 to-transparent" />
+
+      {/* Animated background fiber */}
+      <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="servicesFiber" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="50%" stopColor="#06b6d4" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+        <motion.path
+          d="M0 200 Q 480 100, 960 200 T 1920 200"
+          stroke="url(#servicesFiber)"
+          strokeWidth="2"
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={isInView ? { pathLength: 1 } : {}}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        />
+      </svg>
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
@@ -70,17 +90,15 @@ export default function ServicesSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary-400 text-sm font-semibold tracking-wider uppercase">
+          <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
             Unsere Leistungen
           </span>
           <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
-            Komplettlösungen für
-            <br />
-            <span className="gradient-text">jeden Bedarf</span>
+            Was wir für Sie tun
           </h2>
           <p className="text-dark-300 max-w-2xl mx-auto text-lg">
-            Von der Planung bis zur Inbetriebnahme - wir begleiten Sie
-            durch jeden Schritt Ihrer Glasfaser-Installation.
+            Von der Planung bis zur Übergabe – UKAGV GmbH bietet Ihnen
+            alle Leistungen rund um Glasfaser und Gebäudetechnik.
           </p>
         </motion.div>
 
@@ -100,12 +118,12 @@ export default function ServicesSection() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
 
                   {/* Icon */}
-                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} mb-6`}>
+                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-white transition-colors">
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-fiber-400 transition-colors">
                     {service.title}
                   </h3>
                   <p className="text-dark-400 mb-6 leading-relaxed">
@@ -125,9 +143,9 @@ export default function ServicesSection() {
                   {/* Link */}
                   <a
                     href="#contact"
-                    className="inline-flex items-center gap-2 text-primary-400 font-medium group/link"
+                    className="inline-flex items-center gap-2 text-fiber-400 font-medium group/link"
                   >
-                    Mehr erfahren
+                    Anfragen
                     <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                   </a>
                 </div>

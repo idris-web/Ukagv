@@ -6,37 +6,37 @@ import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
 const testimonials = [
   {
-    name: 'Thomas Müller',
-    role: 'Hausbesitzer, München',
-    content: 'Die Zusammenarbeit mit FiberConnect war hervorragend. Von der ersten Beratung bis zur Fertigstellung verlief alles reibungslos. Jetzt haben wir endlich schnelles Internet!',
+    name: 'Thomas M.',
+    role: 'Hausbesitzer',
+    content: 'UKAGV hat bei uns im Neubaugebiet die Glasfaser verlegt. Die Jungs waren pünktlich, haben sauber gearbeitet und der Garten sieht wieder aus wie vorher. Top!',
     rating: 5,
     avatar: 'TM'
   },
   {
-    name: 'Dr. Sarah Weber',
-    role: 'IT-Leiterin, MedTech GmbH',
-    content: 'Für unser Unternehmen war eine zuverlässige Glasfaseranbindung geschäftskritisch. FiberConnect hat unsere Erwartungen übertroffen. Professionelle Arbeit mit erstklassigem Service.',
+    name: 'Sandra K.',
+    role: 'Projektleiterin, Bauträger',
+    content: 'Wir arbeiten seit 3 Jahren mit UKAGV zusammen. Die Kommunikation stimmt, die Termine werden eingehalten und die Qualität ist immer einwandfrei.',
     rating: 5,
-    avatar: 'SW'
+    avatar: 'SK'
   },
   {
-    name: 'Michael Schmidt',
-    role: 'Bauträger, Projekt "Sonnenhöfe"',
-    content: 'Bei der Erschließung unseres Neubaugebiets hat FiberConnect von Anfang an mitgedacht. Die Koordination mit anderen Gewerken war perfekt. Absolute Empfehlung!',
+    name: 'Michael B.',
+    role: 'Geschäftsführer, IT-Firma',
+    content: 'Endlich eine stabile Leitung fürs Büro! UKAGV hat das Kabel vom Verteiler bis zu uns ins Haus gezogen. Schnell, unkompliziert, guter Preis.',
     rating: 5,
-    avatar: 'MS'
+    avatar: 'MB'
   },
   {
-    name: 'Anna Becker',
-    role: 'Geschäftsführerin, Becker & Partner',
-    content: 'Endlich stabile Videokonferenzen ohne Aussetzer! Das Team war super freundlich und hat alles sauber hinterlassen. Preis-Leistung stimmt hier definitiv.',
+    name: 'Anna W.',
+    role: 'Hausverwaltung',
+    content: 'Auch der Hausmeisterservice von UKAGV ist klasse. Zuverlässig, freundlich und flexibel. Kann ich nur empfehlen.',
     rating: 5,
-    avatar: 'AB'
+    avatar: 'AW'
   },
   {
-    name: 'Frank Hoffmann',
-    role: 'Privatkunde, Hamburg',
-    content: 'Ich war skeptisch wegen der Bauarbeiten, aber die wurden so ordentlich durchgeführt, dass man davon nichts mehr sieht. Der Speed ist einfach unglaublich!',
+    name: 'Frank H.',
+    role: 'Privatkunde',
+    content: 'Ich hatte Bedenken wegen der Tiefbauarbeiten – aber die Truppe hat alles ordentlich hinterlassen. Und das Internet ist jetzt endlich schnell!',
     rating: 5,
     avatar: 'FH'
   }
@@ -61,8 +61,8 @@ export default function TestimonialsSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
 
       {/* Decorative */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 -translate-y-1/2 -translate-x-1/2 rounded-full bg-primary-500/10 blur-3xl" />
-      <div className="absolute top-1/2 right-0 w-96 h-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-accent-500/10 blur-3xl" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 -translate-y-1/2 -translate-x-1/2 rounded-full bg-fiber-500/10 blur-3xl" />
+      <div className="absolute top-1/2 right-0 w-96 h-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary-500/10 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
@@ -72,13 +72,13 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary-400 text-sm font-semibold tracking-wider uppercase">
-            Referenzen
+          <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
+            Kundenstimmen
           </span>
           <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
-            Was unsere Kunden
+            Das sagen unsere
             <br />
-            <span className="gradient-text">über uns sagen</span>
+            <span className="gradient-text">Kunden über uns</span>
           </h2>
         </motion.div>
 
@@ -93,7 +93,7 @@ export default function TestimonialsSection() {
             <div className="relative p-8 md:p-12 rounded-2xl bg-dark-900/80 backdrop-blur-sm">
               {/* Quote Icon */}
               <div className="absolute top-8 right-8 opacity-10">
-                <Quote className="w-24 h-24 text-primary-400" />
+                <Quote className="w-24 h-24 text-fiber-400" />
               </div>
 
               {/* Content */}
@@ -124,7 +124,7 @@ export default function TestimonialsSection() {
                   transition={{ duration: 0.4, delay: 0.2 }}
                   className="flex items-center gap-4"
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-lg">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center text-white font-bold text-lg">
                     {testimonials[activeIndex].avatar}
                   </div>
                   <div>
@@ -140,7 +140,7 @@ export default function TestimonialsSection() {
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prevTestimonial}
-              className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-12 h-12 rounded-full glass border border-fiber-500/20 flex items-center justify-center hover:bg-fiber-500/10 transition-colors"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -151,10 +151,10 @@ export default function TestimonialsSection() {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
+                  className={`h-2 rounded-full transition-all ${
                     index === activeIndex
-                      ? 'w-8 bg-gradient-to-r from-primary-500 to-accent-500'
-                      : 'bg-dark-600 hover:bg-dark-500'
+                      ? 'w-8 bg-gradient-to-r from-fiber-500 to-primary-500'
+                      : 'w-2 bg-dark-600 hover:bg-dark-500'
                   }`}
                 />
               ))}
@@ -162,24 +162,24 @@ export default function TestimonialsSection() {
 
             <button
               onClick={nextTestimonial}
-              className="w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-12 h-12 rounded-full glass border border-fiber-500/20 flex items-center justify-center hover:bg-fiber-500/10 transition-colors"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
         </motion.div>
 
-        {/* Trust Badges */}
+        {/* Partner Logos Placeholder */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-wrap items-center justify-center gap-8 pt-12 border-t border-dark-800"
         >
-          <div className="text-dark-400 text-sm">Bekannt aus:</div>
-          {['TechNews', 'Digital Weekly', 'Fiber Magazin', 'Connect Pro'].map((brand, index) => (
-            <div key={index} className="text-dark-500 font-semibold text-lg">
-              {brand}
+          <div className="text-dark-400 text-sm">Wir arbeiten u.a. für:</div>
+          {['Netzbetreiber', 'Bauträger', 'Kommunen', 'Privatkunden'].map((partner, index) => (
+            <div key={index} className="text-dark-500 font-medium">
+              {partner}
             </div>
           ))}
         </motion.div>

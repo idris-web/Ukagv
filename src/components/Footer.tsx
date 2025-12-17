@@ -1,32 +1,30 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Zap, Facebook, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react'
+import { Facebook, Linkedin, Instagram, ArrowUp, Mail, Phone, MapPin } from 'lucide-react'
 
 const footerLinks = {
   services: [
-    { label: 'Privatanschlüsse', href: '#services' },
-    { label: 'Gewerbekunden', href: '#services' },
-    { label: 'Quartierserschließung', href: '#services' },
-    { label: 'Inhouse-Verkabelung', href: '#services' },
+    { label: 'Glasfaserverlegung', href: '#services' },
+    { label: 'Tiefbau', href: '#services' },
+    { label: 'Spleißarbeiten', href: '#services' },
+    { label: 'Hausmeisterdienste', href: '#services' },
   ],
   company: [
     { label: 'Über uns', href: '#about' },
     { label: 'Karriere', href: '#' },
     { label: 'Partner werden', href: '#' },
-    { label: 'Presse', href: '#' },
+    { label: 'Referenzen', href: '#testimonials' },
   ],
   support: [
     { label: 'Kontakt', href: '#contact' },
     { label: 'FAQ', href: '#' },
-    { label: 'Support-Center', href: '#' },
     { label: 'Störungsmeldung', href: '#' },
   ],
   legal: [
     { label: 'Impressum', href: '#' },
     { label: 'Datenschutz', href: '#' },
     { label: 'AGB', href: '#' },
-    { label: 'Cookie-Einstellungen', href: '#' },
   ],
 }
 
@@ -42,34 +40,68 @@ export default function Footer() {
       <div className="absolute inset-0 grid-pattern opacity-10" />
 
       {/* Top Border Line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/50 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-fiber-500/50 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0">
-            <a href="#home" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-white" />
+            <a href="#home" className="flex items-center gap-3 mb-4">
+              {/* Logo Icon */}
+              <svg viewBox="0 0 40 28" className="w-10 h-7">
+                <defs>
+                  <linearGradient id="footerFiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="100%" stopColor="#0ca5ea" />
+                  </linearGradient>
+                </defs>
+                <circle cx="5" cy="14" r="4" fill="#1e293b" stroke="#0ca5ea" strokeWidth="1" />
+                <path d="M9 12 Q 16 8, 24 12 T 40 10" stroke="url(#footerFiberGrad)" strokeWidth="2" fill="none" />
+                <path d="M9 14 Q 16 14, 24 14 T 40 14" stroke="url(#footerFiberGrad)" strokeWidth="2" fill="none" />
+                <path d="M9 16 Q 16 20, 24 16 T 40 18" stroke="url(#footerFiberGrad)" strokeWidth="2" fill="none" />
+                <circle cx="5" cy="12" r="1.5" fill="#22d3ee" />
+                <circle cx="5" cy="14" r="1.5" fill="#06b6d4" />
+                <circle cx="5" cy="16" r="1.5" fill="#22d3ee" />
+              </svg>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold tracking-tight">
+                  <span className="metallic-text">UKA</span>
+                  <span className="gradient-text">GV</span>
+                </span>
+                <span className="text-[10px] text-dark-500 tracking-widest uppercase">GmbH</span>
               </div>
-              <span className="text-xl font-bold">
-                Fiber<span className="gradient-text">Connect</span>
-              </span>
             </a>
             <p className="text-dark-400 text-sm mb-6 max-w-xs">
-              Ihr Partner für professionelle Glasfaserverlegung. Schnelles Internet für eine vernetzte Zukunft.
+              Glasfaserverlegung und Hausmeisterdienste.
+              Zuverlässig, termingerecht, fair.
             </p>
+
+            {/* Contact Info */}
+            <div className="space-y-2 mb-6 text-sm text-dark-400">
+              <a href="tel:+4912345678" className="flex items-center gap-2 hover:text-fiber-400 transition-colors">
+                <Phone className="w-4 h-4" />
+                +49 (0) 123 456 78
+              </a>
+              <a href="mailto:info@ukagv.de" className="flex items-center gap-2 hover:text-fiber-400 transition-colors">
+                <Mail className="w-4 h-4" />
+                info@ukagv.de
+              </a>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Musterstraße 123, 12345 Stadt
+              </div>
+            </div>
 
             {/* Social Links */}
             <div className="flex gap-3">
-              {[Facebook, Twitter, Linkedin, Instagram].map((Icon, index) => (
+              {[Facebook, Linkedin, Instagram].map((Icon, index) => (
                 <a
                   key={index}
                   href="#"
-                  className="w-10 h-10 rounded-lg glass flex items-center justify-center hover:bg-white/10 transition-colors"
+                  className="w-10 h-10 rounded-lg glass border border-fiber-500/10 flex items-center justify-center hover:bg-fiber-500/10 hover:border-fiber-500/30 transition-all"
                 >
-                  <Icon className="w-5 h-5 text-dark-300 hover:text-white transition-colors" />
+                  <Icon className="w-5 h-5 text-dark-400 hover:text-fiber-400 transition-colors" />
                 </a>
               ))}
             </div>
@@ -77,13 +109,13 @@ export default function Footer() {
 
           {/* Link Columns */}
           <div>
-            <h4 className="font-semibold mb-4">Leistungen</h4>
+            <h4 className="font-semibold mb-4 text-white">Leistungen</h4>
             <ul className="space-y-3">
               {footerLinks.services.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-dark-400 hover:text-white text-sm transition-colors"
+                    className="text-dark-400 hover:text-fiber-400 text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -93,13 +125,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Unternehmen</h4>
+            <h4 className="font-semibold mb-4 text-white">Unternehmen</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-dark-400 hover:text-white text-sm transition-colors"
+                    className="text-dark-400 hover:text-fiber-400 text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -109,13 +141,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="font-semibold mb-4 text-white">Support</h4>
             <ul className="space-y-3">
               {footerLinks.support.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-dark-400 hover:text-white text-sm transition-colors"
+                    className="text-dark-400 hover:text-fiber-400 text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -125,13 +157,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Rechtliches</h4>
+            <h4 className="font-semibold mb-4 text-white">Rechtliches</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-dark-400 hover:text-white text-sm transition-colors"
+                    className="text-dark-400 hover:text-fiber-400 text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -141,44 +173,26 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="py-8 border-t border-b border-dark-800 mb-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h4 className="font-semibold mb-1">Newsletter abonnieren</h4>
-              <p className="text-dark-400 text-sm">Erhalten Sie Updates zu Glasfaser-Verfügbarkeit in Ihrer Region.</p>
-            </div>
-            <div className="flex gap-3 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="Ihre E-Mail-Adresse"
-                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-dark-800 border border-dark-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-colors text-sm"
-              />
-              <button className="btn-primary text-sm whitespace-nowrap">
-                Abonnieren
-              </button>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-dark-500 text-sm">
-            © {new Date().getFullYear()} FiberConnect Pro. Alle Rechte vorbehalten.
-          </p>
+        <div className="pt-8 border-t border-dark-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-dark-500 text-sm">
+              © {new Date().getFullYear()} UKAGV GmbH. Alle Rechte vorbehalten.
+            </p>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-2 text-dark-400 hover:text-white text-sm transition-colors group"
-          >
-            Nach oben
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-2 text-dark-400 hover:text-fiber-400 text-sm transition-colors group"
             >
-              <ArrowUp className="w-4 h-4" />
-            </motion.div>
-          </button>
+              Nach oben
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <ArrowUp className="w-4 h-4" />
+              </motion.div>
+            </button>
+          </div>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Zap } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -38,17 +38,82 @@ export default function Navigation() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+          {/* Logo - UKAGV */}
+          <a href="#home" className="flex items-center gap-3 group">
+            <div className="relative flex items-center">
+              {/* Fiber Optic Icon */}
+              <svg viewBox="0 0 48 32" className="w-12 h-8">
+                <defs>
+                  <linearGradient id="navFiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="100%" stopColor="#0ca5ea" />
+                  </linearGradient>
+                  <filter id="navGlow">
+                    <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+                    <feMerge>
+                      <feMergeNode in="coloredBlur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                {/* Cable bundle */}
+                <circle cx="6" cy="16" r="5" fill="#1e293b" stroke="#0ca5ea" strokeWidth="1" />
+                {/* Fiber strands */}
+                <motion.path
+                  d="M11 14 Q 20 10, 30 14 T 48 12"
+                  stroke="url(#navFiberGrad)"
+                  strokeWidth="2"
+                  fill="none"
+                  filter="url(#navGlow)"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                />
+                <motion.path
+                  d="M11 16 Q 20 16, 30 16 T 48 16"
+                  stroke="url(#navFiberGrad)"
+                  strokeWidth="2"
+                  fill="none"
+                  filter="url(#navGlow)"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+                />
+                <motion.path
+                  d="M11 18 Q 20 22, 30 18 T 48 20"
+                  stroke="url(#navFiberGrad)"
+                  strokeWidth="2"
+                  fill="none"
+                  filter="url(#navGlow)"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                />
+                {/* Glowing dots */}
+                <motion.circle
+                  cx="6" cy="14" r="1.5" fill="#22d3ee"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                <motion.circle
+                  cx="6" cy="16" r="1.5" fill="#06b6d4"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                <motion.circle
+                  cx="6" cy="18" r="1.5" fill="#22d3ee"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+                />
+              </svg>
             </div>
-            <span className="text-xl font-bold">
-              Fiber<span className="gradient-text">Connect</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold tracking-tight">
+                <span className="metallic-text">UKA</span>
+                <span className="gradient-text">GV</span>
+              </span>
+              <span className="text-[10px] text-dark-400 tracking-widest uppercase">GmbH</span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
@@ -57,9 +122,10 @@ export default function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-dark-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                className="text-dark-300 hover:text-fiber-400 transition-colors duration-200 text-sm font-medium relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-fiber-500 group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </div>
@@ -70,7 +136,7 @@ export default function Navigation() {
               href="#contact"
               className="btn-primary text-sm"
             >
-              Jetzt anfragen
+              Kostenlose Beratung
             </a>
           </div>
 
@@ -94,7 +160,7 @@ export default function Navigation() {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            <div className="absolute inset-0 bg-dark-950/95 backdrop-blur-xl pt-24 px-4">
+            <div className="absolute inset-0 bg-dark-950/98 backdrop-blur-xl pt-24 px-4">
               <div className="flex flex-col gap-4">
                 {navLinks.map((link, index) => (
                   <motion.a
@@ -104,7 +170,7 @@ export default function Navigation() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="text-2xl font-semibold text-white py-3 border-b border-white/10"
+                    className="text-2xl font-semibold text-white py-3 border-b border-fiber-500/20"
                   >
                     {link.label}
                   </motion.a>
@@ -117,7 +183,7 @@ export default function Navigation() {
                   className="btn-primary text-center mt-4"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Jetzt anfragen
+                  Kostenlose Beratung
                 </motion.a>
               </div>
             </div>

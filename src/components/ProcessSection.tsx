@@ -8,38 +8,38 @@ const steps = [
   {
     icon: Phone,
     number: '01',
-    title: 'Erstberatung',
-    description: 'Kostenlose Beratung zu Ihren Anforderungen und Möglichkeiten. Wir analysieren Ihre Situation vor Ort.'
+    title: 'Anfrage',
+    description: 'Sie rufen an oder schreiben uns. Wir besprechen Ihr Vorhaben und vereinbaren einen Termin vor Ort.'
   },
   {
     icon: FileSearch,
     number: '02',
-    title: 'Planung',
-    description: 'Detaillierte Projektplanung inkl. Trassenführung, Genehmigungen und transparenter Kostenaufstellung.'
+    title: 'Vor-Ort-Termin',
+    description: 'Wir schauen uns die Gegebenheiten an und erstellen ein detailliertes Angebot – kostenlos und unverbindlich.'
   },
   {
     icon: HardHat,
     number: '03',
     title: 'Tiefbau',
-    description: 'Professionelle Erdarbeiten mit minimalinvasiven Verfahren. Wiederherstellung aller Oberflächen.'
+    description: 'Unsere Tiefbau-Kolonne verlegt die Leerrohre. Ordentlich, zügig und mit sauberer Wiederherstellung.'
   },
   {
     icon: Wrench,
     number: '04',
-    title: 'Installation',
-    description: 'Fachgerechte Verlegung und Spleißung der Glasfaserkabel. Installation aller Endgeräte.'
+    title: 'Kabelzug & Montage',
+    description: 'Das Glasfaserkabel wird eingezogen, gespleißt und die Technik im Haus installiert.'
   },
   {
     icon: CheckCircle,
     number: '05',
-    title: 'Abnahme',
-    description: 'Umfangreiche Messungen und Tests. Übergabe der kompletten Dokumentation an Sie.'
+    title: 'Messung & Abnahme',
+    description: 'Wir messen alle Parameter, dokumentieren alles sauber und übergeben Ihnen die Anlage.'
   },
   {
     icon: Headphones,
     number: '06',
-    title: 'Support',
-    description: 'Dauerhafter Service und Support. Bei Fragen oder Störungen sind wir für Sie da.'
+    title: 'Fertig',
+    description: 'Sie surfen los. Und falls mal was ist: Wir sind für Sie da.'
   }
 ]
 
@@ -69,17 +69,16 @@ export default function ProcessSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <span className="text-primary-400 text-sm font-semibold tracking-wider uppercase">
-            Unser Prozess
+          <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
+            So funktioniert es
           </span>
           <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
-            In 6 Schritten zu
+            Von der Anfrage
             <br />
-            <span className="gradient-text">Ihrem Glasfaseranschluss</span>
+            <span className="gradient-text">zum schnellen Internet</span>
           </h2>
           <p className="text-dark-300 max-w-2xl mx-auto text-lg">
-            Von der ersten Beratung bis zum laufenden Support -
-            wir begleiten Sie durch den gesamten Prozess.
+            Unkompliziert und transparent – so arbeiten wir bei UKAGV GmbH.
           </p>
         </motion.div>
 
@@ -88,7 +87,7 @@ export default function ProcessSection() {
           {/* Animated Line */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-dark-700 -translate-x-1/2 hidden lg:block">
             <motion.div
-              className="absolute top-0 left-0 right-0 bg-gradient-to-b from-primary-500 via-accent-500 to-primary-500"
+              className="absolute top-0 left-0 right-0 bg-gradient-to-b from-fiber-500 via-primary-500 to-fiber-500"
               style={{ height: lineHeight }}
             />
           </div>
@@ -117,11 +116,15 @@ export default function ProcessSection() {
                 </div>
 
                 {/* Icon Node */}
-                <div className="relative">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+                <div className="relative group">
+                  <motion.div
+                    className="w-20 h-20 rounded-2xl bg-gradient-to-br from-fiber-500 to-primary-500 flex items-center justify-center"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <step.icon className="w-10 h-10 text-white" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 blur-xl opacity-30" />
+                  </motion.div>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-fiber-500 to-primary-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
                 </div>
 
                 {/* Spacer for alternating layout */}
