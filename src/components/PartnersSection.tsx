@@ -1,269 +1,56 @@
 'use client'
 
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, BadgeCheck } from 'lucide-react'
-
-// Main highlight partner - Telekom Deutschland
-const mainPartner = {
-  name: 'Telekom Deutschland',
-  description: 'Als offizieller und zertifizierter Partner der Telekom Deutschland setzen wir Glasfaser-Ausbauprojekte in höchster Qualität um. Vertrauen Sie auf unsere langjährige Zusammenarbeit.',
-  features: [
-    { title: 'Zertifizierter Partner', desc: 'Offizielle Anerkennung' },
-    { title: 'Bevorzugter Dienstleister', desc: 'Prioritäre Aufträge' },
-    { title: 'Direkter Projektzugang', desc: 'Schnelle Umsetzung' },
-    { title: 'Qualitätsstandards', desc: 'Höchste Anforderungen' }
-  ]
-}
+import { BadgeCheck } from 'lucide-react'
 
 const partners = [
-  { name: 'Vodafone', icon: Network, category: 'Netzbetreiber' },
-  { name: 'Deutsche Glasfaser', icon: Zap, category: 'Netzbetreiber' },
-  { name: 'Stadt Nürnberg', icon: Building, category: 'Kommune' },
-  { name: 'EWE', icon: Server, category: 'Netzbetreiber' },
-  { name: 'M-Net', icon: Cpu, category: 'Netzbetreiber' },
-  { name: 'NetCologne', icon: Radio, category: 'Netzbetreiber' },
-  { name: 'Tele Columbus', icon: Satellite, category: 'Netzbetreiber' },
-  { name: 'Stadtwerke Fürth', icon: Building, category: 'Kommune' },
-]
-
-const certifications = [
-  { name: 'ISO 9001', desc: 'Qualitätsmanagement', icon: Shield, color: 'from-cyan-400 to-blue-500' },
-  { name: 'ISO 45001', desc: 'Arbeitssicherheit', icon: Award, color: 'from-emerald-400 to-teal-500' },
-  { name: 'DVGW', desc: 'Zertifiziert', icon: BadgeCheck, color: 'from-blue-400 to-indigo-500' },
-  { name: 'TÜV', desc: 'Geprüft', icon: Zap, color: 'from-amber-400 to-orange-500' },
+  'Telekom Deutschland',
+  'Vodafone',
+  'Deutsche Glasfaser',
+  'M-Net',
 ]
 
 export default function PartnersSection() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start']
-  })
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [50, -50])
-  const y2 = useTransform(scrollYProgress, [0, 1], [-30, 30])
 
   return (
-    <section ref={containerRef} className="section-padding relative overflow-hidden">
-      {/* Smooth top transition from Hero */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-dark-950 to-transparent pointer-events-none z-10" />
-
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950" />
-
-      {/* Subtle static orbs */}
-      <div className="absolute top-20 right-20 w-80 h-80 rounded-full bg-[#e20074]/3 blur-3xl" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 rounded-full bg-fiber-500/3 blur-3xl" />
-
-      {/* Smooth bottom transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
-
-      <div className="relative z-10 max-w-7xl mx-auto" ref={ref}>
-        {/* Header */}
+    <section className="py-24 relative">
+      <div className="relative z-10 max-w-3xl mx-auto px-8 text-center" ref={ref}>
+        {/* Telekom Highlight */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-12"
         >
-          <span className="text-fiber-400 text-sm font-semibold tracking-wider uppercase">
-            Partner & Zertifizierungen
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#e20074]/10 border border-[#e20074]/30 mb-6">
+            <BadgeCheck className="w-4 h-4 text-[#e20074]" />
+            <span className="text-sm font-medium text-[#e20074]">Offizieller Telekom Partner</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Starke Partnerschaften
-            <br />
-            <span className="gradient-text">für Ihren Erfolg</span>
           </h2>
-          <p className="text-dark-300 max-w-2xl mx-auto text-lg">
-            Wir arbeiten mit den führenden Netzbetreibern und Kommunen in der Region Nürnberg zusammen.
+          <p className="text-dark-400 text-lg">
+            Zertifizierter Partner der führenden Netzbetreiber
           </p>
         </motion.div>
 
-        {/* TELEKOM HIGHLIGHT SECTION */}
+        {/* Partner List */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-20"
+          className="flex flex-wrap justify-center gap-4"
         >
-          <div className="relative group">
-            {/* Magenta Glow Effect */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-[#e20074]/20 via-[#e20074]/30 to-[#e20074]/20 rounded-[2rem] blur-3xl opacity-60 group-hover:opacity-90 transition-all duration-700" />
-
-              <div className="relative p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-dark-900/95 to-dark-950/95 border-2 border-[#e20074]/40 group-hover:border-[#e20074]/60 transition-all overflow-hidden backdrop-blur-xl">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-[0.03]">
-                  <div className="absolute inset-0" style={{
-                    backgroundImage: 'repeating-linear-gradient(45deg, #e20074 0, #e20074 1px, transparent 0, transparent 50%)',
-                    backgroundSize: '30px 30px'
-                  }} />
-                </div>
-
-
-                <div className="relative grid md:grid-cols-2 gap-10 items-center">
-                  {/* Left - Logo & Badge */}
-                  <div className="text-center md:text-left">
-                    {/* Official Partner Badge */}
-                    <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#e20074]/15 border border-[#e20074]/40 mb-8">
-                      <span className="text-sm font-bold text-[#e20074] tracking-wide">OFFIZIELLER PARTNER</span>
-                    </div>
-
-                    <div className="flex items-center gap-5 mb-8 justify-center md:justify-start">
-                      <motion.div
-                        className="w-24 h-24 rounded-2xl bg-[#e20074] flex items-center justify-center shadow-2xl shadow-[#e20074]/40"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        <span className="text-white font-bold text-4xl">T</span>
-                      </motion.div>
-                      <div>
-                        <h3 className="text-3xl md:text-4xl font-bold text-white">{mainPartner.name}</h3>
-                        <div className="flex items-center gap-2 mt-1">
-                          <BadgeCheck className="w-5 h-5 text-blue-500" />
-                          <p className="text-dark-200 font-semibold">Verifizierter Glasfaser-Ausbaupartner</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="text-dark-200 leading-relaxed mb-8 text-lg">
-                      {mainPartner.description}
-                    </p>
-
-                    <motion.a
-                      href="#contact"
-                      className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-[#e20074] text-white font-semibold text-lg hover:bg-[#e20074]/90 transition-all shadow-lg shadow-[#e20074]/30"
-                      whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(226,0,116,0.4)' }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Telekom-Projekt anfragen
-                      <Zap className="w-5 h-5" />
-                    </motion.a>
-                  </div>
-
-                  {/* Right - Features */}
-                  <div className="grid grid-cols-2 gap-5">
-                    {mainPartner.features.map((feature, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: 0.5 + index * 0.1 }}
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        className="p-5 rounded-2xl bg-dark-800/60 border border-[#e20074]/20 hover:border-[#e20074]/50 transition-all backdrop-blur-sm"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-[#e20074]/20 flex items-center justify-center mb-3">
-                          <span className="text-[#e20074] font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
-                        </div>
-                        <p className="font-bold text-white mb-1">{feature.title}</p>
-                        <p className="text-sm text-dark-400">{feature.desc}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-          </div>
-        </motion.div>
-
-        {/* Other Partners - Improved Design */}
-        <div className="relative mb-20">
-          {/* Section Title */}
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            className="text-center text-xl font-semibold text-dark-300 mb-10"
-          >
-            Weitere Partner & Auftraggeber
-          </motion.h3>
-
-          {/* Clean Partner Grid */}
-          <div className="relative p-8 rounded-3xl bg-dark-800/30 border border-fiber-500/10">
-            {/* Subtle inner glow */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-fiber-500/5 via-transparent to-primary-500/5 pointer-events-none" />
-
-            <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4">
-              {partners.map((partner, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.3 + index * 0.05 }}
-                  whileHover={{ scale: 1.03, y: -3 }}
-                  className="p-5 rounded-2xl bg-dark-900/60 border border-fiber-500/10 hover:border-fiber-500/30 transition-all group cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-fiber-500/20 to-primary-500/20 flex items-center justify-center group-hover:from-fiber-500/30 group-hover:to-primary-500/30 transition-all">
-                      <partner.icon className="w-6 h-6 text-fiber-400" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-white text-sm">{partner.name}</p>
-                      <p className="text-xs text-dark-400">{partner.category}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Certifications */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <h3 className="text-center text-xl font-semibold text-dark-300 mb-10">
-            Zertifizierungen & Qualifikationen
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {certifications.map((cert, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className="group p-8 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/30 transition-all text-center relative overflow-hidden"
-              >
-                {/* Background glow on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${cert.color} flex items-center justify-center shadow-lg`}>
-                  <cert.icon className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-white mb-2">{cert.name}</div>
-                <div className="text-sm text-dark-400">{cert.desc}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-10 mt-20 pt-12 border-t border-dark-800"
-        >
-          {[
-            'Zertifizierter Fachbetrieb',
-            'Meisterbetrieb',
-            'Projekte in ganz Bayern',
-            '24/7 Notdienst verfügbar',
-          ].map((text, index) => (
-            <motion.div
+          {partners.map((partner, index) => (
+            <span
               key={index}
-              className="flex items-center gap-3"
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 1 + index * 0.1 }}
+              className="px-5 py-2.5 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-sm"
             >
-              <Shield className="w-5 h-5 text-fiber-400" />
-              <span className="text-dark-200 font-medium">{text}</span>
-            </motion.div>
+              {partner}
+            </span>
           ))}
         </motion.div>
       </div>

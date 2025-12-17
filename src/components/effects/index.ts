@@ -1,6 +1,3 @@
-// 3D Effects (Three.js)
-export { default as FiberScene3D } from './FiberScene3D'
-
 // Interactive Effects
 export { default as MagneticButton } from './MagneticButton'
 export { default as CardTilt3D } from './CardTilt3D'
