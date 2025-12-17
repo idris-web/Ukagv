@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Building, Zap, Network, Server, Cpu, Radio, Satellite, Award, Shield, CheckCircle, BadgeCheck, Verified } from 'lucide-react'
-import { CardTilt3D, RevealOnScroll } from './effects'
+import { RevealOnScroll } from './effects'
 
 // Main highlight partner - Telekom Deutschland
 const mainPartner = {
@@ -84,7 +84,6 @@ export default function PartnersSection() {
             {/* Magenta Glow Effect */}
             <div className="absolute -inset-4 bg-gradient-to-r from-[#e20074]/20 via-[#e20074]/30 to-[#e20074]/20 rounded-[2rem] blur-3xl opacity-60 group-hover:opacity-90 transition-all duration-700" />
 
-            <CardTilt3D tiltAmount={3} glareEnabled={true}>
               <div className="relative p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-dark-900/95 to-dark-950/95 border-2 border-[#e20074]/40 group-hover:border-[#e20074]/60 transition-all overflow-hidden backdrop-blur-xl">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-[0.03]">
@@ -156,7 +155,6 @@ export default function PartnersSection() {
                   </div>
                 </div>
               </div>
-            </CardTilt3D>
           </div>
         </RevealOnScroll>
 
@@ -221,21 +219,17 @@ export default function PartnersSection() {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {certifications.map((cert, index) => (
-              <CardTilt3D key={index} tiltAmount={8} glareEnabled={true}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  className="relative group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-fiber-500/20 to-primary-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative p-8 rounded-2xl glass border border-fiber-500/20 text-center">
-                    <Award className="w-10 h-10 text-fiber-400 mx-auto mb-4" />
-                    <div className="text-2xl font-bold gradient-text mb-2">{cert.name}</div>
-                    <div className="text-sm text-dark-400">{cert.desc}</div>
-                  </div>
-                </motion.div>
-              </CardTilt3D>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                className="p-8 rounded-2xl glass border border-fiber-500/20 hover:border-fiber-500/30 transition-colors text-center"
+              >
+                <Award className="w-10 h-10 text-fiber-400 mx-auto mb-4" />
+                <div className="text-2xl font-bold gradient-text mb-2">{cert.name}</div>
+                <div className="text-sm text-dark-400">{cert.desc}</div>
+              </motion.div>
             ))}
           </div>
         </motion.div>

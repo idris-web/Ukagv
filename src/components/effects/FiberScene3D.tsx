@@ -44,14 +44,14 @@ function FiberCable({
 
   return (
     <group>
-      {/* Main cable - subtle */}
+      {/* Main cable - more visible */}
       <mesh geometry={tubeGeometry}>
-        <meshBasicMaterial color={color} transparent opacity={0.35} />
+        <meshBasicMaterial color={color} transparent opacity={0.55} />
       </mesh>
 
       {/* Light pulse */}
       <mesh ref={pulseRef} geometry={pulseGeometry}>
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.7} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.85} />
       </mesh>
     </group>
   )
@@ -106,16 +106,17 @@ function ScrollCamera({ scrollProgress }: { scrollProgress: number }) {
   return null
 }
 
-// Main 3D Scene Component - Visible throughout entire page
+// Main 3D Scene Component - More visible in Hero, subtle below
 export default function FiberScene3D() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [opacity, setOpacity] = useState(0.7) // Start more visible
 
-  // Fiber paths - SIMPLIFIED for cleaner look
+  // Fiber paths - More cables for better visibility
   const fiberPaths = useMemo(() => {
     const paths = []
 
-    // Only 4 elegant flowing cables
+    // 6 flowing cables for richer effect in Hero
     paths.push([
       new THREE.Vector3(-15, 25, 2),
       new THREE.Vector3(-8, 10, 0),
@@ -144,6 +145,20 @@ export default function FiberScene3D() {
       new THREE.Vector3(-18, -40, 2),
     ])
 
+    paths.push([
+      new THREE.Vector3(-18, 20, -2),
+      new THREE.Vector3(-5, 5, 1),
+      new THREE.Vector3(5, -15, -1),
+      new THREE.Vector3(15, -35, 2),
+    ])
+
+    paths.push([
+      new THREE.Vector3(18, 18, 1),
+      new THREE.Vector3(3, 2, -1),
+      new THREE.Vector3(-8, -20, 2),
+      new THREE.Vector3(-15, -45, -1),
+    ])
+
     return paths
   }, [])
 
@@ -151,43 +166,48 @@ export default function FiberScene3D() {
     const handleScroll = () => {
       const scrollY = window.scrollY
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      setScrollProgress(maxScroll > 0 ? scrollY / maxScroll : 0)
+      const progress = maxScroll > 0 ? scrollY / maxScroll : 0
+      setScrollProgress(progress)
+
+      // Dynamic opacity: 0.7 at top, fading to 0.25 as you scroll
+      const newOpacity = Math.max(0.25, 0.7 - progress * 0.6)
+      setOpacity(newOpacity)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const colors = ['#06b6d4', '#0ea5e9', '#3b82f6', '#22d3ee']
+  const colors = ['#06b6d4', '#0ea5e9', '#3b82f6', '#22d3ee', '#0891b2', '#14b8a6']
 
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none"
-      style={{ opacity: 0.4, zIndex: 0 }}
+      className="fixed inset-0 pointer-events-none transition-opacity duration-300"
+      style={{ opacity, zIndex: 0 }}
     >
       <Canvas
         camera={{ position: [0, 20, 15], fov: 50 }}
         gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
         dpr={[1, 1.5]}
       >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={0.8} />
+        <ambientLight intensity={0.6} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
 
         <ScrollCamera scrollProgress={scrollProgress} />
 
-        {/* Fiber cables - clean and subtle */}
+        {/* Fiber cables */}
         {fiberPaths.map((points, index) => (
           <FiberCable
             key={index}
             points={points}
             color={colors[index % colors.length]}
-            pulseSpeed={0.4 + index * 0.15}
-            thickness={0.018}
+            pulseSpeed={0.5 + index * 0.12}
+            thickness={0.022}
           />
         ))}
 
-        <Particles count={80} color="#06b6d4" />
+        <Particles count={120} color="#06b6d4" />
       </Canvas>
     </div>
   )

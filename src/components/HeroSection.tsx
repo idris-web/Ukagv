@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { ArrowRight, Phone, Wifi, Award, Users, MapPin, ChevronDown } from 'lucide-react'
-import { MorphingText, MagneticButton, TextScramble, NumberCounter, CardTilt3D, GradientMesh } from './effects'
+import { MorphingText, NumberCounter, GradientMesh } from './effects'
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -38,46 +38,100 @@ export default function HeroSection() {
       {/* Radial Glow */}
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 60%)' }} />
 
-      {/* Simplified Fiber Cables - Subtle */}
+      {/* Prominent Fiber Cables - High visibility in Hero */}
       <svg
-        className="absolute inset-0 w-full h-full opacity-40"
+        className="absolute inset-0 w-full h-full"
         viewBox="0 0 1920 1080"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <linearGradient id="heroFiberGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="heroFiberGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="30%" stopColor="#06b6d4" />
-            <stop offset="70%" stopColor="#06b6d4" />
+            <stop offset="20%" stopColor="#06b6d4" />
+            <stop offset="80%" stopColor="#22d3ee" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+          <linearGradient id="heroFiberGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="25%" stopColor="#0ea5e9" />
+            <stop offset="75%" stopColor="#06b6d4" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+          <linearGradient id="heroFiberGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="30%" stopColor="#3b82f6" />
+            <stop offset="70%" stopColor="#0891b2" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
           <filter id="heroGlow">
-            <feGaussianBlur stdDeviation="4" />
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
         </defs>
 
-        {/* Main Fiber Cable 1 */}
+        {/* Main Fiber Cable 1 - Prominent */}
         <motion.path
-          d="M-200 750 Q 300 550, 600 650 T 1200 580 T 1800 700 T 2200 600"
-          stroke="url(#heroFiberGradient)"
-          strokeWidth="3"
+          d="M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600"
+          stroke="url(#heroFiberGradient1)"
+          strokeWidth="5"
           fill="none"
           filter="url(#heroGlow)"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: "easeInOut" }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.9 }}
+          transition={{ duration: 2.5, ease: "easeInOut" }}
         />
 
         {/* Main Fiber Cable 2 */}
         <motion.path
-          d="M-100 850 Q 400 650, 700 800 T 1300 700 T 1900 850 T 2300 750"
-          stroke="url(#heroFiberGradient)"
-          strokeWidth="2"
+          d="M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680"
+          stroke="url(#heroFiberGradient2)"
+          strokeWidth="4"
           fill="none"
           filter="url(#heroGlow)"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.3 }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.8 }}
+          transition={{ duration: 3, ease: "easeInOut", delay: 0.3 }}
+        />
+
+        {/* Main Fiber Cable 3 */}
+        <motion.path
+          d="M-150 880 Q 350 720, 700 850 T 1250 770 T 1750 880 T 2250 800"
+          stroke="url(#heroFiberGradient3)"
+          strokeWidth="3"
+          fill="none"
+          filter="url(#heroGlow)"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.7 }}
+          transition={{ duration: 3.5, ease: "easeInOut", delay: 0.6 }}
+        />
+
+        {/* Light pulse traveling along cable 1 */}
+        <motion.circle
+          r="8"
+          fill="#22d3ee"
+          filter="url(#heroGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2.5 }}
+          style={{
+            offsetPath: "path('M-200 650 Q 200 450, 500 550 T 1000 480 T 1500 580 T 2000 500 T 2400 600')"
+          }}
+        />
+
+        {/* Light pulse traveling along cable 2 */}
+        <motion.circle
+          r="6"
+          fill="#0ea5e9"
+          filter="url(#heroGlow)"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ offsetDistance: '100%' }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear", delay: 4 }}
+          style={{
+            offsetPath: "path('M-100 780 Q 300 580, 650 700 T 1150 620 T 1650 750 T 2150 680')"
+          }}
         />
       </svg>
 
@@ -125,49 +179,42 @@ export default function HeroSection() {
             </span>
           </motion.h1>
 
-          {/* Subheadline with Text Scramble */}
-          <motion.div
+          {/* Subheadline - Clean and professional */}
+          <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-dark-200 max-w-3xl mx-auto mb-12 leading-relaxed"
           >
-            <TextScramble
-              text="UKAGV GmbH ist Ihr Partner für Glasfaserverlegung und Hausmeisterdienste."
-              duration={1500}
-              delay={800}
-            />
-            <span className="text-white font-medium"> Wir bringen Highspeed-Internet direkt zu Ihnen</span> –
-            zuverlässig, termingerecht und zu fairen Preisen.
-          </motion.div>
+            <span className="text-white font-medium">UKAGV GmbH</span> ist Ihr Partner für Glasfaserverlegung und Hausmeisterdienste.
+            Wir bringen Highspeed-Internet direkt zu Ihnen – zuverlässig, termingerecht und zu fairen Preisen.
+          </motion.p>
 
-          {/* CTA Buttons with Magnetic Effect */}
+          {/* CTA Buttons - Professional */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <MagneticButton
+            <a
               href="#contact"
               className="btn-primary flex items-center gap-2 group text-lg px-10 py-5"
-              strength={0.4}
             >
               Kostenloses Angebot
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </MagneticButton>
+            </a>
 
-            <MagneticButton
+            <a
               href="tel:+4991112345678"
               className="btn-secondary flex items-center gap-2 text-lg px-10 py-5"
-              strength={0.4}
             >
               <Phone className="w-5 h-5" />
               +49 (0) 911 123 456 78
-            </MagneticButton>
+            </a>
           </motion.div>
 
-          {/* Stats Grid with 3D Tilt Cards and Number Counter */}
+          {/* Stats Grid - Clean professional cards */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,21 +229,18 @@ export default function HeroSection() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 1 + index * 0.1, type: "spring" }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 + index * 0.1, duration: 0.5 }}
+                className="relative p-6 rounded-2xl glass border border-fiber-500/10 hover:border-fiber-500/20 transition-colors"
               >
-                <CardTilt3D tiltAmount={10} glareEnabled={true} className="h-full">
-                  <div className="relative p-6 rounded-2xl glass border border-fiber-500/10 h-full">
-                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} mb-4`}>
-                      <stat.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-3xl md:text-4xl font-bold text-white mb-1">
-                      <NumberCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
-                    </div>
-                    <div className="text-sm text-dark-400">{stat.label}</div>
-                  </div>
-                </CardTilt3D>
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} mb-4`}>
+                  <stat.icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                  <NumberCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
+                </div>
+                <div className="text-sm text-dark-400">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
