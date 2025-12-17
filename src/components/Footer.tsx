@@ -12,19 +12,19 @@ const footerLinks = {
   ],
   company: [
     { label: 'Über uns', href: '#about' },
-    { label: 'Karriere', href: '#' },
-    { label: 'Partner werden', href: '#' },
+    { label: 'Karriere', href: '#contact' },
+    { label: 'Partner werden', href: '#contact' },
     { label: 'Referenzen', href: '#testimonials' },
   ],
   support: [
     { label: 'Kontakt', href: '#contact' },
-    { label: 'FAQ', href: '#' },
-    { label: 'Störungsmeldung', href: '#' },
+    { label: 'FAQ', href: '#faq' },
+    { label: 'Störungsmeldung', href: '#contact' },
   ],
   legal: [
-    { label: 'Impressum', href: '#' },
-    { label: 'Datenschutz', href: '#' },
-    { label: 'AGB', href: '#' },
+    { label: 'Impressum', href: '#contact' },
+    { label: 'Datenschutz', href: '#contact' },
+    { label: 'AGB', href: '#contact' },
   ],
 }
 
