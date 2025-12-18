@@ -40,7 +40,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight"
         >
-          <span className="gradient-text">Planung. Bau. Vernetzung.</span>
+          <span className="text-white">Planung. Bau. Vernetzung.</span>
         </motion.h1>
 
         {/* Slogan - Klare Leistungsbeschreibung */}
