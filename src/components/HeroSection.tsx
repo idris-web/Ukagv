@@ -70,18 +70,118 @@ export default function HeroSection() {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
 
+          {/* Anrufen Button mit Glasfaser/Lightning Effekt */}
           <a
             href="tel:+4991112345678"
-            className="btn-secondary flex items-center gap-2 text-lg px-8 py-5"
+            className="relative group overflow-hidden rounded-full"
           >
-            <Phone className="w-5 h-5" />
-            Anrufen
+            {/* Lightning/Fiber SVG Animation */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              viewBox="0 0 200 60"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="fiberGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#06b6d4" stopOpacity="0">
+                    <animate attributeName="offset" values="-0.5;1" dur="2s" repeatCount="indefinite" />
+                  </stop>
+                  <stop offset="50%" stopColor="#06b6d4" stopOpacity="1">
+                    <animate attributeName="offset" values="0;1.5" dur="2s" repeatCount="indefinite" />
+                  </stop>
+                  <stop offset="100%" stopColor="#06b6d4" stopOpacity="0">
+                    <animate attributeName="offset" values="0.5;2" dur="2s" repeatCount="indefinite" />
+                  </stop>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* Animated fiber lines around button */}
+              <motion.path
+                d="M 10,30 Q 30,10 50,30 T 90,30 T 130,30 T 170,30 T 190,30"
+                fill="none"
+                stroke="url(#fiberGradient)"
+                strokeWidth="2"
+                filter="url(#glow)"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: [0, 1, 1, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.path
+                d="M 10,35 Q 40,55 80,35 T 150,35 T 190,35"
+                fill="none"
+                stroke="url(#fiberGradient)"
+                strokeWidth="1.5"
+                filter="url(#glow)"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: [0, 0.8, 0.8, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 0.5 }}
+              />
+
+              {/* Electric sparks */}
+              <motion.circle
+                cx="50"
+                cy="30"
+                r="2"
+                fill="#22d3ee"
+                filter="url(#glow)"
+                animate={{
+                  cx: [20, 180],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.circle
+                cx="100"
+                cy="30"
+                r="1.5"
+                fill="#3b82f6"
+                filter="url(#glow)"
+                animate={{
+                  cx: [180, 20],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+              />
+            </svg>
+
+            {/* Button border glow */}
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(6,182,212,0.3), transparent)',
+                backgroundSize: '200% 100%',
+              }}
+              animate={{
+                backgroundPosition: ['200% 0', '-200% 0'],
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Actual button content */}
+            <span className="relative flex items-center gap-2 text-lg px-8 py-5 bg-dark-900/80 border border-fiber-400/30 rounded-full text-white group-hover:border-fiber-400/60 group-hover:bg-dark-900 transition-all duration-300">
+              <Phone className="w-5 h-5 text-fiber-400" />
+              <span className="relative">
+                Anrufen
+                {/* Text glow on hover */}
+                <motion.span
+                  className="absolute inset-0 text-fiber-400 blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-hidden="true"
+                >
+                  Anrufen
+                </motion.span>
+              </span>
+            </span>
           </a>
         </motion.div>
       </motion.div>
 
-      {/* Bottom fade to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark-950 to-transparent pointer-events-none z-10" />
     </section>
   )
 }

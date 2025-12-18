@@ -1,184 +1,110 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, ArrowRight } from 'lucide-react'
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
   { href: '#services', label: 'Leistungen' },
   { href: '#about', label: 'Über uns' },
-  { href: '#process', label: 'Ablauf' },
-  { href: '#testimonials', label: 'Referenzen' },
-  { href: '#faq', label: 'FAQ' },
-  { href: '#contact', label: 'Kontakt' },
+  { href: '#projects', label: 'Projekte' },
 ]
 
 export default function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('#home')
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-
-      // Update active section based on scroll position
-      const sections = navLinks.map(link => link.href.substring(1))
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150) {
-            setActiveSection(`#${section}`)
-            break
-          }
-        }
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'py-3 bg-dark-950/90 backdrop-blur-xl border-b border-fiber-500/10 shadow-lg shadow-dark-950/50'
-            : 'py-5 bg-transparent'
-        }`}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="fixed top-0 left-0 right-0 z-50 py-4 bg-dark-950/80 backdrop-blur-lg border-b border-white/5"
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Logo - UKAGV */}
-          <a href="#home" className="flex items-center gap-3 group">
-            <div className="relative flex items-center">
-              {/* Fiber Optic Icon */}
-              <svg viewBox="0 0 48 32" className="w-12 h-8">
-                <defs>
-                  <linearGradient id="navFiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#06b6d4" />
-                    <stop offset="100%" stopColor="#0ea5e9" />
-                  </linearGradient>
-                  <filter id="navGlow">
-                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                {/* Cable bundle */}
-                <circle cx="6" cy="16" r="5" fill="#0f172a" stroke="#06b6d4" strokeWidth="1.5" />
-                {/* Fiber strands */}
-                <motion.path
-                  d="M11 14 Q 20 10, 30 14 T 48 12"
-                  stroke="url(#navFiberGrad)"
-                  strokeWidth="2"
-                  fill="none"
-                  filter="url(#navGlow)"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                />
-                <motion.path
-                  d="M11 16 Q 20 16, 30 16 T 48 16"
-                  stroke="url(#navFiberGrad)"
-                  strokeWidth="2"
-                  fill="none"
-                  filter="url(#navGlow)"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
-                />
-                <motion.path
-                  d="M11 18 Q 20 22, 30 18 T 48 20"
-                  stroke="url(#navFiberGrad)"
-                  strokeWidth="2"
-                  fill="none"
-                  filter="url(#navGlow)"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                />
-                {/* Glowing dots */}
-                <motion.circle
-                  cx="6" cy="14" r="1.5" fill="#22d3ee"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <motion.circle
-                  cx="6" cy="16" r="1.5" fill="#06b6d4"
-                  animate={{ opacity: [1, 0.5, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <motion.circle
-                  cx="6" cy="18" r="1.5" fill="#22d3ee"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight">
-                <span className="text-white">UKA</span>
-                <span className="gradient-text">GV</span>
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+          {/* Logo - Animated */}
+          <a href="#home" className="flex items-center group">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
+              className="relative"
+            >
+              {/* Glow background */}
+              <motion.div
+                className="absolute -inset-2 rounded-lg bg-gradient-to-r from-fiber-400/20 via-blue-500/20 to-fiber-400/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                animate={{
+                  background: [
+                    'linear-gradient(90deg, rgba(6,182,212,0.2) 0%, rgba(59,130,246,0.2) 50%, rgba(6,182,212,0.2) 100%)',
+                    'linear-gradient(90deg, rgba(59,130,246,0.2) 0%, rgba(6,182,212,0.2) 50%, rgba(59,130,246,0.2) 100%)',
+                    'linear-gradient(90deg, rgba(6,182,212,0.2) 0%, rgba(59,130,246,0.2) 50%, rgba(6,182,212,0.2) 100%)',
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              />
+
+              <span className="relative text-2xl md:text-3xl font-black tracking-tight">
+                <motion.span
+                  className="text-white"
+                  whileHover={{ textShadow: '0 0 8px rgba(255,255,255,0.5)' }}
+                >
+                  UKA
+                </motion.span>
+                <motion.span
+                  className="text-fiber-400"
+                  animate={{
+                    textShadow: [
+                      '0 0 4px rgba(6,182,212,0.3)',
+                      '0 0 12px rgba(6,182,212,0.6)',
+                      '0 0 4px rgba(6,182,212,0.3)',
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  GV
+                </motion.span>
               </span>
-              <span className="text-[10px] text-dark-400 tracking-widest uppercase">Glasfaser GmbH</span>
-            </div>
+
+              {/* Fiber line under logo */}
+              <motion.div
+                className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-transparent via-fiber-400 to-transparent"
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: '100%', opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+              />
+            </motion.div>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
-                  activeSection === link.href
-                    ? 'text-fiber-400 bg-fiber-500/10'
-                    : 'text-dark-200 hover:text-white hover:bg-white/5'
-                }`}
+                className="relative px-4 py-2 text-sm text-dark-300 hover:text-white transition-colors group"
               >
                 {link.label}
-                {activeSection === link.href && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-fiber-400"
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-fiber-400 group-hover:w-4 transition-all duration-300" />
               </a>
             ))}
-          </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <a
-              href="tel:+4991112345678"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="hidden xl:inline">+49 (0) 911 123 456 78</span>
-            </a>
+            {/* CTA Button */}
             <a
               href="#contact"
-              className="btn-primary text-sm px-6 py-2.5"
+              className="ml-4 flex items-center gap-2 px-5 py-2 text-sm font-medium text-dark-950 bg-fiber-400 rounded-full hover:bg-fiber-300 transition-colors"
             >
-              Kostenlose Beratung
+              Kontakt
+              <ArrowRight size={14} />
             </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-            aria-label="Menü öffnen"
+            className="md:hidden p-2 text-dark-400 hover:text-white transition-colors"
+            aria-label="Menü"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <Menu size={22} />
           </button>
         </div>
       </motion.nav>
@@ -186,79 +112,73 @@ export default function Navigation() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-dark-950/80 backdrop-blur-sm lg:hidden"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-
-            {/* Menu Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-80 max-w-full bg-dark-900 border-l border-fiber-500/20 lg:hidden"
-            >
-              {/* Close Button */}
-              <div className="flex items-center justify-between p-4 border-b border-fiber-500/10">
-                <span className="text-lg font-semibold text-white">Menü</span>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-dark-950/98 backdrop-blur-xl md:hidden"
+          >
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-5">
+                <motion.span
+                  className="text-2xl font-black"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  <span className="text-white">UKA</span>
+                  <motion.span
+                    className="text-fiber-400"
+                    animate={{
+                      textShadow: [
+                        '0 0 4px rgba(6,182,212,0.3)',
+                        '0 0 12px rgba(6,182,212,0.6)',
+                        '0 0 4px rgba(6,182,212,0.3)',
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    GV
+                  </motion.span>
+                </motion.span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-dark-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 text-dark-400 hover:text-white"
                 >
-                  <X size={24} />
+                  <X size={22} />
                 </button>
               </div>
 
-              {/* Navigation Links */}
-              <div className="p-4 space-y-1">
-                {navLinks.map((link, index) => (
+              {/* Links */}
+              <div className="flex-1 flex flex-col items-center justify-center gap-6">
+                {navLinks.map((link, i) => (
                   <motion.a
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`flex items-center px-4 py-3 rounded-xl text-lg font-medium transition-all ${
-                      activeSection === link.href
-                        ? 'text-fiber-400 bg-fiber-500/10'
-                        : 'text-dark-200 hover:text-white hover:bg-white/5'
-                    }`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="text-2xl text-white font-light"
                   >
                     {link.label}
                   </motion.a>
                 ))}
-              </div>
 
-              {/* Contact Info */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-fiber-500/10 space-y-3">
-                <a
-                  href="tel:+4991112345678"
-                  className="flex items-center gap-3 px-4 py-3 text-dark-200 hover:text-white transition-colors"
-                >
-                  <Phone className="w-5 h-5 text-fiber-400" />
-                  <span>+49 (0) 911 123 456 78</span>
-                </a>
                 <motion.a
                   href="#contact"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: navLinks.length * 0.05 + 0.1 }}
-                  className="btn-primary w-full text-center py-3"
                   onClick={() => setIsMobileMenuOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-4 flex items-center gap-2 px-8 py-3 text-lg font-medium text-dark-950 bg-fiber-400 rounded-full"
                 >
-                  Kostenlose Beratung
+                  Kontakt
+                  <ArrowRight size={18} />
                 </motion.a>
               </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

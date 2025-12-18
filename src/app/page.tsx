@@ -15,7 +15,7 @@ import {
   FloatingCTA,
   CookieBanner
 } from '@/components'
-import { ScrollProgress, GlowCursor } from '@/components/effects'
+import { ScrollProgress } from '@/components/effects'
 import FiberCableSystem from '@/components/FiberCableSystem'
 
 export default function Home() {
@@ -23,7 +23,6 @@ export default function Home() {
     <main className="relative bg-dark-950">
       {/* Global Effects */}
       <ScrollProgress position="top" />
-      <GlowCursor color="#06b6d4" size={24} trailLength={10} />
       <FiberCableSystem />
 
       {/* Page Content */}
