@@ -19,7 +19,10 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Skill(frontend-design:frontend-design)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(git push)",
+      "Bash(gh auth status:*)",
+      "Bash(git remote set-url:*)"
     ]
   }
 }

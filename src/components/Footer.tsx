@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Phone, Mail, MapPin, Cable, Linkedin } from 'lucide-react'
+import { Phone, Mail, MapPin, Cable, Linkedin, Clock } from 'lucide-react'
 import { siteConfig } from '@/config/site'
 
 // Navigation Links
@@ -10,7 +10,7 @@ const links = [
   { name: 'Leistungen', href: '#services' },
   { name: 'Über uns', href: '#about' },
   { name: 'Projekte', href: '#projects' },
-  { name: 'FAQ', href: '#faq' },
+  { name: 'Karriere', href: '#karriere' },
   { name: 'Kontakt', href: '#contact' },
 ]
 
@@ -46,10 +46,13 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fiber-500 to-fiber-600 flex items-center justify-center">
                 <Cable className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold font-display text-white text-xl">UKAGV</span>
+              <div>
+                <span className="font-bold font-display text-white text-xl block">UKA Netzbau</span>
+                <span className="text-sm text-fiber-400">Wir machen das.</span>
+              </div>
             </div>
             <p className="text-base text-dark-400 max-w-sm leading-relaxed">
-              Ihr Glasfaser-Spezialist in Süddeutschland. Professionell, zuverlässig, seit 2009.
+              Ihr Spezialist für Breitbandausbau und FTTH. Landesweit im Einsatz mit höchster Perfektion.
             </p>
           </div>
 
@@ -65,7 +68,11 @@ export default function Footer() {
             </a>
             <span className="flex items-center gap-3 text-dark-500">
               <MapPin className="w-5 h-5" />
-              {siteConfig.address.city}
+              {siteConfig.address.full}
+            </span>
+            <span className="flex items-center gap-3 text-dark-500">
+              <Clock className="w-5 h-5" />
+              {siteConfig.hours.weekdays}
             </span>
           </div>
 
@@ -81,7 +88,7 @@ export default function Footer() {
 
         {/* === BOTTOM BAR === */}
         <div className="pt-8 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-dark-500">
-          <span>© {new Date().getFullYear()} UKAGV GmbH</span>
+          <span>© {new Date().getFullYear()} UKA Netzbau</span>
 
           <div className="flex gap-6">
             {legal.map((item) => (

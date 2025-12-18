@@ -8,6 +8,7 @@ const navLinks = [
   { href: '#services', label: 'Leistungen' },
   { href: '#about', label: 'Über uns' },
   { href: '#projects', label: 'Projekte' },
+  { href: '#karriere', label: 'Karriere' },
 ]
 
 export default function Navigation() {
@@ -43,12 +44,12 @@ export default function Navigation() {
                 transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
               />
 
-              <span className="relative text-2xl md:text-3xl font-black tracking-tight">
+              <span className="relative text-xl md:text-2xl font-black tracking-tight">
                 <motion.span
                   className="text-white"
                   whileHover={{ textShadow: '0 0 8px rgba(255,255,255,0.5)' }}
                 >
-                  UKA
+                  UKA{' '}
                 </motion.span>
                 <motion.span
                   className="text-fiber-400"
@@ -61,7 +62,7 @@ export default function Navigation() {
                   }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  GV
+                  Netzbau
                 </motion.span>
               </span>
 
@@ -122,11 +123,11 @@ export default function Navigation() {
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-5">
                 <motion.span
-                  className="text-2xl font-black"
+                  className="text-xl font-black"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <span className="text-white">UKA</span>
+                  <span className="text-white">UKA </span>
                   <motion.span
                     className="text-fiber-400"
                     animate={{
@@ -138,7 +139,7 @@ export default function Navigation() {
                     }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                   >
-                    GV
+                    Netzbau
                   </motion.span>
                 </motion.span>
                 <button

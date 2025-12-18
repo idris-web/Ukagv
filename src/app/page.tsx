@@ -15,7 +15,8 @@ import {
   Footer,
   FloatingCTA,
   CookieBanner,
-  PricingSection
+  PricingSection,
+  KarriereSection
 } from '@/components'
 import { ScrollProgress } from '@/components/effects'
 import FiberCableSystem from '@/components/FiberCableSystem'
@@ -40,6 +41,7 @@ export default function Home() {
       <ProjectGallery />
       <TestimonialsSection />
       <FAQSection />
+      <KarriereSection />
       <CTASection />
       <Footer />
       <FloatingCTA />

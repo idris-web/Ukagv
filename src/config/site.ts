@@ -1,25 +1,36 @@
 // Site Configuration - Zentrale Konfiguration für die gesamte Website
 export const siteConfig = {
-  name: 'UKAGV GmbH',
-  description: 'Ihr Spezialist für Glasfaserausbau in Süddeutschland',
+  name: 'UKA Netzbau',
+  slogan: 'Wir machen das.',
+  description: 'Ihr Spezialist für Breitbandausbau und FTTH in Süddeutschland',
 
   contact: {
-    phone: '+49 911 12345678',
-    phoneDisplay: '0911 12345678',
-    phoneHref: 'tel:+4991112345678',
-    email: 'info@ukagv.de',
-    emailHref: 'mailto:info@ukagv.de',
+    phone: '+49 911 477 683 20',
+    phoneDisplay: '0911 477 683 20',
+    phoneHref: 'tel:+499114776832',
+    fax: '+49 911 477 683 29',
+    faxDisplay: '0911 477 683 29',
+    email: 'info@uka-netzbau.de',
+    emailHref: 'mailto:info@uka-netzbau.de',
+    bewerbung: 'bewerbung@uka-netzbau.de',
+    bewerbungHref: 'mailto:bewerbung@uka-netzbau.de',
   },
 
   address: {
-    street: 'Musterstraße 123',
-    city: '90402 Nürnberg',
+    street: 'Georg-Strobel-Straße 65',
+    zip: '90489',
+    city: 'Nürnberg',
+    full: 'Georg-Strobel-Straße 65, 90489 Nürnberg',
     country: 'Deutschland',
   },
 
+  hours: {
+    weekdays: 'Mo–Fr: 09:00–13:00 & 14:00–17:00',
+    weekend: 'Sa & So: Geschlossen',
+  },
+
   social: {
-    linkedin: 'https://linkedin.com/company/ukagv',
-    xing: 'https://xing.com/companies/ukagv',
+    linkedin: 'https://linkedin.com/company/uka-netzbau',
   },
 
   links: {

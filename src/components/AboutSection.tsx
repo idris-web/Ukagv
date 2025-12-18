@@ -4,21 +4,21 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Users, Award, Clock, CheckCircle2 } from 'lucide-react'
 
-// Unternehmens-Highlights - Fokus auf regionale Verwurzelung
+// Unternehmens-Highlights
 const highlights = [
-  { icon: Users, value: '52', label: 'Fachkräfte', detail: 'aus Süddeutschland', color: '#22d3ee' },
-  { icon: Clock, value: 'Seit 2009', label: 'In der Region', detail: '15+ Jahre Erfahrung', color: '#3b82f6' },
-  { icon: Award, value: '847+', label: 'Projekte', detail: 'erfolgreich abgeschlossen', color: '#f59e0b' },
+  { icon: Users, value: '21.000+', label: 'Zufriedene Kunden', detail: 'landesweit', color: '#22d3ee' },
+  { icon: Clock, value: '3.500+', label: 'Hausanschlüsse', detail: 'pro Jahr', color: '#3b82f6' },
+  { icon: Award, value: '24.500+ km', label: 'Glasfaser', detail: 'eingeblasen', color: '#f59e0b' },
 ]
 
-// Unternehmenswerte - was uns in Franken ausmacht
+// Unternehmenswerte - UKA Netzbau
 const values = [
-  'Fränkische Zuverlässigkeit',
-  'Pünktlich wie versprochen',
-  'Baustellen hinterlassen wir sauber',
-  'Klare Kommunikation – keine Überraschungen',
-  'Festpreisgarantie – keine versteckten Kosten',
-  'Lokale Ansprechpartner vor Ort'
+  'Höchste Perfektion in jedem Projekt',
+  'Landesweit im Einsatz',
+  'GBGS-Erfahrung (DTAG)',
+  'Ihr Ziel ist unser Ziel',
+  'Professionelle Abwicklung',
+  'Vertrauenswürdige Partner'
 ]
 
 export default function AboutSection() {
@@ -42,14 +42,15 @@ export default function AboutSection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-            <span className="text-white">Ihr Partner </span>
-            <span className="gradient-text">vor Ort</span>
+            <span className="text-white">UKA Netzbau – </span>
+            <span className="gradient-text">Wir machen das.</span>
           </h2>
 
-          <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            UKAGV wurde 2009 gegründet – mit dem Ziel, Süddeutschland
-            zukunftssicher zu vernetzen. Heute sind wir der führende Glasfaser-Spezialist
-            für Bayern, Baden-Württemberg und darüber hinaus.
+          <p className="text-dark-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            Wir sind ein engagiertes und erfahrenes Team, das sich auf den Breitbandausbau
+            spezialisiert hat. Unser Leistungsspektrum umfasst alle Aspekte der FTTH-Ausbautechnik –
+            von der Mikro- und Minikabel-Einblasung über APL-Montage bis hin zum Spleißen
+            und GPON/OTDR-Messungen.
           </p>
         </motion.div>
 

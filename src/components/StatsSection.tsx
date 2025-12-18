@@ -6,35 +6,35 @@ import { Cable, FolderCheck, Home, Users } from 'lucide-react'
 
 const stats = [
   {
-    value: 1250,
-    suffix: '+',
-    label: 'km Glasfaser',
-    detail: 'in Süddeutschland',
+    value: 24500,
+    suffix: '+ km',
+    label: 'Glasfaser',
+    detail: 'eingeblasen',
     icon: Cable,
     color: 'from-cyan-400 to-blue-500'
   },
   {
-    value: 847,
-    suffix: '',
-    label: 'Projekte',
-    detail: 'erfolgreich umgesetzt',
-    icon: FolderCheck,
+    value: 21000,
+    suffix: '+',
+    label: 'Kunden',
+    detail: 'zufrieden betreut',
+    icon: Users,
     color: 'from-emerald-400 to-teal-500'
   },
   {
-    value: 15000,
+    value: 3500,
     suffix: '+',
-    label: 'Anschlüsse',
-    detail: 'realisiert',
+    label: 'Hausanschlüsse',
+    detail: 'pro Jahr',
     icon: Home,
     color: 'from-violet-400 to-purple-500'
   },
   {
-    value: 52,
-    suffix: '',
-    label: 'Fachkräfte',
-    detail: 'aus der Region',
-    icon: Users,
+    value: 100,
+    suffix: '%',
+    label: 'Einsatz',
+    detail: 'landesweit',
+    icon: FolderCheck,
     color: 'from-amber-400 to-orange-500'
   },
 ]

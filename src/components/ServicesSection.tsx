@@ -4,42 +4,42 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Home, Building2, HardHat, Network, Cable, Wrench, Zap, ArrowRight } from 'lucide-react'
 
-// Leistungen mit Icons und Farben - 6 Hauptleistungen (Glasfaser komplett NE3)
+// Leistungen mit Icons und Farben - UKA Netzbau Leistungsspektrum
 const services = [
   {
-    icon: HardHat,
-    title: 'Tiefbau & Verlegung',
-    desc: 'NE3/NE4 Infrastruktur mit modernsten Verfahren: Micro-Trenching, grabenlose Verlegung, Pflugverfahren. Kompletter Tiefbau aus einer Hand.',
-    color: '#10b981'
-  },
-  {
     icon: Home,
-    title: 'Hausanschlüsse',
-    desc: 'FTTH & FTTB Komplettlösungen – von der Hauseinführung bis zur Dose. Für Einfamilienhäuser, MFH und Gewerbeobjekte.',
+    title: 'FTTH (Fibre to the Home)',
+    desc: 'Einblasen von Mikro- und Minikabeln ins Gebäude, Installation der APLs/OneBox, Spleißen der Glasfaserkabel und GPON/OTDR-Messungen.',
     color: '#22d3ee'
   },
   {
     icon: Building2,
-    title: 'LWL-Montage',
-    desc: 'Muffen, Verteiler, ODF und Anschlussdosen. Professionelle Montage nach Netzbetreiber-Vorgaben mit vollständiger Dokumentation.',
+    title: 'FTTB (Fibre to the Building)',
+    desc: 'Vom HÜP die Legung des Verbands bis zur Hauseinführung. Komplette Gebäudeerschließung für Mehrfamilienhäuser und Gewerbe.',
     color: '#3b82f6'
+  },
+  {
+    icon: Network,
+    title: 'GBGS (Gigabit-Geschäftssystem)',
+    desc: 'Disposition: Kontaktaufnahme mit Kunden, Terminbuchung. Monteure: Bearbeitung und Abschluss des Auftrags im GBGS der DTAG.',
+    color: '#10b981'
   },
   {
     icon: Cable,
     title: 'Spleißen & Messtechnik',
-    desc: 'Präzise LWL-Spleißverbindungen mit OTDR-Messungen. Jedes Projekt mit vollständigem Messprotokoll und Abnahmedokumentation.',
+    desc: 'Präzise LWL-Spleißverbindungen mit OTDR- und GPON-Messungen. Vollständige Dokumentation und Messprotokolle.',
     color: '#ec4899'
   },
   {
-    icon: Network,
-    title: 'Komplettlösungen',
-    desc: 'Von der Planung über Genehmigungen bis zur Abnahme – Full-Service für Netzbetreiber, Carrier und Kommunen.',
+    icon: HardHat,
+    title: 'Projekt-Planung',
+    desc: 'Wir unterstützen Sie bei Ihrer Projektplanung. Für Bauvorhaben größeren Ausmaßes sind wir landesweit im Einsatz.',
     color: '#a855f7'
   },
   {
     icon: Wrench,
-    title: 'Wartung & Service',
-    desc: '24/7 Entstörungsdienst in Süddeutschland. Schnelle Reaktionszeiten und kompetente Techniker vor Ort.',
+    title: 'APL & OneBox Montage',
+    desc: 'Fachgerechte Installation von Abschlusspunkten und OneBox-Systemen. Professionelle Montage nach Netzbetreiber-Vorgaben.',
     color: '#f59e0b'
   },
 ]

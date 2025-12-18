@@ -41,9 +41,9 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
         >
-          <span className="text-white">Glasfaser</span>
+          <span className="text-white">UKA Netzbau</span>
           <br />
-          <span className="gradient-text">vom Profi</span>
+          <span className="gradient-text">Wir machen das.</span>
         </motion.h1>
 
         {/* Slogan */}
@@ -53,8 +53,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-xl md:text-2xl lg:text-3xl text-dark-300 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Ihr Spezialist für Glasfaserausbau in Süddeutschland.
-          Seit 2009 verbinden wir Bayern, Baden-Württemberg und darüber hinaus mit der Zukunft.
+          Ihr Spezialist für Breitbandausbau und FTTH –
+          landesweit im Einsatz mit höchster Perfektion.
         </motion.p>
 
         {/* Trust Badges */}
@@ -66,11 +66,15 @@ export default function HeroSection() {
         >
           <span className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-cyan-400" />
-            1.250+ km verlegt
+            24.500+ km Glasfaser
           </span>
           <span className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-blue-400" />
-            52 Fachkräfte
+            21.000+ Kunden
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-emerald-400" />
+            3.500+ Anschlüsse/Jahr
           </span>
         </motion.div>
 
