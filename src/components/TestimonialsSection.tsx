@@ -16,7 +16,7 @@ const testimonials = [
     name: 'Sandra K.',
     role: 'Geschäftsführerin',
     location: 'Fürth',
-    text: 'Wir arbeiten seit Jahren mit UKAGV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
+    text: 'Wir arbeiten seit Jahren mit Uka-GV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
   },
   {
     name: 'Michael B.',
@@ -34,7 +34,7 @@ const testimonials = [
     name: 'Peter L.',
     role: 'Architekt',
     location: 'Nürnberg-Mögeldorf',
-    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf UKAGV. Zuverlässig, kompetent und immer erreichbar.',
+    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf Uka-GV. Zuverlässig, kompetent und immer erreichbar.',
   },
 ]
 
@@ -68,8 +68,8 @@ export default function TestimonialsSection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-            <span className="text-white">Stimmen aus der </span>
-            <span className="gradient-text">Region</span>
+            <span className="text-white">Unsere Kunden </span>
+            <span className="gradient-text">sagen...</span>
           </h2>
 
           {/* Sterne-Bewertung */}
@@ -126,12 +126,12 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 flex justify-center gap-8 text-base text-dark-500"
+          className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm sm:text-base text-dark-500"
         >
           <span>Google: 4.9</span>
-          <span>•</span>
+          <span className="hidden sm:inline">•</span>
           <span>ProvenExpert: 4.8</span>
-          <span>•</span>
+          <span className="hidden sm:inline">•</span>
           <span>98% Empfehlungsrate</span>
         </motion.div>
       </div>

@@ -8,7 +8,6 @@ const partners = [
   'Telekom Deutschland',
   'Vodafone',
   'Deutsche Glasfaser',
-  'M-Net',
 ]
 
 export default function PartnersSection() {
@@ -64,10 +63,10 @@ export default function PartnersSection() {
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Starke Partnerschaften
+            Unsere Partner
           </h2>
           <p className="text-dark-300 text-lg md:text-xl">
-            Zertifizierter Partner der führenden Netzbetreiber
+            Starke Partnerschaften entstehen durch Vertrauen, Verlässlichkeit und gemeinsame Ziele.
           </p>
         </motion.div>
 
@@ -76,12 +75,12 @@ export default function PartnersSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-5"
+          className="flex flex-wrap justify-center gap-3 sm:gap-5"
         >
           {partners.map((partner, index) => (
             <span
               key={index}
-              className="px-6 py-3 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-base font-medium"
+              className="px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-sm sm:text-base font-medium"
             >
               {partner}
             </span>

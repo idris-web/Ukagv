@@ -48,7 +48,7 @@ export default function CTASection() {
           <div className="text-base md:text-lg text-dark-400 space-y-2">
             <p>{siteConfig.contact.phoneDisplay}</p>
             <p>{siteConfig.contact.email}</p>
-            <p>Mo-Fr: 7:00 - 17:00 Uhr</p>
+            <p>{siteConfig.hours.weekdays}</p>
           </div>
         </motion.div>
       </div>

@@ -49,7 +49,7 @@ export default function Navigation() {
                   className="text-white"
                   whileHover={{ textShadow: '0 0 8px rgba(255,255,255,0.5)' }}
                 >
-                  UKA
+                  Uka
                 </motion.span>
                 <motion.span
                   className="text-fiber-400"
@@ -127,7 +127,7 @@ export default function Navigation() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <span className="text-white">UKA</span>
+                  <span className="text-white">Uka</span>
                   <motion.span
                     className="text-fiber-400"
                     animate={{

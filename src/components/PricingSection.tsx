@@ -193,7 +193,7 @@ export default function PricingSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Projekt <span className="text-fiber-400">anfragen</span>
           </h2>
-          <p className="text-dark-400 text-lg max-w-2xl mx-auto">
+          <p className="text-dark-400 text-base sm:text-lg max-w-2xl mx-auto">
             Glasfaser komplett – von der Planung bis zur Abnahme. Laden Sie Ihr Leistungsverzeichnis hoch für ein individuelles Angebot.
           </p>
         </motion.div>
@@ -356,11 +356,12 @@ export default function PricingSection() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-dark-400 mb-1.5">Telefon</label>
+                  <label className="block text-sm text-dark-400 mb-1.5">Telefon *</label>
                   <div className="relative">
                     <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-500" />
                     <input
                       type="tel"
+                      required
                       value={formData.phone}
                       onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                       className="w-full pl-10 pr-4 py-3 bg-dark-900/50 border border-dark-600 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:border-fiber-400 transition-colors"
@@ -371,11 +372,12 @@ export default function PricingSection() {
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm text-dark-400 mb-1.5">Projektstandort</label>
+                <label className="block text-sm text-dark-400 mb-1.5">Projektstandort (PLZ) *</label>
                 <div className="relative">
                   <MapPin size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-500" />
                   <input
                     type="text"
+                    required
                     value={formData.location}
                     onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                     className="w-full pl-10 pr-4 py-3 bg-dark-900/50 border border-dark-600 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:border-fiber-400 transition-colors"

@@ -44,8 +44,10 @@ export default function ProcessSection() {
         </motion.div>
 
         {/* === STEPS TIMELINE === */}
-        {/* Horizontale Schritte mit Verbindungslinie */}
-        <div className="flex justify-between items-start relative">
+        {/* Mobile: Vertikal, Desktop: Horizontal */}
+
+        {/* Desktop Layout */}
+        <div className="hidden md:flex justify-between items-start relative">
           {/* Verbindungslinie mit Animation */}
           <div className="connection-line absolute top-8 left-[10%] right-[10%]" />
 
@@ -55,7 +57,7 @@ export default function ProcessSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="flex flex-col items-center text-center relative z-10 w-20 md:w-28"
+              className="flex flex-col items-center text-center relative z-10 w-28"
             >
               {/* Kreis mit Icon und Pulse */}
               <div
@@ -65,8 +67,42 @@ export default function ProcessSection() {
                 <step.icon className="w-7 h-7 drop-shadow-[0_0_8px_currentColor]" style={{ color: step.color }} />
               </div>
 
-              <div className="text-base md:text-lg font-bold text-white">{step.title}</div>
+              <div className="text-lg font-bold text-white">{step.title}</div>
               <div className="text-sm text-dark-500 mt-1">{step.desc}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile Layout - Vertikal */}
+        <div className="md:hidden space-y-6">
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="flex items-center gap-4 relative"
+            >
+              {/* Vertikale Verbindungslinie */}
+              {index < steps.length - 1 && (
+                <div
+                  className="absolute left-7 top-16 w-0.5 h-6 bg-gradient-to-b"
+                  style={{ background: `linear-gradient(to bottom, ${step.color}40, ${steps[index + 1].color}40)` }}
+                />
+              )}
+
+              {/* Kreis mit Icon */}
+              <div
+                className="timeline-dot w-14 h-14 rounded-full flex items-center justify-center border-2 shrink-0"
+                style={{ backgroundColor: `${step.color}20`, borderColor: step.color, color: step.color }}
+              >
+                <step.icon className="w-6 h-6" style={{ color: step.color }} />
+              </div>
+
+              <div>
+                <div className="text-base font-bold text-white">{step.title}</div>
+                <div className="text-sm text-dark-500">{step.desc}</div>
+              </div>
             </motion.div>
           ))}
         </div>

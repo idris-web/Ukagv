@@ -47,7 +47,7 @@ export default function Footer() {
                 <Cable className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-bold font-display text-white text-xl block">UKA-GV</span>
+                <span className="font-bold font-display text-white text-xl block">Uka-GV</span>
                 <span className="text-sm text-fiber-400">Wir machen das.</span>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function Footer() {
 
         {/* === BOTTOM BAR === */}
         <div className="pt-8 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-dark-500">
-          <span>© {new Date().getFullYear()} UKA-GV</span>
+          <span>© {new Date().getFullYear()} Uka-GV</span>
 
           <div className="flex gap-6">
             {legal.map((item) => (

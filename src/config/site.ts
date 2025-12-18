@@ -1,6 +1,6 @@
 // Site Configuration - Zentrale Konfiguration für die gesamte Website
 export const siteConfig = {
-  name: 'UKA-GV',
+  name: 'Uka-GV',
   slogan: 'Wir machen das.',
   description: 'Ihr Spezialist für Breitbandausbau und FTTH in Süddeutschland',
 

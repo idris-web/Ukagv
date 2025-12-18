@@ -42,7 +42,7 @@ export default function AboutSection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-            <span className="text-white">UKA-GV – </span>
+            <span className="text-white">Uka-GV – </span>
             <span className="gradient-text">Wir machen das.</span>
           </h2>
 

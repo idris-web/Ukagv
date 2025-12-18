@@ -43,7 +43,7 @@ export default function HeroSection() {
         >
           <span className="text-white">UKA-GV</span>
           <br />
-          <span className="gradient-text">Wir machen das.</span>
+          <span className="gradient-text">Planung. Bau. Vernetzung.</span>
         </motion.h1>
 
         {/* Slogan - Klare Leistungsbeschreibung */}

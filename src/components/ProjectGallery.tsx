@@ -85,7 +85,7 @@ export default function ProjectGallery() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex justify-center gap-12 md:gap-16 mb-12"
+          className="flex justify-center gap-8 sm:gap-12 md:gap-16 mb-12"
         >
           {[
             { value: '847+', label: 'Projekte' },

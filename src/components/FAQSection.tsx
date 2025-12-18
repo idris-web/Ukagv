@@ -80,12 +80,14 @@ export default function FAQSection() {
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 aria-expanded={openIndex === index}
+                aria-controls={`faq-answer-${index}`}
+                id={`faq-question-${index}`}
                 className={`fiber-card w-full p-5 md:p-6 text-left flex items-center justify-between gap-4 ${
                   openIndex === index ? 'border-fiber-500/30' : ''
                 }`}
               >
-                <span className="font-semibold text-white text-lg">{faq.q}</span>
-                <ChevronDown className={`w-6 h-6 text-dark-500 transition-transform shrink-0 ${
+                <span className="font-semibold text-white text-base sm:text-lg">{faq.q}</span>
+                <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-dark-500 transition-transform shrink-0 ${
                   openIndex === index ? 'rotate-180' : ''
                 }`} />
               </button>
@@ -99,8 +101,11 @@ export default function FAQSection() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
+                    id={`faq-answer-${index}`}
+                    role="region"
+                    aria-labelledby={`faq-question-${index}`}
                   >
-                    <div className="p-5 md:p-6 text-dark-300 text-base md:text-lg leading-relaxed">{faq.a}</div>
+                    <div className="p-5 md:p-6 text-dark-300 text-sm sm:text-base md:text-lg leading-relaxed">{faq.a}</div>
                   </motion.div>
                 )}
               </AnimatePresence>

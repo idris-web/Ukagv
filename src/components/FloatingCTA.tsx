@@ -46,7 +46,7 @@ export default function FloatingCTA() {
                   Jetzt anrufen
                 </motion.a>
                 <motion.a
-                  href={`https://wa.me/4991112345678?text=Hallo,%20ich%20interessiere%20mich%20für%20Glasfaser-Tiefbau.`}
+                  href={`https://wa.me/4991147768323?text=Hallo,%20ich%20interessiere%20mich%20für%20Glasfaser-Tiefbau.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-14 rounded-xl bg-[#25D366] text-white"
@@ -85,7 +85,7 @@ export default function FloatingCTA() {
 
                   {/* WhatsApp Button */}
                   <motion.a
-                    href={`https://wa.me/4991112345678?text=Hallo,%20ich%20interessiere%20mich%20für%20Glasfaser-Tiefbau.`}
+                    href={`https://wa.me/4991147768323?text=Hallo,%20ich%20interessiere%20mich%20für%20Glasfaser-Tiefbau.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center gap-3 px-5 py-3 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:shadow-[#25D366]/50 transition-shadow"

@@ -117,7 +117,7 @@ export default function KarriereSection() {
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Karriere bei </span>
-            <span className="gradient-text">UKA-GV</span>
+            <span className="gradient-text">Uka-GV</span>
           </h2>
 
           <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
@@ -141,20 +141,23 @@ export default function KarriereSection() {
                 {/* Job Header - Clickable */}
                 <button
                   onClick={() => setOpenJob(isOpen ? null : job.id)}
-                  className={`w-full fiber-card p-6 text-left flex items-center gap-5 transition-all ${
+                  aria-expanded={isOpen}
+                  aria-controls={`job-details-${job.id}`}
+                  id={`job-header-${job.id}`}
+                  className={`w-full fiber-card p-5 sm:p-6 text-left flex items-center gap-4 sm:gap-5 transition-all ${
                     isOpen ? 'border-fiber-500/30' : ''
                   }`}
                 >
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${job.color} flex items-center justify-center shrink-0`}>
-                    <Icon className="w-7 h-7 text-white" />
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${job.color} flex items-center justify-center shrink-0`}>
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-white text-xl mb-1">{job.title}</h3>
-                    <p className="text-dark-400 text-sm">{job.type}</p>
+                    <h3 className="font-bold text-white text-lg sm:text-xl mb-1">{job.title}</h3>
+                    <p className="text-dark-400 text-xs sm:text-sm">{job.type}</p>
                   </div>
 
-                  <ChevronDown className={`w-6 h-6 text-dark-500 transition-transform shrink-0 ${
+                  <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-dark-500 transition-transform shrink-0 ${
                     isOpen ? 'rotate-180' : ''
                   }`} />
                 </button>
@@ -168,8 +171,11 @@ export default function KarriereSection() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
+                      id={`job-details-${job.id}`}
+                      role="region"
+                      aria-labelledby={`job-header-${job.id}`}
                     >
-                      <div className="p-6 md:p-8 bg-dark-800/30 border border-t-0 border-dark-700/50 rounded-b-2xl -mt-2">
+                      <div className="p-5 sm:p-6 md:p-8 bg-dark-800/30 border border-t-0 border-dark-700/50 rounded-b-2xl -mt-2">
                         <p className="text-dark-300 text-lg mb-6">{job.description}</p>
 
                         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -243,14 +249,14 @@ export default function KarriereSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12 text-center"
         >
-          <div className="inline-flex items-center gap-6 text-dark-400">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-dark-400">
             <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4" />
+              <Mail className="w-4 h-4 shrink-0" />
               <span>bewerbung@uka-gv.de</span>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              <span>Georg-Strobel-Straße 65, 90489 Nürnberg</span>
+              <MapPin className="w-4 h-4 shrink-0" />
+              <span className="text-center sm:text-left">Georg-Strobel-Straße 65, 90489 Nürnberg</span>
             </div>
           </div>
         </motion.div>
