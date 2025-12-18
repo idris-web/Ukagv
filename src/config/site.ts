@@ -5,9 +5,9 @@ export const siteConfig = {
   description: 'Ihr Spezialist für Breitbandausbau und FTTH in Süddeutschland',
 
   contact: {
-    phone: '+49 911 477 683 20',
-    phoneDisplay: '0911 477 683 20',
-    phoneHref: 'tel:+499114776832',
+    phone: '+49 911 47768323',
+    phoneDisplay: '0911 47768323',
+    phoneHref: 'tel:+4991147768323',
     fax: '+49 911 477 683 29',
     faxDisplay: '0911 477 683 29',
     email: 'info@uka-gv.de',
