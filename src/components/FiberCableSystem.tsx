@@ -74,7 +74,14 @@ const FiberCable = memo(function FiberCable({
   // Use index as seed for symmetry - same index = same offsets (mirrored)
   const seed = cable.index * 137
 
-  const sortedXPercent = isLeft ? 2 + cable.index * 2 : 98 - cable.index * 2
+  // Enger Abstand wie echtes Glasfaserbündel (ca. 4-5px zwischen Kabeln)
+  const bundleStartLeft = 3    // 3% vom linken Rand
+  const bundleStartRight = 97  // 97% (3% vom rechten Rand)
+  const cableSpacing = 0.25    // 0.25% Abstand = ~5px bei 1920px Canvas
+
+  const sortedXPercent = isLeft
+    ? bundleStartLeft + cable.index * cableSpacing
+    : bundleStartRight - cable.index * cableSpacing
   const sortedX = (sortedXPercent / 100) * CANVAS.width
 
   const chaosOffsetX = seededRandom(seed) * 300 - 150
