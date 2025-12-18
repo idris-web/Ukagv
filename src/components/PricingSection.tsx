@@ -309,98 +309,6 @@ export default function PricingSection() {
                 )}
               </AnimatePresence>
 
-              {/* File Upload Area */}
-              <div className="mb-6">
-                <label className="block text-sm text-dark-400 mb-2">
-                  Leistungsverzeichnis hochladen
-                </label>
-                <div
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                  className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
-                    isDragging
-                      ? 'border-fiber-400 bg-fiber-400/10'
-                      : 'border-dark-600 hover:border-dark-500 bg-dark-900/30'
-                  }`}
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    accept={ACCEPTED_EXTENSIONS.join(',')}
-                    onChange={(e) => e.target.files && handleFiles(e.target.files)}
-                    className="hidden"
-                  />
-
-                  <Upload size={32} className={`mx-auto mb-3 ${isDragging ? 'text-fiber-400' : 'text-dark-500'}`} />
-                  <p className="text-white font-medium mb-1">
-                    {isDragging ? 'Dateien hier ablegen' : 'Dateien hierher ziehen'}
-                  </p>
-                  <p className="text-sm text-dark-500 mb-3">
-                    oder klicken zum Auswählen
-                  </p>
-                  <p className="text-xs text-dark-600">
-                    PDF, Excel, Word, GAEB (X83, D83) • Max. 10MB
-                  </p>
-                </div>
-
-                {/* Virus scan notice */}
-                <div className="flex items-center gap-2 mt-3 text-xs text-dark-500">
-                  <Shield size={14} className="text-emerald-500" />
-                  <span>Automatischer Virenscan nach Upload</span>
-                </div>
-
-                {/* Uploaded files list */}
-                <AnimatePresence>
-                  {uploadedFiles.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="mt-4 space-y-2"
-                    >
-                      {uploadedFiles.map(item => (
-                        <motion.div
-                          key={item.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 20 }}
-                          className={`flex items-center gap-3 p-3 rounded-lg ${
-                            item.status === 'error'
-                              ? 'bg-red-500/10 border border-red-500/30'
-                              : 'bg-dark-800/50 border border-dark-700/50'
-                          }`}
-                        >
-                          {getFileIcon(item.file.name)}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-white truncate">{item.file.name}</p>
-                            {item.error ? (
-                              <p className="text-xs text-red-400 flex items-center gap-1">
-                                <AlertCircle size={12} />
-                                {item.error}
-                              </p>
-                            ) : (
-                              <p className="text-xs text-dark-500">
-                                {(item.file.size / 1024).toFixed(0)} KB
-                              </p>
-                            )}
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(item.id)}
-                            className="p-1.5 rounded-lg hover:bg-dark-700 transition-colors"
-                          >
-                            <X size={14} className="text-dark-400" />
-                          </button>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
               {/* Form fields */}
               <div className="grid md:grid-cols-2 gap-4 mb-4">
                 <div>
@@ -489,6 +397,98 @@ export default function PricingSection() {
                     placeholder="Kurze Beschreibung Ihres Projekts (optional wenn LV hochgeladen)..."
                   />
                 </div>
+              </div>
+
+              {/* File Upload Area - Leistungsverzeichnis */}
+              <div className="mb-6">
+                <label className="block text-sm text-dark-400 mb-2">
+                  Leistungsverzeichnis hochladen (optional)
+                </label>
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
+                    isDragging
+                      ? 'border-fiber-400 bg-fiber-400/10'
+                      : 'border-dark-600 hover:border-dark-500 bg-dark-900/30'
+                  }`}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept={ACCEPTED_EXTENSIONS.join(',')}
+                    onChange={(e) => e.target.files && handleFiles(e.target.files)}
+                    className="hidden"
+                  />
+
+                  <Upload size={32} className={`mx-auto mb-3 ${isDragging ? 'text-fiber-400' : 'text-dark-500'}`} />
+                  <p className="text-white font-medium mb-1">
+                    {isDragging ? 'Dateien hier ablegen' : 'Dateien hierher ziehen'}
+                  </p>
+                  <p className="text-sm text-dark-500 mb-3">
+                    oder klicken zum Auswählen
+                  </p>
+                  <p className="text-xs text-dark-600">
+                    PDF, Excel, Word, GAEB (X83, D83) • Max. 10MB
+                  </p>
+                </div>
+
+                {/* Virus scan notice */}
+                <div className="flex items-center gap-2 mt-3 text-xs text-dark-500">
+                  <Shield size={14} className="text-emerald-500" />
+                  <span>Automatischer Virenscan nach Upload</span>
+                </div>
+
+                {/* Uploaded files list */}
+                <AnimatePresence>
+                  {uploadedFiles.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-4 space-y-2"
+                    >
+                      {uploadedFiles.map(item => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          className={`flex items-center gap-3 p-3 rounded-lg ${
+                            item.status === 'error'
+                              ? 'bg-red-500/10 border border-red-500/30'
+                              : 'bg-dark-800/50 border border-dark-700/50'
+                          }`}
+                        >
+                          {getFileIcon(item.file.name)}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-white truncate">{item.file.name}</p>
+                            {item.error ? (
+                              <p className="text-xs text-red-400 flex items-center gap-1">
+                                <AlertCircle size={12} />
+                                {item.error}
+                              </p>
+                            ) : (
+                              <p className="text-xs text-dark-500">
+                                {(item.file.size / 1024).toFixed(0)} KB
+                              </p>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(item.id)}
+                            className="p-1.5 rounded-lg hover:bg-dark-700 transition-colors"
+                          >
+                            <X size={14} className="text-dark-400" />
+                          </button>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <motion.button
