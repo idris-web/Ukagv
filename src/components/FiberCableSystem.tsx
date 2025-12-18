@@ -14,15 +14,16 @@ interface ServiceCable {
   index: number
 }
 
+// Standard Glasfaser-Farben nach DIN VDE 0888
 const SERVICE_CABLES: ServiceCable[] = [
-  { id: 'privat', color: '#22d3ee', side: 'left', index: 0 },
-  { id: 'gewerbe', color: '#3b82f6', side: 'left', index: 1 },
-  { id: 'tiefbau', color: '#10b981', side: 'left', index: 2 },
-  { id: 'beratung', color: '#f59e0b', side: 'left', index: 3 },
-  { id: 'wartung', color: '#ef4444', side: 'right', index: 3 },
-  { id: 'netzwerk', color: '#a855f7', side: 'right', index: 2 },
-  { id: 'spleissen', color: '#ec4899', side: 'right', index: 1 },
-  { id: 'hausmeister', color: '#14b8a6', side: 'right', index: 0 },
+  { id: 'rot', color: '#FF0000', side: 'left', index: 0 },        // rt - Rot
+  { id: 'gruen', color: '#00DD00', side: 'left', index: 1 },      // gn - Grün
+  { id: 'blau', color: '#0066FF', side: 'left', index: 2 },       // bl - Blau
+  { id: 'gelb', color: '#FFEE00', side: 'left', index: 3 },       // ge - Gelb
+  { id: 'weiss', color: '#FFFFFF', side: 'right', index: 3 },     // ws - Weiß
+  { id: 'grau', color: '#888888', side: 'right', index: 2 },      // gr - Grau
+  { id: 'braun', color: '#8B4513', side: 'right', index: 1 },     // br - Braun
+  { id: 'violett', color: '#9932CC', side: 'right', index: 0 },   // vi - Violett
 ]
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -53,9 +54,9 @@ const CANVAS = {
 // FIBER CABLE WITH MULTIPLE STRANDS - Optimized
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const STRAND_COUNT = 3
-const STRAND_SPACING = 10
-const STRAND_THICKNESS = 2.5
+const STRAND_COUNT = 1  // Eine Linie pro Farbe (echte Glasfaser-Optik)
+const STRAND_SPACING = 0
+const STRAND_THICKNESS = 3
 
 const FiberCable = memo(function FiberCable({
   cable,
