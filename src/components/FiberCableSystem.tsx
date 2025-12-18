@@ -4,43 +4,28 @@ import { useScroll, useSpring } from 'framer-motion'
 import { useEffect, useState, memo } from 'react'
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CABLES CONFIG
+// DIAGONAL CABLES CONFIG - Daxnet Style
 // ═══════════════════════════════════════════════════════════════════════════════
 
-interface ServiceCable {
+interface DiagonalCable {
   id: string
   color: string
-  side: 'left' | 'right'
+  startX: number  // % von rechts (oben)
+  endX: number    // % von links (unten)
   index: number
 }
 
-// Glasfaser-Farben - Links klassisch, Rechts leuchtend
-const SERVICE_CABLES: ServiceCable[] = [
-  // Links: Klassische Farben
-  { id: 'rot', color: '#FF0000', side: 'left', index: 0 },        // Rot
-  { id: 'gruen', color: '#00DD00', side: 'left', index: 1 },      // Grün
-  { id: 'blau', color: '#0066FF', side: 'left', index: 2 },       // Blau
-  { id: 'gelb', color: '#FFEE00', side: 'left', index: 3 },       // Gelb
-  // Rechts: Leuchtende Farben
-  { id: 'hellrot', color: '#FF6B6B', side: 'right', index: 3 },   // Hellrot
-  { id: 'violett', color: '#A855F7', side: 'right', index: 2 },   // Violett
-  { id: 'rosa', color: '#FF69B4', side: 'right', index: 1 },      // Rosa/Pink
-  { id: 'orange', color: '#FF8C00', side: 'right', index: 0 },    // Orange
+// 8 Kabel diagonal von oben-rechts nach unten-links
+const DIAGONAL_CABLES: DiagonalCable[] = [
+  { id: 'rot', color: '#FF0000', startX: 95, endX: 5, index: 0 },
+  { id: 'gruen', color: '#00DD00', startX: 91, endX: 9, index: 1 },
+  { id: 'blau', color: '#0066FF', startX: 87, endX: 13, index: 2 },
+  { id: 'gelb', color: '#FFEE00', startX: 83, endX: 17, index: 3 },
+  { id: 'hellrot', color: '#FF6B6B', startX: 79, endX: 21, index: 4 },
+  { id: 'violett', color: '#A855F7', startX: 75, endX: 25, index: 5 },
+  { id: 'rosa', color: '#FF69B4', startX: 71, endX: 29, index: 6 },
+  { id: 'orange', color: '#FF8C00', startX: 67, endX: 33, index: 7 },
 ]
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// MATH UTILITIES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
-const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4)
-
-const seededRandom = (seed: number) => {
-  const x = Math.sin(seed * 9999) * 10000
-  return x - Math.floor(x)
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CANVAS
@@ -49,235 +34,91 @@ const seededRandom = (seed: number) => {
 const CANVAS = {
   width: 1920,
   height: 6000,
-  convergence: { x: 960, y: 5400 },
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// FIBER CABLE WITH MULTIPLE STRANDS - Optimized
+// DIAGONAL FIBER CABLE - Dezent hinter Content
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const STRAND_COUNT = 1  // Eine Linie pro Farbe (echte Glasfaser-Optik)
-const STRAND_SPACING = 0
-const STRAND_THICKNESS = 3
+const STRAND_THICKNESS = 2
 
-const FiberCable = memo(function FiberCable({
+const DiagonalFiberCable = memo(function DiagonalFiberCable({
   cable,
   progress
 }: {
-  cable: ServiceCable
+  cable: DiagonalCable
   progress: number
 }) {
-  const entryProgress = clamp(progress / 0.15, 0, 1)
-  const entryEased = easeOutQuart(entryProgress)
-  const convergeProgress = clamp((progress - 0.85) / 0.15, 0, 1)
-  const convergeEased = easeInOutCubic(convergeProgress)
+  // Positionen berechnen
+  const startX = (cable.startX / 100) * CANVAS.width
+  const startY = -100 + cable.index * 40  // Gestaffelt oben
+  const endX = (cable.endX / 100) * CANVAS.width
+  const endY = CANVAS.height + 100
 
-  const isLeft = cable.side === 'left'
-  // Use index as seed for symmetry - same index = same offsets (mirrored)
-  const seed = cable.index * 137
+  // Sanfte S-Kurve durch die Mitte
+  const cp1X = startX - 150
+  const cp1Y = CANVAS.height * 0.25
+  const cp2X = endX + 150
+  const cp2Y = CANVAS.height * 0.75
 
-  // Enger Abstand wie echtes Glasfaserbündel (ca. 4-5px zwischen Kabeln)
-  const bundleStartLeft = 3    // 3% vom linken Rand
-  const bundleStartRight = 97  // 97% (3% vom rechten Rand)
-  const cableSpacing = 0.25    // 0.25% Abstand = ~5px bei 1920px Canvas
+  const path = `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`
 
-  const sortedXPercent = isLeft
-    ? bundleStartLeft + cable.index * cableSpacing
-    : bundleStartRight - cable.index * cableSpacing
-  const sortedX = (sortedXPercent / 100) * CANVAS.width
-
-  const chaosOffsetX = seededRandom(seed) * 300 - 150
-  const chaosOffsetY = seededRandom(seed + 1) * 200
-  // Mirror the chaos position for right side
-  const chaosX = isLeft ? -100 + chaosOffsetX : CANVAS.width + 100 - chaosOffsetX
-  const chaosY = -150 - chaosOffsetY
-
-  // Base path calculation
-  const startX = lerp(chaosX, sortedX, entryEased)
-  const startY = lerp(chaosY, -50, entryEased)
-  const cp1X = lerp(isLeft ? chaosX + 200 : chaosX - 200, sortedX, entryEased)
-  const cp1Y = lerp(chaosY + 400, 400, entryEased)
-  const midX = sortedX
-  const midY = 2800
-  const cp2X = sortedX
-  const cp2Y = 1800
-  const cp3X = lerp(sortedX, (sortedX + CANVAS.convergence.x) / 2, convergeEased * 0.6)
-  const cp3Y = lerp(3800, 4600, convergeEased * 0.5)
-  const cp4X = lerp(sortedX, CANVAS.convergence.x, convergeEased * 0.85)
-  const cp4Y = lerp(4800, CANVAS.convergence.y - 300, convergeEased)
-  const endX = lerp(sortedX, CANVAS.convergence.x, convergeEased * 0.98)
-  const endY = lerp(5200, CANVAS.convergence.y, convergeEased)
-
-  const opacity = 0.7 + convergeEased * 0.3
-  const glowOpacity = 0.2 + convergeEased * 0.15
-
-  // Generate strands with offsets
-  const strands = []
-  for (let i = 0; i < STRAND_COUNT; i++) {
-    const offset = (i - (STRAND_COUNT - 1) / 2) * STRAND_SPACING
-    const strandSeed = seed + i * 100
-    const wobble = seededRandom(strandSeed) * 6 - 3
-
-    const path = `M ${startX + offset + wobble} ${startY} C ${cp1X + offset} ${cp1Y}, ${cp2X + offset} ${cp2Y}, ${midX + offset} ${midY} C ${cp3X + offset * (1 - convergeEased)} ${cp3Y}, ${cp4X + offset * (1 - convergeEased * 0.8)} ${cp4Y}, ${endX} ${endY}`
-
-    strands.push({ path, offset, i })
-  }
+  // Dezente Opacity (0.15 → 0.25 beim Scrollen)
+  const opacity = 0.15 + progress * 0.10
+  const glowOpacity = 0.05 + progress * 0.05
 
   return (
     <g>
-      {/* Bundle glow - thick outer glow */}
+      {/* Outer glow - sehr dezent */}
       <path
-        d={strands[Math.floor(STRAND_COUNT / 2)].path}
+        d={path}
         stroke={cable.color}
-        strokeWidth={STRAND_THICKNESS + 18}
+        strokeWidth={STRAND_THICKNESS + 8}
         fill="none"
-        opacity={glowOpacity * 0.4}
+        opacity={glowOpacity * 0.5}
         strokeLinecap="round"
       />
 
-      {/* Individual strand glows and cores */}
-      {strands.map(({ path, i }) => (
-        <g key={i}>
-          {/* Strand glow */}
-          <path
-            d={path}
-            stroke={cable.color}
-            strokeWidth={STRAND_THICKNESS + 6}
-            fill="none"
-            opacity={glowOpacity * 0.6}
-            strokeLinecap="round"
-          />
-          {/* Strand core */}
-          <path
-            d={path}
-            stroke={cable.color}
-            strokeWidth={STRAND_THICKNESS}
-            fill="none"
-            opacity={opacity}
-            strokeLinecap="round"
-          />
-          {/* Light pulse per strand - CSS animation */}
-          <circle r={4} fill="white" opacity={0.9}>
-            <animateMotion
-              dur={`${4 + cable.index * 0.3 + i * 0.7}s`}
-              repeatCount="indefinite"
-              path={path}
-            />
-            <animate
-              attributeName="opacity"
-              values="0.3;1;0.3"
-              dur="1.2s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="r"
-              values="3;5;3"
-              dur="1.2s"
-              repeatCount="indefinite"
-            />
-          </circle>
-        </g>
-      ))}
-    </g>
-  )
-})
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CONVERGENCE GLOW - Simplified
-// ═══════════════════════════════════════════════════════════════════════════════
-
-const ConvergenceGlow = memo(function ConvergenceGlow({ progress }: { progress: number }) {
-  const glowProgress = clamp((progress - 0.88) / 0.12, 0, 1)
-  if (glowProgress <= 0) return null
-
-  const eased = easeInOutCubic(glowProgress)
-  const { x, y } = CANVAS.convergence
-
-  return (
-    <g>
-      <circle
-        cx={x}
-        cy={y}
-        r={40 + eased * 60}
-        fill="url(#convergenceGradient)"
-        opacity={eased * 0.4}
+      {/* Inner glow */}
+      <path
+        d={path}
+        stroke={cable.color}
+        strokeWidth={STRAND_THICKNESS + 4}
+        fill="none"
+        opacity={glowOpacity}
+        strokeLinecap="round"
       />
-      <circle
-        cx={x}
-        cy={y}
-        r={10 + eased * 20}
-        fill="white"
-        opacity={0.6 + eased * 0.4}
+
+      {/* Core line */}
+      <path
+        d={path}
+        stroke={cable.color}
+        strokeWidth={STRAND_THICKNESS}
+        fill="none"
+        opacity={opacity}
+        strokeLinecap="round"
       />
-    </g>
-  )
-})
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// BACKGROUND NETWORK - Reduced and optimized
-// ═══════════════════════════════════════════════════════════════════════════════
-
-// Pre-generate static network (fewer nodes)
-const NETWORK_DATA = (() => {
-  const nodes: { x: number; y: number; color: string }[] = []
-  const lines: { x1: number; y1: number; x2: number; y2: number }[] = []
-  const colors = ['#22d3ee', '#3b82f6', '#a855f7', '#10b981']
-
-  // Only 24 nodes instead of 96
-  for (let row = 0; row < 4; row++) {
-    for (let col = 0; col < 6; col++) {
-      const id = row * 6 + col
-      const x = (col + 0.5) * (CANVAS.width / 6) + (seededRandom(id * 17) - 0.5) * 100
-      const y = (row + 0.5) * (1000 / 4) + (seededRandom(id * 31) - 0.5) * 60
-      nodes.push({ x, y, color: colors[id % colors.length] })
-    }
-  }
-
-  // Create fewer connections
-  nodes.forEach((node, i) => {
-    nodes.forEach((other, j) => {
-      if (i < j) {
-        const dist = Math.sqrt((node.x - other.x) ** 2 + (node.y - other.y) ** 2)
-        if (dist < 350 && seededRandom(i * j) > 0.6) {
-          lines.push({ x1: node.x, y1: node.y, x2: other.x, y2: other.y })
-        }
-      }
-    })
-  })
-
-  return { nodes, lines }
-})()
-
-const BackgroundNetwork = memo(function BackgroundNetwork({ progress }: { progress: number }) {
-  const opacity = Math.max(0, 1 - progress * 4)
-  if (opacity <= 0) return null
-
-  return (
-    <g opacity={opacity * 0.2} style={{ willChange: 'opacity' }}>
-      {/* Static lines */}
-      {NETWORK_DATA.lines.map((line, i) => (
-        <line
-          key={i}
-          x1={line.x1}
-          y1={line.y1}
-          x2={line.x2}
-          y2={line.y2}
-          stroke="url(#networkGradient)"
-          strokeWidth={0.5}
-          opacity={0.6}
+      {/* Animierter Lichtpuls */}
+      <circle r={3} fill="white" opacity={0.8}>
+        <animateMotion
+          dur={`${3 + cable.index * 0.4}s`}
+          repeatCount="indefinite"
+          path={path}
         />
-      ))}
-      {/* Static nodes */}
-      {NETWORK_DATA.nodes.map((node, i) => (
-        <circle
-          key={i}
-          cx={node.x}
-          cy={node.y}
-          r={3}
-          fill={node.color}
-          opacity={0.5}
+        <animate
+          attributeName="opacity"
+          values="0.4;1;0.4"
+          dur="1s"
+          repeatCount="indefinite"
         />
-      ))}
+        <animate
+          attributeName="r"
+          values="2;4;2"
+          dur="1s"
+          repeatCount="indefinite"
+        />
+      </circle>
     </g>
   )
 })
@@ -291,7 +132,6 @@ export default function FiberCableSystem() {
   const { scrollYProgress } = useScroll()
   const [progress, setProgress] = useState(0)
 
-  // Smoother spring with less reactivity
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 40,
     damping: 30,
@@ -299,7 +139,6 @@ export default function FiberCableSystem() {
 
   useEffect(() => {
     const unsubscribe = smoothProgress.on('change', (v) => {
-      // Throttle updates - only update if difference is significant
       setProgress((prev) => {
         if (Math.abs(v - prev) > 0.002) return v
         return prev
@@ -317,7 +156,7 @@ export default function FiberCableSystem() {
   return (
     <div
       className="fixed inset-0 pointer-events-none overflow-hidden"
-      style={{ zIndex: 5, willChange: 'auto' }}
+      style={{ zIndex: 1, willChange: 'auto' }}  // z-1: hinter Content (z-10)
     >
       <svg
         className="absolute w-full"
@@ -325,25 +164,10 @@ export default function FiberCableSystem() {
         viewBox={`0 0 ${CANVAS.width} ${CANVAS.height}`}
         preserveAspectRatio="xMidYMin slice"
       >
-        <defs>
-          <radialGradient id="convergenceGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="40%" stopColor="#22d3ee" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-
-        <BackgroundNetwork progress={progress} />
-
         <g>
-          {SERVICE_CABLES.map((cable) => (
-            <FiberCable key={cable.id} cable={cable} progress={progress} />
+          {DIAGONAL_CABLES.map((cable) => (
+            <DiagonalFiberCable key={cable.id} cable={cable} progress={progress} />
           ))}
-          <ConvergenceGlow progress={progress} />
         </g>
       </svg>
     </div>
