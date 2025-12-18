@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Cookie, X, Shield, Settings } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { siteConfig } from '@/config/site'
 
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false)
@@ -70,6 +71,7 @@ export default function CookieBanner() {
               <button
                 onClick={rejectAll}
                 className="absolute top-4 right-4 p-2 rounded-lg hover:bg-dark-800 transition-colors"
+                aria-label="Cookie-Banner schließen"
               >
                 <X className="w-5 h-5 text-dark-400" />
               </button>
@@ -87,7 +89,7 @@ export default function CookieBanner() {
                       <p className="text-dark-300 text-sm leading-relaxed">
                         Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten.
                         Sie können Ihre Einstellungen jederzeit anpassen.{' '}
-                        <a href="#" className="text-fiber-400 hover:underline">Datenschutzerklärung</a>
+                        <a href={siteConfig.links.privacy} className="text-fiber-400 hover:underline">Datenschutzerklärung</a>
                       </p>
                     </div>
                   </div>
@@ -121,6 +123,7 @@ export default function CookieBanner() {
                     <button
                       onClick={() => setShowSettings(false)}
                       className="p-2 rounded-lg hover:bg-dark-800 transition-colors"
+                      aria-label="Zurück zur Hauptansicht"
                     >
                       <Settings className="w-5 h-5 text-fiber-400" />
                     </button>

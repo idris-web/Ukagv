@@ -28,7 +28,7 @@ export default function PartnersSection() {
 
   return (
     <section className="py-24 relative">
-      <div className="relative z-10 max-w-3xl mx-auto px-8 text-center" ref={ref}>
+      <div className="relative z-10 max-w-5xl mx-auto px-8 text-center" ref={ref}>
         {/* Telekom Highlight */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,14 +37,14 @@ export default function PartnersSection() {
           className="mb-12"
         >
           <div
-            className={`inline-flex items-center gap-2 pl-3 py-2 rounded-full transition-all duration-700 ease-out cursor-default group ${
+            className={`inline-flex items-center gap-3 pl-4 py-3 rounded-full transition-all duration-700 ease-out cursor-default group ${
               badgeRevealed
-                ? 'bg-[#e20074]/15 border border-[#e20074]/40 pr-4'
-                : 'bg-blue-500/10 border border-blue-500/30 pr-3 hover:bg-[#e20074]/15 hover:border-[#e20074]/40 hover:pr-4'
-            } mb-6`}
+                ? 'bg-[#e20074]/15 border border-[#e20074]/40 pr-5'
+                : 'bg-blue-500/10 border border-blue-500/30 pr-4 hover:bg-[#e20074]/15 hover:border-[#e20074]/40 hover:pr-5'
+            } mb-8`}
           >
             <div className="relative">
-              <BadgeCheck className={`w-5 h-5 transition-colors duration-300 ${badgeRevealed ? 'text-blue-400' : 'text-blue-500 group-hover:text-blue-400'}`} />
+              <BadgeCheck className={`w-6 h-6 transition-colors duration-300 ${badgeRevealed ? 'text-blue-400' : 'text-blue-500 group-hover:text-blue-400'}`} />
               {/* Animated pulse rings */}
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-blue-500/50"
@@ -57,16 +57,16 @@ export default function PartnersSection() {
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
               />
             </div>
-            <span className={`overflow-hidden whitespace-nowrap text-sm font-medium text-[#e20074] transition-all duration-700 ease-out ${
-              badgeRevealed ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100'
+            <span className={`overflow-hidden whitespace-nowrap text-base font-semibold text-[#e20074] transition-all duration-700 ease-out ${
+              badgeRevealed ? 'max-w-[250px] opacity-100' : 'max-w-0 opacity-0 group-hover:max-w-[250px] group-hover:opacity-100'
             }`}>
               Offizieller Telekom Partner
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Starke Partnerschaften
           </h2>
-          <p className="text-dark-400 text-lg">
+          <p className="text-dark-300 text-lg md:text-xl">
             Zertifizierter Partner der führenden Netzbetreiber
           </p>
         </motion.div>
@@ -76,12 +76,12 @@ export default function PartnersSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-5"
         >
           {partners.map((partner, index) => (
             <span
               key={index}
-              className="px-5 py-2.5 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-sm"
+              className="px-6 py-3 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-base font-medium"
             >
               {partner}
             </span>

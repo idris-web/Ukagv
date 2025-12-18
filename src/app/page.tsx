@@ -5,6 +5,7 @@ import {
   PartnersSection,
   ServicesSection,
   StatsSection,
+  TechnologySection,
   AboutSection,
   ProcessSection,
   ProjectGallery,
@@ -13,7 +14,8 @@ import {
   CTASection,
   Footer,
   FloatingCTA,
-  CookieBanner
+  CookieBanner,
+  PricingSection
 } from '@/components'
 import { ScrollProgress } from '@/components/effects'
 import FiberCableSystem from '@/components/FiberCableSystem'
@@ -30,6 +32,8 @@ export default function Home() {
       <HeroSection />
       <PartnersSection />
       <ServicesSection />
+      <PricingSection />
+      <TechnologySection />
       <StatsSection />
       <AboutSection />
       <ProcessSection />

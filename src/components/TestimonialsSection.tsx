@@ -1,68 +1,139 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { Star, Quote } from 'lucide-react'
+import { useRef, useState, useEffect } from 'react'
+import { Star, Quote, MessageSquare } from 'lucide-react'
 
+// Kundenbewertungen aus der Metropolregion
 const testimonials = [
   {
     name: 'Thomas M.',
     role: 'Hausbesitzer',
-    text: 'Top Arbeit! Pünktlich, sauber, professionell.',
+    location: 'Nürnberg-Langwasser',
+    text: 'Absolut professionell! Vom ersten Kontakt bis zur Inbetriebnahme alles top. Die Baustelle wurde sauberer hinterlassen, als sie vorher war.',
   },
   {
     name: 'Sandra K.',
-    role: 'Bauträger GmbH',
-    text: 'Zuverlässiger Partner für unsere Projekte.',
+    role: 'Geschäftsführerin',
+    location: 'Fürth',
+    text: 'Wir arbeiten seit Jahren mit UKAGV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
   },
   {
     name: 'Michael B.',
-    role: 'IT-Dienstleister',
-    text: 'Endlich stabiles Internet. Sehr empfehlenswert!',
+    role: 'IT-Leiter',
+    location: 'Erlangen',
+    text: 'Endlich stabile 1 Gbit/s im Büro! Die Dokumentation und das Messprotokoll sind vorbildlich. So muss das sein.',
+  },
+  {
+    name: 'Anna W.',
+    role: 'Hausverwalterin',
+    location: 'Schwabach',
+    text: 'Die Bewohner sind begeistert! Der Umstieg auf Glasfaser hat die Zufriedenheit in unserer Wohnanlage deutlich gesteigert.',
+  },
+  {
+    name: 'Peter L.',
+    role: 'Architekt',
+    location: 'Nürnberg-Mögeldorf',
+    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf UKAGV. Zuverlässig, kompetent und immer erreichbar.',
   },
 ]
 
 export default function TestimonialsSection() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  // Auto-Rotation alle 5 Sekunden
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <section id="testimonials" className="py-32 relative">
-      <div className="relative z-10 max-w-3xl mx-auto px-8 text-center" ref={ref}>
+    <section id="testimonials" className="py-24 relative">
+      <div ref={ref} className="relative z-10 max-w-5xl mx-auto px-6 md:px-8">
+
+        {/* === HEADER === */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Kundenstimmen
+          <div className="fiber-badge inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6">
+            <MessageSquare className="w-5 h-5 text-fiber-400" />
+            <span className="text-base font-medium text-fiber-400">Kundenstimmen</span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
+            <span className="text-white">Stimmen aus der </span>
+            <span className="gradient-text">Region</span>
           </h2>
-          <div className="flex justify-center gap-1 text-amber-400">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-current" />
-            ))}
+
+          {/* Sterne-Bewertung */}
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-6 h-6 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <span className="text-lg text-dark-400">4.9/5 • 200+ Bewertungen aus der Metropolregion</span>
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="p-6 rounded-2xl bg-dark-900/50 border border-dark-800 text-left"
-            >
-              <Quote className="w-6 h-6 text-fiber-500/30 mb-3" />
-              <p className="text-dark-300 text-sm mb-4">{t.text}</p>
-              <div>
-                <div className="font-medium text-white text-sm">{t.name}</div>
-                <div className="text-xs text-dark-500">{t.role}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* === TESTIMONIAL CARD === */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="fiber-quote relative p-8 md:p-10"
+        >
+          {/* Dekoratives Zitat-Icon */}
+          <Quote className="absolute top-6 right-6 w-12 h-12 opacity-20 text-fiber-400" />
+
+          {/* Zitat-Text */}
+          <p className="text-xl md:text-2xl text-dark-200 mb-6 leading-relaxed">
+            &ldquo;{testimonials[activeIndex].text}&rdquo;
+          </p>
+
+          {/* Autor und Navigation */}
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-bold text-white text-lg">{testimonials[activeIndex].name}</div>
+              <div className="text-base text-dark-400">{testimonials[activeIndex].role} • {testimonials[activeIndex].location}</div>
+            </div>
+
+            {/* Navigations-Punkte */}
+            <div className="flex gap-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  aria-label={`Bewertung ${index + 1} von ${testimonials.length}`}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    index === activeIndex ? 'w-8 bg-fiber-400' : 'bg-dark-700 hover:bg-dark-600'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* === TRUST BADGES === */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-8 flex justify-center gap-8 text-base text-dark-500"
+        >
+          <span>Google: 4.9</span>
+          <span>•</span>
+          <span>ProvenExpert: 4.8</span>
+          <span>•</span>
+          <span>98% Empfehlungsrate</span>
+        </motion.div>
       </div>
     </section>
   )

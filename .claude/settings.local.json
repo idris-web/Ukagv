@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git pull:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install)",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:www.react-spring.dev)",
+      "Bash(npm update:*)",
+      "Bash(grep -l \"h-24 bg-gradient-to-b from-dark-950 to-transparent\\|h-24 bg-gradient-to-t from-dark-950 to-transparent\" *.tsx)",
+      "Bash(npm run build:*)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill -9)",
+      "Bash(sips:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Skill(frontend-design:frontend-design)",
+      "Bash(git config:*)"
+    ]
+  }
+}

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { ArrowRight, Phone } from 'lucide-react'
+import { siteConfig } from '@/config/site'
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -11,14 +12,14 @@ export default function HeroSection() {
     offset: ['start start', 'end start']
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
     <section
       ref={ref}
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       {/* Subtle radial glow */}
       <div
@@ -38,11 +39,11 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.1] tracking-tight"
+          className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
         >
-          <span className="text-white">Glasfaser.</span>
+          <span className="text-white">Glasfaser</span>
           <br />
-          <span className="gradient-text">Professionell verlegt.</span>
+          <span className="gradient-text">vom Profi</span>
         </motion.h1>
 
         {/* Slogan */}
@@ -50,10 +51,32 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-xl md:text-2xl text-dark-300 max-w-2xl mx-auto mb-12"
+          className="text-xl md:text-2xl lg:text-3xl text-dark-300 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Highspeed-Internet direkt zu Ihnen – zuverlässig und termingerecht.
+          Ihr Spezialist für Glasfaserausbau in der Metropolregion.
+          Seit 2009 verbinden wir Nürnberg, Fürth, Erlangen und Schwabach mit der Zukunft.
         </motion.p>
+
+        {/* Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-wrap items-center justify-center gap-6 mb-12 text-base md:text-lg text-dark-400"
+        >
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-emerald-400" />
+            ISO 9001 zertifiziert
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-cyan-400" />
+            1.250+ km verlegt
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-blue-400" />
+            52 Fachkräfte
+          </span>
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
@@ -72,8 +95,9 @@ export default function HeroSection() {
 
           {/* Anrufen Button mit Glasfaser/Lightning Effekt */}
           <a
-            href="tel:+4991112345678"
+            href={siteConfig.contact.phoneHref}
             className="relative group overflow-hidden rounded-full"
+            aria-label="Jetzt anrufen"
           >
             {/* Lightning/Fiber SVG Animation */}
             <svg

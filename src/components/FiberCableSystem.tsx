@@ -70,14 +70,16 @@ const FiberCable = memo(function FiberCable({
   const convergeEased = easeInOutCubic(convergeProgress)
 
   const isLeft = cable.side === 'left'
-  const seed = cable.id.charCodeAt(0) * 137
+  // Use index as seed for symmetry - same index = same offsets (mirrored)
+  const seed = cable.index * 137
 
-  const sortedXPercent = isLeft ? 4 + cable.index * 3 : 96 - cable.index * 3
+  const sortedXPercent = isLeft ? 2 + cable.index * 2 : 98 - cable.index * 2
   const sortedX = (sortedXPercent / 100) * CANVAS.width
 
   const chaosOffsetX = seededRandom(seed) * 300 - 150
   const chaosOffsetY = seededRandom(seed + 1) * 200
-  const chaosX = isLeft ? -100 + chaosOffsetX : CANVAS.width + 100 + chaosOffsetX
+  // Mirror the chaos position for right side
+  const chaosX = isLeft ? -100 + chaosOffsetX : CANVAS.width + 100 - chaosOffsetX
   const chaosY = -150 - chaosOffsetY
 
   // Base path calculation

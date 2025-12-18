@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Premium Typography - Syne for display, DM Sans for body */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 
 :root {
   /* UKAGV Brand Colors */
@@ -11,6 +12,10 @@
   --ukagv-silver: #adb5bd;
   --ukagv-dark: #0f172a;
   --fiber-glow: #22d3ee;
+
+  /* Premium accent */
+  --accent-warm: #f59e0b;
+  --accent-success: #10b981;
 }
 
 * {
@@ -24,10 +29,19 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   background: #030712;
-  color: #f8fafc;
+  color: #e2e8f0;
   overflow-x: hidden;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+/* Display typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 /* Vignette background overlay - fixed position */
@@ -290,6 +304,413 @@ body::after {
   color: #fff;
 }
 
+/* ========================================
+   GLASFASER DESIGN SYSTEM
+   Premium Fiber Optic Effects
+   ======================================== */
+
+/* Fiber Card - Glowing Border Animation */
+.fiber-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fiber-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.3) 0%,
+    rgba(59, 130, 246, 0.1) 50%,
+    rgba(6, 182, 212, 0.3) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: all 0.4s;
+}
+
+.fiber-card:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 211, 238, 0.6) 0%,
+    rgba(59, 130, 246, 0.3) 50%,
+    rgba(34, 211, 238, 0.6) 100%
+  );
+}
+
+.fiber-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 30px rgba(6, 182, 212, 0.15),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Fiber Card with Light Trail */
+.fiber-card-trail {
+  position: relative;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.fiber-card-trail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 238, 0.8),
+    rgba(59, 130, 246, 0.8),
+    transparent
+  );
+  animation: lightTrail 4s linear infinite;
+}
+
+.fiber-card-trail::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.2) 0%, transparent 50%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes lightTrail {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Glowing Icon Box */
+.glow-icon {
+  position: relative;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.glow-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  background: inherit;
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.fiber-card:hover .glow-icon::after,
+.fiber-card-trail:hover .glow-icon::after {
+  opacity: 0.5;
+}
+
+/* Pulse Animation for Stats - Clean version without glow */
+.pulse-glow {
+  /* No text glow - clean text */
+}
+
+/* Fiber Section Divider */
+.fiber-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6, 182, 212, 0.3) 20%,
+    rgba(6, 182, 212, 0.5) 50%,
+    rgba(6, 182, 212, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+.fiber-divider::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--fiber-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--fiber-glow), 0 0 30px var(--fiber-glow);
+  animation: dividerPulse 2s ease-in-out infinite;
+}
+
+@keyframes dividerPulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.5); }
+}
+
+/* Data Stream Background */
+.data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-stream::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(6, 182, 212, 0.03) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: dataStreamFlow 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes dataStreamFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Glowing Badge */
+.fiber-badge {
+  position: relative;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  transition: all 0.3s;
+}
+
+.fiber-badge:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+/* Neon Text Effect - Clean version without glow */
+.neon-text {
+  color: #22d3ee;
+  /* No text glow - clean text */
+}
+
+/* Glass Panel with Edge Light */
+.glass-fiber {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.8) 0%,
+    rgba(15, 23, 42, 0.6) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(34, 211, 238, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Animated Connection Line */
+.connection-line {
+  position: relative;
+  height: 2px;
+  background: rgba(6, 182, 212, 0.2);
+  overflow: hidden;
+}
+
+.connection-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+  animation: connectionPulse 2s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+  0% { left: -40px; }
+  100% { left: calc(100% + 40px); }
+}
+
+/* Hover Reveal Glow */
+.reveal-glow {
+  position: relative;
+}
+
+.reveal-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(34, 211, 238, 0.15) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.reveal-glow:hover::before {
+  opacity: 1;
+}
+
+/* Floating Particles Effect */
+.particles {
+  position: relative;
+}
+
+.particles::before,
+.particles::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--fiber-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--fiber-glow);
+  animation: floatParticle 6s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+.particles::before {
+  top: 20%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.particles::after {
+  bottom: 30%;
+  left: 15%;
+  animation-delay: 3s;
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translate(0, 0); opacity: 0.6; }
+  25% { transform: translate(10px, -20px); opacity: 0.8; }
+  50% { transform: translate(-5px, -10px); opacity: 0.4; }
+  75% { transform: translate(15px, 5px); opacity: 0.7; }
+}
+
+/* Fiber Stat Card */
+.fiber-stat {
+  position: relative;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(34, 211, 238, 0.1);
+  transition: all 0.4s;
+}
+
+.fiber-stat::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fiber-glow), transparent);
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.fiber-stat:hover {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(34, 211, 238, 0.3);
+  transform: translateY(-4px);
+}
+
+.fiber-stat:hover::before {
+  opacity: 1;
+  width: 80%;
+}
+
+/* Timeline Dot with Pulse */
+.timeline-dot {
+  position: relative;
+}
+
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0;
+  animation: dotPulse 2s ease-out infinite;
+}
+
+@keyframes dotPulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* Fiber Quote Card */
+.fiber-quote {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.7) 0%,
+    rgba(15, 23, 42, 0.5) 100%
+  );
+  border-radius: 20px;
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  overflow: hidden;
+}
+
+.fiber-quote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ukagv-cyan), var(--ukagv-blue), var(--ukagv-cyan));
+  background-size: 200% 100%;
+  animation: borderGlow 4s ease infinite;
+}
+
+/* Glowing CTA Link */
+.fiber-link {
+  position: relative;
+  color: #22d3ee;
+  transition: all 0.3s;
+}
+
+.fiber-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #22d3ee, #3b82f6);
+  transition: width 0.3s;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.fiber-link:hover {
+  color: #67e8f9;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+}
+
+.fiber-link:hover::after {
+  width: 100%;
+}
+
 /* Glow Orb */
 .glow-orb {
   position: absolute;
@@ -306,4 +727,63 @@ body::after {
 
 .count-up {
   animation: countUp 0.6s ease-out forwards;
+}
+
+/* Range Slider - Custom Thumb */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 3px solid #0f172a;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: all 0.2s;
+  margin-top: -4px;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(34, 211, 238, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 3px solid #0f172a;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: all 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(34, 211, 238, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 4px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: #374151;
 }
