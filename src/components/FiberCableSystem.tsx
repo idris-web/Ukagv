@@ -141,12 +141,15 @@ const SideCableLine = memo(function SideCableLine({
         strokeLinecap="round"
       />
 
-      {/* Animierter Lichtpuls */}
+      {/* Animierter Lichtpuls - nach außen */}
       <circle r={4} fill="white" opacity={0.95}>
         <animateMotion
           dur={`${cable.duration}s`}
           repeatCount="indefinite"
           path={path}
+          keyPoints="1;0"
+          keyTimes="0;1"
+          calcMode="linear"
         />
         <animate
           attributeName="opacity"
@@ -162,13 +165,16 @@ const SideCableLine = memo(function SideCableLine({
         />
       </circle>
 
-      {/* Zweiter Puls versetzt */}
+      {/* Zweiter Puls versetzt - nach außen */}
       <circle r={3} fill={cable.color} opacity={0.85}>
         <animateMotion
           dur={`${cable.duration * 1.1}s`}
           repeatCount="indefinite"
           path={path}
           begin={`${cable.duration * 0.4}s`}
+          keyPoints="1;0"
+          keyTimes="0;1"
+          calcMode="linear"
         />
         <animate
           attributeName="opacity"
@@ -225,12 +231,15 @@ const BottomCableLine = memo(function BottomCableLine({
         strokeLinecap="round"
       />
 
-      {/* Animierter Lichtpuls */}
+      {/* Animierter Lichtpuls - nach außen */}
       <circle r={4} fill="white" opacity={0.95}>
         <animateMotion
           dur={`${cable.duration}s`}
           repeatCount="indefinite"
           path={cable.path}
+          keyPoints="1;0"
+          keyTimes="0;1"
+          calcMode="linear"
         />
         <animate
           attributeName="opacity"
@@ -246,13 +255,16 @@ const BottomCableLine = memo(function BottomCableLine({
         />
       </circle>
 
-      {/* Zweiter Puls versetzt */}
+      {/* Zweiter Puls versetzt - nach außen */}
       <circle r={3} fill={cable.color} opacity={0.85}>
         <animateMotion
           dur={`${cable.duration * 1.1}s`}
           repeatCount="indefinite"
           path={cable.path}
           begin={`${cable.duration * 0.4}s`}
+          keyPoints="1;0"
+          keyTimes="0;1"
+          calcMode="linear"
         />
         <animate
           attributeName="opacity"

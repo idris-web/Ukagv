@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { Phone } from 'lucide-react'
 import { siteConfig } from '@/config/site'
 
 export default function HeroSection() {
@@ -41,8 +40,6 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight"
         >
-          <span className="text-white">UKA-GV</span>
-          <br />
           <span className="gradient-text">Planung. Bau. Vernetzung.</span>
         </motion.h1>
 
@@ -180,7 +177,7 @@ export default function HeroSection() {
           />
 
           {/* Actual button content - Dezenter elektrischer Effekt */}
-          <span className="relative flex items-center gap-2 text-lg px-10 py-5 bg-dark-950 border border-fiber-400/50 rounded-full text-white group-hover:border-fiber-400/80 transition-all duration-300 overflow-hidden">
+          <span className="relative flex items-center justify-center text-2xl md:text-3xl font-bold px-14 py-6 md:px-16 md:py-7 bg-dark-950 border border-fiber-400/50 rounded-full text-white group-hover:border-fiber-400/80 transition-all duration-300 overflow-hidden">
             {/* Sanfter innerer Glow */}
             <motion.span
               className="absolute inset-0 rounded-full"
@@ -192,8 +189,7 @@ export default function HeroSection() {
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
-            <Phone className="w-5 h-5 text-fiber-400 relative z-10" />
-            <span className="relative z-10">Anrufen</span>
+            <span className="relative z-10 text-white font-display tracking-wide">Uka-GV</span>
           </span>
         </a>
       </motion.div>
