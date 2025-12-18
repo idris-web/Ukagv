@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, CheckCircle, XCircle, Loader2, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 
-// Simulated PLZ areas where UKAGV is active (Nürnberg region)
+// Simulated PLZ areas where UKAGV is active (Süddeutschland)
 const activePLZs = [
   // Nürnberg
   '90402', '90403', '90408', '90409', '90411', '90419', '90425', '90427', '90429', '90431', '90439', '90441', '90443', '90449', '90451', '90453', '90455', '90459', '90461', '90469', '90471', '90473', '90475', '90478', '90480', '90482', '90489', '90491',
@@ -34,8 +34,8 @@ export default function PLZCheck() {
     // Simulate API call
     setTimeout(() => {
       const isAvailable = activePLZs.includes(plz) ||
-        // Also accept if starts with 90 or 91 (Nürnberg/Erlangen region)
-        plz.startsWith('90') || plz.startsWith('91')
+        // Süddeutschland: Bayern (8x, 9x), Baden-Württemberg (7x)
+        plz.startsWith('7') || plz.startsWith('8') || plz.startsWith('9')
       setStatus(isAvailable ? 'available' : 'unavailable')
     }, 1000)
   }
@@ -202,7 +202,7 @@ export default function PLZCheck() {
           transition={{ delay: 0.3 }}
           className="text-center text-dark-400 text-sm mt-4"
         >
-          Schwerpunkt: Metropolregion Nürnberg, Fürth, Erlangen und ganz Bayern
+          Schwerpunkt: Süddeutschland – Bayern, Baden-Württemberg und darüber hinaus
         </motion.p>
       )}
     </div>

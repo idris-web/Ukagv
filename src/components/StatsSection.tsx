@@ -9,7 +9,7 @@ const stats = [
     value: 1250,
     suffix: '+',
     label: 'km Glasfaser',
-    detail: 'in der Metropolregion',
+    detail: 'in Süddeutschland',
     icon: Cable,
     color: 'from-cyan-400 to-blue-500'
   },

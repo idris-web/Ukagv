@@ -79,7 +79,7 @@ export default function TestimonialsSection() {
                 <Star key={i} className="w-6 h-6 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="text-lg text-dark-400">4.9/5 • 200+ Bewertungen aus der Metropolregion</span>
+            <span className="text-lg text-dark-400">4.9/5 • 200+ Bewertungen aus Süddeutschland</span>
           </div>
         </motion.div>
 

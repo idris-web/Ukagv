@@ -53,8 +53,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-xl md:text-2xl lg:text-3xl text-dark-300 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Ihr Spezialist für Glasfaserausbau in der Metropolregion.
-          Seit 2009 verbinden wir Nürnberg, Fürth, Erlangen und Schwabach mit der Zukunft.
+          Ihr Spezialist für Glasfaserausbau in Süddeutschland.
+          Seit 2009 verbinden wir Bayern, Baden-Württemberg und darüber hinaus mit der Zukunft.
         </motion.p>
 
         {/* Trust Badges */}
@@ -64,10 +64,6 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex flex-wrap items-center justify-center gap-6 mb-12 text-base md:text-lg text-dark-400"
         >
-          <span className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-emerald-400" />
-            ISO 9001 zertifiziert
-          </span>
           <span className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-cyan-400" />
             1.250+ km verlegt

@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Sparkles, ArrowRight } from 'lucide-react'
 
-// Referenzprojekte aus der Metropolregion Nürnberg
+// Referenzprojekte aus Süddeutschland
 const projects = [
   {
     title: 'Nürnberg-Langwasser',
@@ -76,7 +76,7 @@ export default function ProjectGallery() {
           </h2>
 
           <p className="text-dark-300 text-lg md:text-xl">
-            Erfolgreich umgesetzte Glasfaserprojekte in der Metropolregion.
+            Erfolgreich umgesetzte Glasfaserprojekte in Süddeutschland.
           </p>
         </motion.div>
 

@@ -7,8 +7,8 @@ import { ChevronDown, HelpCircle, ArrowRight } from 'lucide-react'
 // Häufige Fragen - Regional zugeschnitten
 const faqs = [
   {
-    q: 'Was kostet ein Glasfaseranschluss in Nürnberg?',
-    a: 'Ein Standard-Hausanschluss in der Metropolregion kostet zwischen 500-900€. In geförderten Ausbaugebieten (wie Teilen von Langwasser oder Schwabach) oft sogar kostenlos. Wir erstellen Ihnen gerne ein unverbindliches Angebot mit Festpreis.',
+    q: 'Was kostet ein Glasfaseranschluss bei uns?',
+    a: 'Ein Standard-Hausanschluss kostet zwischen 500-900€. In geförderten Ausbaugebieten oft sogar kostenlos. Wir erstellen Ihnen gerne ein unverbindliches Angebot mit Festpreis.',
   },
   {
     q: 'Wie lange dauert die Installation?',
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'In welchen Gebieten sind Sie tätig?',
-    a: 'Unser Hauptgebiet ist die Metropolregion Nürnberg: Nürnberg, Fürth, Erlangen, Schwabach, Roth, Lauf, Hersbruck und das gesamte Umland. Auf Anfrage sind wir auch in ganz Mittelfranken und Bayern für Sie da.',
+    a: 'Wir sind in ganz Süddeutschland tätig – Bayern, Baden-Württemberg und angrenzende Bundesländer. Von kleinen Gemeinden bis zu Großprojekten sind wir flexibel einsetzbar.',
   },
   {
     q: 'Was ist der Unterschied zwischen FTTH und FTTB?',

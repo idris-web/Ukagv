@@ -1,7 +1,7 @@
 // Site Configuration - Zentrale Konfiguration für die gesamte Website
 export const siteConfig = {
   name: 'UKAGV GmbH',
-  description: 'Ihr Spezialist für Glasfaserausbau in der Metropolregion Nürnberg',
+  description: 'Ihr Spezialist für Glasfaserausbau in Süddeutschland',
 
   contact: {
     phone: '+49 911 12345678',

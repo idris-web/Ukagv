@@ -6,9 +6,8 @@ import { Users, Award, Clock, CheckCircle2 } from 'lucide-react'
 
 // Unternehmens-Highlights - Fokus auf regionale Verwurzelung
 const highlights = [
-  { icon: Users, value: '52', label: 'Fachkräfte', detail: 'aus Nürnberg & Umgebung', color: '#22d3ee' },
+  { icon: Users, value: '52', label: 'Fachkräfte', detail: 'aus Süddeutschland', color: '#22d3ee' },
   { icon: Clock, value: 'Seit 2009', label: 'In der Region', detail: '15+ Jahre Erfahrung', color: '#3b82f6' },
-  { icon: Award, value: 'ISO 9001', label: 'Zertifiziert', detail: 'Geprüfte Qualität', color: '#10b981' },
   { icon: Award, value: '847+', label: 'Projekte', detail: 'erfolgreich abgeschlossen', color: '#f59e0b' },
 ]
 
@@ -48,15 +47,15 @@ export default function AboutSection() {
           </h2>
 
           <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            UKAGV wurde 2009 in Nürnberg gegründet – mit dem Ziel, die Metropolregion
+            UKAGV wurde 2009 gegründet – mit dem Ziel, Süddeutschland
             zukunftssicher zu vernetzen. Heute sind wir der führende Glasfaser-Spezialist
-            für Nürnberg, Fürth, Erlangen, Schwabach und das gesamte Umland.
+            für Bayern, Baden-Württemberg und darüber hinaus.
           </p>
         </motion.div>
 
         {/* === HIGHLIGHTS === */}
-        {/* 4 Spalten Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        {/* 3 Spalten Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {highlights.map((item, index) => (
             <motion.div
               key={item.label}

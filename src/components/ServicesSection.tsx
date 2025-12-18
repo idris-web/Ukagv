@@ -4,42 +4,42 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Home, Building2, HardHat, Network, Cable, Wrench, Zap, ArrowRight } from 'lucide-react'
 
-// Leistungen mit Icons und Farben - 6 Hauptleistungen
+// Leistungen mit Icons und Farben - 6 Hauptleistungen (Glasfaser komplett NE3)
 const services = [
   {
+    icon: HardHat,
+    title: 'Tiefbau & Verlegung',
+    desc: 'NE3/NE4 Infrastruktur mit modernsten Verfahren: Micro-Trenching, grabenlose Verlegung, Pflugverfahren. Kompletter Tiefbau aus einer Hand.',
+    color: '#10b981'
+  },
+  {
     icon: Home,
-    title: 'Privatanschlüsse (FTTH)',
-    desc: 'Glasfaser direkt bis in Ihr Haus – für maximale Geschwindigkeit ohne Kompromisse. Ideal für Eigenheime und Reihenhäuser.',
+    title: 'Hausanschlüsse',
+    desc: 'FTTH & FTTB Komplettlösungen – von der Hauseinführung bis zur Dose. Für Einfamilienhäuser, MFH und Gewerbeobjekte.',
     color: '#22d3ee'
   },
   {
     icon: Building2,
-    title: 'Gewerbe & Industrie',
-    desc: 'Bis zu 10 Gbit/s symmetrisch für Unternehmen. Zuverlässige Anbindung für Büros, Produktionsstätten und Rechenzentren.',
+    title: 'LWL-Montage',
+    desc: 'Muffen, Verteiler, ODF und Anschlussdosen. Professionelle Montage nach Netzbetreiber-Vorgaben mit vollständiger Dokumentation.',
     color: '#3b82f6'
-  },
-  {
-    icon: HardHat,
-    title: 'Tiefbau & Verlegung',
-    desc: 'Moderne Verfahren wie Micro-Trenching und grabenlose Verlegung. Schonend für Straßen, Gärten und Grünflächen.',
-    color: '#10b981'
   },
   {
     icon: Cable,
     title: 'Spleißen & Messtechnik',
-    desc: 'Präzise LWL-Verbindungen mit modernster Technik. Jedes Projekt mit vollständigem Messprotokoll dokumentiert.',
+    desc: 'Präzise LWL-Spleißverbindungen mit OTDR-Messungen. Jedes Projekt mit vollständigem Messprotokoll und Abnahmedokumentation.',
     color: '#ec4899'
   },
   {
     icon: Network,
-    title: 'Netzwerk & Verkabelung',
-    desc: 'Strukturierte Verkabelung für Gebäude und Büros. Von der Planung bis zur Inbetriebnahme aus einer Hand.',
+    title: 'Komplettlösungen',
+    desc: 'Von der Planung über Genehmigungen bis zur Abnahme – Full-Service für Netzbetreiber, Carrier und Kommunen.',
     color: '#a855f7'
   },
   {
     icon: Wrench,
     title: 'Wartung & Service',
-    desc: '24/7 Entstörungsdienst in der Metropolregion. Schnelle Reaktionszeiten und kompetente Techniker vor Ort.',
+    desc: '24/7 Entstörungsdienst in Süddeutschland. Schnelle Reaktionszeiten und kompetente Techniker vor Ort.',
     color: '#f59e0b'
   },
 ]
@@ -71,7 +71,7 @@ export default function ServicesSection() {
 
           <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Von der Planung bis zur Inbetriebnahme – wir sind Ihr Full-Service-Partner
-            für Glasfaserprojekte in Nürnberg und der gesamten Metropolregion.
+            für Glasfaserprojekte in Süddeutschland.
           </p>
         </motion.div>
 

@@ -49,7 +49,7 @@ export default function Footer() {
               <span className="font-bold font-display text-white text-xl">UKAGV</span>
             </div>
             <p className="text-base text-dark-400 max-w-sm leading-relaxed">
-              Ihr Glasfaser-Spezialist in der Metropolregion Nürnberg. Professionell, zuverlässig, seit 2009.
+              Ihr Glasfaser-Spezialist in Süddeutschland. Professionell, zuverlässig, seit 2009.
             </p>
           </div>
 
