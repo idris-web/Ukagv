@@ -41,7 +41,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
         >
-          <span className="text-white">UKA Netzbau</span>
+          <span className="text-white">UKA-GV</span>
           <br />
           <span className="gradient-text">Wir machen das.</span>
         </motion.h1>

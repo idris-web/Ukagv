@@ -1,6 +1,6 @@
 // Site Configuration - Zentrale Konfiguration für die gesamte Website
 export const siteConfig = {
-  name: 'UKA Netzbau',
+  name: 'UKA-GV',
   slogan: 'Wir machen das.',
   description: 'Ihr Spezialist für Breitbandausbau und FTTH in Süddeutschland',
 
@@ -10,10 +10,10 @@ export const siteConfig = {
     phoneHref: 'tel:+499114776832',
     fax: '+49 911 477 683 29',
     faxDisplay: '0911 477 683 29',
-    email: 'info@uka-netzbau.de',
-    emailHref: 'mailto:info@uka-netzbau.de',
-    bewerbung: 'bewerbung@uka-netzbau.de',
-    bewerbungHref: 'mailto:bewerbung@uka-netzbau.de',
+    email: 'info@uka-gv.de',
+    emailHref: 'mailto:info@uka-gv.de',
+    bewerbung: 'bewerbung@uka-gv.de',
+    bewerbungHref: 'mailto:bewerbung@uka-gv.de',
   },
 
   address: {
@@ -30,7 +30,7 @@ export const siteConfig = {
   },
 
   social: {
-    linkedin: 'https://linkedin.com/company/uka-netzbau',
+    linkedin: 'https://linkedin.com/company/uka-gv',
   },
 
   links: {

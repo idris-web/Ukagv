@@ -117,7 +117,7 @@ export default function KarriereSection() {
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Karriere bei </span>
-            <span className="gradient-text">UKA Netzbau</span>
+            <span className="gradient-text">UKA-GV</span>
           </h2>
 
           <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
@@ -216,7 +216,7 @@ export default function KarriereSection() {
                         {/* Apply Button */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 border-t border-dark-700/50">
                           <a
-                            href="mailto:bewerbung@uka-netzbau.de"
+                            href="mailto:bewerbung@uka-gv.de"
                             className="btn-primary flex items-center gap-2"
                           >
                             <Mail className="w-4 h-4" />
@@ -224,7 +224,7 @@ export default function KarriereSection() {
                             <ArrowRight className="w-4 h-4" />
                           </a>
                           <span className="text-sm text-dark-500">
-                            Bewerbung an: bewerbung@uka-netzbau.de
+                            Bewerbung an: bewerbung@uka-gv.de
                           </span>
                         </div>
                       </div>
@@ -246,7 +246,7 @@ export default function KarriereSection() {
           <div className="inline-flex items-center gap-6 text-dark-400">
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4" />
-              <span>bewerbung@uka-netzbau.de</span>
+              <span>bewerbung@uka-gv.de</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />

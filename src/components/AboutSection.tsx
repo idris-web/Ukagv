@@ -11,7 +11,7 @@ const highlights = [
   { icon: Award, value: '24.500+ km', label: 'Glasfaser', detail: 'eingeblasen', color: '#f59e0b' },
 ]
 
-// Unternehmenswerte - UKA Netzbau
+// Unternehmenswerte - UKA-GV
 const values = [
   'Höchste Perfektion in jedem Projekt',
   'Landesweit im Einsatz',
@@ -42,7 +42,7 @@ export default function AboutSection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-            <span className="text-white">UKA Netzbau – </span>
+            <span className="text-white">UKA-GV – </span>
             <span className="gradient-text">Wir machen das.</span>
           </h2>
 

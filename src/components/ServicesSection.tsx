@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Home, Building2, HardHat, Network, Cable, Wrench, Zap, ArrowRight } from 'lucide-react'
 
-// Leistungen mit Icons und Farben - UKA Netzbau Leistungsspektrum
+// Leistungen mit Icons und Farben - UKA-GV Leistungsspektrum
 const services = [
   {
     icon: Home,
