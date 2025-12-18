@@ -4,78 +4,107 @@ import { useScroll, useSpring } from 'framer-motion'
 import { useEffect, useState, memo } from 'react'
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// DIAGONAL CABLES CONFIG - Daxnet Style
+// CONVERGING NETWORK CABLES - Neon Style
 // ═══════════════════════════════════════════════════════════════════════════════
 
-interface DiagonalCable {
+interface NetworkCable {
   id: string
   color: string
-  startX: number  // % von rechts (oben)
-  endX: number    // % von links (unten)
-  index: number
+  startX: number
+  startY: number
+  angle: number  // Winkel in Grad
+  length: number
 }
 
-// 8 Kabel diagonal von oben-rechts nach unten-links
-const DIAGONAL_CABLES: DiagonalCable[] = [
-  { id: 'rot', color: '#FF0000', startX: 95, endX: 5, index: 0 },
-  { id: 'gruen', color: '#00DD00', startX: 91, endX: 9, index: 1 },
-  { id: 'blau', color: '#0066FF', startX: 87, endX: 13, index: 2 },
-  { id: 'gelb', color: '#FFEE00', startX: 83, endX: 17, index: 3 },
-  { id: 'hellrot', color: '#FF6B6B', startX: 79, endX: 21, index: 4 },
-  { id: 'violett', color: '#A855F7', startX: 75, endX: 25, index: 5 },
-  { id: 'rosa', color: '#FF69B4', startX: 71, endX: 29, index: 6 },
-  { id: 'orange', color: '#FF8C00', startX: 67, endX: 33, index: 7 },
+// Cyan + Magenta/Pink Farbpalette wie im Bild
+const COLORS = {
+  cyan: '#00D4FF',
+  cyanLight: '#00FFFF',
+  magenta: '#FF00FF',
+  pink: '#FF69B4',
+  purple: '#A855F7',
+  blue: '#3B82F6',
+}
+
+// Konvergenzpunkt in der Mitte des Hero-Bereichs
+const CENTER = { x: 960, y: 600 }
+
+// Kabel von allen Richtungen zur Mitte
+const NETWORK_CABLES: NetworkCable[] = [
+  // Von oben
+  { id: 'top1', color: COLORS.cyan, startX: 700, startY: -50, angle: 80, length: 700 },
+  { id: 'top2', color: COLORS.cyanLight, startX: 960, startY: -50, angle: 90, length: 650 },
+  { id: 'top3', color: COLORS.cyan, startX: 1220, startY: -50, angle: 100, length: 700 },
+
+  // Von rechts
+  { id: 'right1', color: COLORS.magenta, startX: 1970, startY: 300, angle: 170, length: 1100 },
+  { id: 'right2', color: COLORS.pink, startX: 1970, startY: 600, angle: 180, length: 1010 },
+  { id: 'right3', color: COLORS.magenta, startX: 1970, startY: 900, angle: 190, length: 1100 },
+
+  // Von unten
+  { id: 'bottom1', color: COLORS.purple, startX: 700, startY: 1250, angle: 280, length: 700 },
+  { id: 'bottom2', color: COLORS.blue, startX: 960, startY: 1250, angle: 270, length: 650 },
+  { id: 'bottom3', color: COLORS.purple, startX: 1220, startY: 1250, angle: 260, length: 700 },
+
+  // Von links
+  { id: 'left1', color: COLORS.cyan, startX: -50, startY: 300, angle: 10, length: 1100 },
+  { id: 'left2', color: COLORS.cyanLight, startX: -50, startY: 600, angle: 0, length: 1010 },
+  { id: 'left3', color: COLORS.cyan, startX: -50, startY: 900, angle: -10, length: 1100 },
+
+  // Diagonale
+  { id: 'diag1', color: COLORS.pink, startX: -50, startY: -50, angle: 40, length: 1400 },
+  { id: 'diag2', color: COLORS.magenta, startX: 1970, startY: -50, angle: 140, length: 1400 },
+  { id: 'diag3', color: COLORS.pink, startX: 1970, startY: 1250, angle: 220, length: 1400 },
+  { id: 'diag4', color: COLORS.magenta, startX: -50, startY: 1250, angle: 320, length: 1400 },
 ]
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CANVAS
+// CANVAS - Nur Hero-Bereich
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const CANVAS = {
   width: 1920,
-  height: 6000,
+  height: 1200,  // Nur Hero-Höhe
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// DIAGONAL FIBER CABLE - Dezent hinter Content
+// NETWORK CABLE COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const STRAND_THICKNESS = 2
-
-const DiagonalFiberCable = memo(function DiagonalFiberCable({
+const NetworkCableLine = memo(function NetworkCableLine({
   cable,
-  progress
+  index
 }: {
-  cable: DiagonalCable
-  progress: number
+  cable: NetworkCable
+  index: number
 }) {
-  // Positionen berechnen
-  const startX = (cable.startX / 100) * CANVAS.width
-  const startY = -100 + cable.index * 40  // Gestaffelt oben
-  const endX = (cable.endX / 100) * CANVAS.width
-  const endY = CANVAS.height + 100
+  // Pfad berechnen: Start → Mitte mit leichter Kurve
+  const startX = cable.startX
+  const startY = cable.startY
 
-  // Sanfte S-Kurve durch die Mitte
-  const cp1X = startX - 150
-  const cp1Y = CANVAS.height * 0.25
-  const cp2X = endX + 150
-  const cp2Y = CANVAS.height * 0.75
+  // Kontrollpunkt für sanfte Kurve
+  const midX = (startX + CENTER.x) / 2
+  const midY = (startY + CENTER.y) / 2
 
-  const path = `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`
+  // Leichte Kurve basierend auf Position
+  const curveOffset = 50 + index * 10
+  const cpX = midX + (index % 2 === 0 ? curveOffset : -curveOffset)
+  const cpY = midY + (index % 3 === 0 ? curveOffset : -curveOffset)
 
-  // Dezente Opacity (0.15 → 0.25 beim Scrollen)
-  const opacity = 0.15 + progress * 0.10
-  const glowOpacity = 0.05 + progress * 0.05
+  const path = `M ${startX} ${startY} Q ${cpX} ${cpY} ${CENTER.x} ${CENTER.y}`
+
+  const opacity = 0.4
+  const glowOpacity = 0.15
 
   return (
     <g>
-      {/* Outer glow - sehr dezent */}
+      {/* Outer glow */}
       <path
         d={path}
         stroke={cable.color}
-        strokeWidth={STRAND_THICKNESS + 8}
+        strokeWidth={12}
         fill="none"
-        opacity={glowOpacity * 0.5}
+        opacity={glowOpacity}
         strokeLinecap="round"
       />
 
@@ -83,9 +112,9 @@ const DiagonalFiberCable = memo(function DiagonalFiberCable({
       <path
         d={path}
         stroke={cable.color}
-        strokeWidth={STRAND_THICKNESS + 4}
+        strokeWidth={6}
         fill="none"
-        opacity={glowOpacity}
+        opacity={glowOpacity * 2}
         strokeLinecap="round"
       />
 
@@ -93,29 +122,119 @@ const DiagonalFiberCable = memo(function DiagonalFiberCable({
       <path
         d={path}
         stroke={cable.color}
-        strokeWidth={STRAND_THICKNESS}
+        strokeWidth={2}
         fill="none"
         opacity={opacity}
         strokeLinecap="round"
       />
 
-      {/* Animierter Lichtpuls */}
-      <circle r={3} fill="white" opacity={0.8}>
+      {/* Animierter Lichtpuls - fährt zum Zentrum */}
+      <circle r={4} fill="white" opacity={0.9}>
         <animateMotion
-          dur={`${3 + cable.index * 0.4}s`}
+          dur={`${2 + index * 0.2}s`}
           repeatCount="indefinite"
           path={path}
         />
         <animate
           attributeName="opacity"
-          values="0.4;1;0.4"
-          dur="1s"
+          values="0.3;1;0.3"
+          dur="0.8s"
           repeatCount="indefinite"
         />
         <animate
           attributeName="r"
-          values="2;4;2"
-          dur="1s"
+          values="2;5;2"
+          dur="0.8s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      {/* Zweiter Puls versetzt */}
+      <circle r={3} fill={cable.color} opacity={0.7}>
+        <animateMotion
+          dur={`${2.5 + index * 0.15}s`}
+          repeatCount="indefinite"
+          path={path}
+          begin={`${0.5 + index * 0.1}s`}
+        />
+        <animate
+          attributeName="opacity"
+          values="0.2;0.8;0.2"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </g>
+  )
+})
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CENTER GLOW - Leuchtender Konvergenzpunkt
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const CenterGlow = memo(function CenterGlow() {
+  return (
+    <g>
+      {/* Äußerer Glow - groß und weich */}
+      <circle
+        cx={CENTER.x}
+        cy={CENTER.y}
+        r={120}
+        fill="url(#centerGlowOuter)"
+        opacity={0.3}
+      />
+
+      {/* Mittlerer Glow */}
+      <circle
+        cx={CENTER.x}
+        cy={CENTER.y}
+        r={60}
+        fill="url(#centerGlowMiddle)"
+        opacity={0.5}
+      />
+
+      {/* Innerer Kern - hell */}
+      <circle
+        cx={CENTER.x}
+        cy={CENTER.y}
+        r={20}
+        fill="white"
+        opacity={0.8}
+      >
+        <animate
+          attributeName="r"
+          values="15;25;15"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="0.6;1;0.6"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      {/* Pulsierender Ring */}
+      <circle
+        cx={CENTER.x}
+        cy={CENTER.y}
+        r={40}
+        fill="none"
+        stroke={COLORS.cyan}
+        strokeWidth={2}
+        opacity={0.5}
+      >
+        <animate
+          attributeName="r"
+          values="30;80;30"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="0.6;0;0.6"
+          dur="3s"
           repeatCount="indefinite"
         />
       </circle>
@@ -130,19 +249,18 @@ const DiagonalFiberCable = memo(function DiagonalFiberCable({
 export default function FiberCableSystem() {
   const [mounted, setMounted] = useState(false)
   const { scrollYProgress } = useScroll()
-  const [progress, setProgress] = useState(0)
+  const [opacity, setOpacity] = useState(1)
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 40,
+    stiffness: 50,
     damping: 30,
   })
 
+  // Fade out beim Scrollen
   useEffect(() => {
     const unsubscribe = smoothProgress.on('change', (v) => {
-      setProgress((prev) => {
-        if (Math.abs(v - prev) > 0.002) return v
-        return prev
-      })
+      // Fade out nach 30% scroll
+      setOpacity(Math.max(0, 1 - v * 3))
     })
     return unsubscribe
   }, [smoothProgress])
@@ -151,24 +269,43 @@ export default function FiberCableSystem() {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted || opacity <= 0) return null
 
   return (
     <div
       className="fixed inset-0 pointer-events-none overflow-hidden"
-      style={{ zIndex: 1, willChange: 'auto' }}  // z-1: hinter Content (z-10)
+      style={{ zIndex: 1, opacity, willChange: 'opacity' }}
     >
       <svg
-        className="absolute w-full"
-        style={{ height: '600vh', top: 0 }}
+        className="absolute w-full h-screen"
         viewBox={`0 0 ${CANVAS.width} ${CANVAS.height}`}
-        preserveAspectRatio="xMidYMin slice"
+        preserveAspectRatio="xMidYMid slice"
       >
+        <defs>
+          {/* Gradient für äußeren Glow */}
+          <radialGradient id="centerGlowOuter" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={COLORS.cyan} stopOpacity="0.8" />
+            <stop offset="50%" stopColor={COLORS.magenta} stopOpacity="0.3" />
+            <stop offset="100%" stopColor={COLORS.purple} stopOpacity="0" />
+          </radialGradient>
+
+          {/* Gradient für mittleren Glow */}
+          <radialGradient id="centerGlowMiddle" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="white" stopOpacity="1" />
+            <stop offset="40%" stopColor={COLORS.cyanLight} stopOpacity="0.6" />
+            <stop offset="100%" stopColor={COLORS.cyan} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* Kabel von allen Seiten */}
         <g>
-          {DIAGONAL_CABLES.map((cable) => (
-            <DiagonalFiberCable key={cable.id} cable={cable} progress={progress} />
+          {NETWORK_CABLES.map((cable, index) => (
+            <NetworkCableLine key={cable.id} cable={cable} index={index} />
           ))}
         </g>
+
+        {/* Zentraler Leuchtpunkt */}
+        <CenterGlow />
       </svg>
     </div>
   )
