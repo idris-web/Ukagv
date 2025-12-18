@@ -177,7 +177,7 @@ export default function PricingSection() {
 
   return (
     <section id="anfrage" className="relative py-24 overflow-hidden">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 md:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -193,7 +193,7 @@ export default function PricingSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Projekt <span className="text-fiber-400">anfragen</span>
           </h2>
-          <p className="text-dark-400 text-lg max-w-xl mx-auto">
+          <p className="text-dark-400 text-lg max-w-2xl mx-auto">
             Glasfaser komplett – von der Planung bis zur Abnahme. Laden Sie Ihr Leistungsverzeichnis hoch für ein individuelles Angebot.
           </p>
         </motion.div>
@@ -251,13 +251,12 @@ export default function PricingSection() {
           </div>
         </motion.div>
 
-        {/* Form */}
+        {/* Form - volle Breite wie Services Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-2xl mx-auto"
         >
           {isSubmitted ? (
             <motion.div
