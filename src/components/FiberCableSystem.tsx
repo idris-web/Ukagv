@@ -14,16 +14,18 @@ interface ServiceCable {
   index: number
 }
 
-// Standard Glasfaser-Farben nach DIN VDE 0888
+// Glasfaser-Farben - Links klassisch, Rechts leuchtend
 const SERVICE_CABLES: ServiceCable[] = [
-  { id: 'rot', color: '#FF0000', side: 'left', index: 0 },        // rt - Rot
-  { id: 'gruen', color: '#00DD00', side: 'left', index: 1 },      // gn - Grün
-  { id: 'blau', color: '#0066FF', side: 'left', index: 2 },       // bl - Blau
-  { id: 'gelb', color: '#FFEE00', side: 'left', index: 3 },       // ge - Gelb
-  { id: 'weiss', color: '#FFFFFF', side: 'right', index: 3 },     // ws - Weiß
-  { id: 'grau', color: '#888888', side: 'right', index: 2 },      // gr - Grau
-  { id: 'braun', color: '#8B4513', side: 'right', index: 1 },     // br - Braun
-  { id: 'violett', color: '#9932CC', side: 'right', index: 0 },   // vi - Violett
+  // Links: Klassische Farben
+  { id: 'rot', color: '#FF0000', side: 'left', index: 0 },        // Rot
+  { id: 'gruen', color: '#00DD00', side: 'left', index: 1 },      // Grün
+  { id: 'blau', color: '#0066FF', side: 'left', index: 2 },       // Blau
+  { id: 'gelb', color: '#FFEE00', side: 'left', index: 3 },       // Gelb
+  // Rechts: Leuchtende Farben
+  { id: 'hellrot', color: '#FF6B6B', side: 'right', index: 3 },   // Hellrot
+  { id: 'violett', color: '#A855F7', side: 'right', index: 2 },   // Violett
+  { id: 'rosa', color: '#FF69B4', side: 'right', index: 1 },      // Rosa/Pink
+  { id: 'orange', color: '#FF8C00', side: 'right', index: 0 },    // Orange
 ]
 
 // ═══════════════════════════════════════════════════════════════════════════════
