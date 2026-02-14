@@ -2,6 +2,8 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import Image from 'next/image'
+import logo from '@/app/logo.svg'
 import { siteConfig } from '@/config/site'
 
 export default function HeroSection() {
@@ -189,7 +191,9 @@ export default function HeroSection() {
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
-            <span className="relative z-10 text-white font-display tracking-wide">Uka-GV</span>
+            <span className="relative z-10">
+              <Image src={logo} alt="UKAGV GmbH" className="h-8 md:h-10 w-auto" />
+            </span>
           </span>
         </a>
       </motion.div>

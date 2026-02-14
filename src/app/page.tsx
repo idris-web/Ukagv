@@ -4,7 +4,6 @@ import {
   HeroSection,
   PartnersSection,
   ServicesSection,
-  StatsSection,
   TechnologySection,
   AboutSection,
   ProcessSection,
@@ -35,7 +34,6 @@ export default function Home() {
       <ServicesSection />
       <PricingSection />
       <TechnologySection />
-      <StatsSection />
       <AboutSection />
       <ProcessSection />
       <ProjectGallery />

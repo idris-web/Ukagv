@@ -16,7 +16,7 @@ const testimonials = [
     name: 'Sandra K.',
     role: 'Geschäftsführerin',
     location: 'Fürth',
-    text: 'Wir arbeiten seit Jahren mit Uka-GV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
+    text: 'Wir arbeiten seit Jahren mit UKAGV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
   },
   {
     name: 'Michael B.',
@@ -34,7 +34,7 @@ const testimonials = [
     name: 'Peter L.',
     role: 'Architekt',
     location: 'Nürnberg-Mögeldorf',
-    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf Uka-GV. Zuverlässig, kompetent und immer erreichbar.',
+    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf UKAGV. Zuverlässig, kompetent und immer erreichbar.',
   },
 ]
 

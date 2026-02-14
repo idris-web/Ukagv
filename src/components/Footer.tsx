@@ -2,8 +2,10 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Phone, Mail, MapPin, Cable, Linkedin, Clock } from 'lucide-react'
+import { Phone, Mail, MapPin, Linkedin, Clock } from 'lucide-react'
 import { siteConfig } from '@/config/site'
+import Image from 'next/image'
+import logo from '@/app/logo.svg'
 
 // Navigation Links
 const links = [
@@ -42,14 +44,8 @@ export default function Footer() {
         >
           {/* Logo & Beschreibung */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fiber-500 to-fiber-600 flex items-center justify-center">
-                <Cable className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <span className="font-bold font-display text-white text-xl block">Uka-GV</span>
-                <span className="text-sm text-fiber-400">Wir machen das.</span>
-              </div>
+            <div className="mb-4">
+              <Image src={logo} alt="UKAGV GmbH" className="h-10 w-auto" />
             </div>
             <p className="text-base text-dark-400 max-w-sm leading-relaxed">
               Ihr Spezialist für Breitbandausbau und FTTH. Landesweit im Einsatz mit höchster Perfektion.
@@ -88,7 +84,7 @@ export default function Footer() {
 
         {/* === BOTTOM BAR === */}
         <div className="pt-8 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-dark-500">
-          <span>© {new Date().getFullYear()} Uka-GV</span>
+          <span>© {new Date().getFullYear()} UKAGV GmbH</span>
 
           <div className="flex gap-6">
             {legal.map((item) => (

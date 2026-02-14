@@ -3,6 +3,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Briefcase, HardHat, Cable, Users, ChevronDown, Mail, MapPin, CheckCircle2, ArrowRight } from 'lucide-react'
+import { siteConfig } from '@/config/site'
 
 const jobs = [
   {
@@ -117,7 +118,7 @@ export default function KarriereSection() {
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Karriere bei </span>
-            <span className="gradient-text">Uka-GV</span>
+            <span className="gradient-text">UKAGV</span>
           </h2>
 
           <p className="text-dark-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
@@ -256,7 +257,7 @@ export default function KarriereSection() {
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 shrink-0" />
-              <span className="text-center sm:text-left">Georg-Strobel-Straße 65, 90489 Nürnberg</span>
+              <span className="text-center sm:text-left">{siteConfig.address.full}</span>
             </div>
           </div>
         </motion.div>

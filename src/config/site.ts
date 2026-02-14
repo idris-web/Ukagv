@@ -1,6 +1,6 @@
 // Site Configuration - Zentrale Konfiguration für die gesamte Website
 export const siteConfig = {
-  name: 'Uka-GV',
+  name: 'UKAGV GmbH',
   slogan: 'Wir machen das.',
   description: 'Ihr Spezialist für Breitbandausbau und FTTH in Süddeutschland',
 
@@ -17,15 +17,15 @@ export const siteConfig = {
   },
 
   address: {
-    street: 'Georg-Strobel-Straße 65',
-    zip: '90489',
+    street: 'Steigerwaldstraße 29',
+    zip: '90409',
     city: 'Nürnberg',
-    full: 'Georg-Strobel-Straße 65, 90489 Nürnberg',
+    full: 'Steigerwaldstraße 29, 90409 Nürnberg',
     country: 'Deutschland',
   },
 
   hours: {
-    weekdays: 'Mo–Fr: 09:00–13:00 & 14:00–17:00',
+    weekdays: 'Mo–Fr: 08:00–12:00 & 13:00–17:00',
     weekend: 'Sa & So: Geschlossen',
   },
 

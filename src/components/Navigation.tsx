@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import logo from '@/app/logo.svg'
 
 const navLinks = [
   { href: '#services', label: 'Leistungen' },
@@ -13,6 +15,13 @@ const navLinks = [
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 300)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <>
@@ -23,56 +32,14 @@ export default function Navigation() {
         className="fixed top-0 left-0 right-0 z-50 py-4 bg-dark-950/80 backdrop-blur-lg border-b border-white/5"
       >
         <div className="max-w-5xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo - Animated */}
-          <a href="#home" className="flex items-center group">
+          {/* Logo - shows on scroll */}
+          <a href="#home" className="flex items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
-              className="relative"
+              animate={{ opacity: scrolled ? 1 : 0, scale: scrolled ? 1 : 0.8 }}
+              transition={{ duration: 0.3 }}
+              className={scrolled ? '' : 'pointer-events-none'}
             >
-              {/* Glow background */}
-              <motion.div
-                className="absolute -inset-2 rounded-lg bg-gradient-to-r from-fiber-400/20 via-blue-500/20 to-fiber-400/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                animate={{
-                  background: [
-                    'linear-gradient(90deg, rgba(6,182,212,0.2) 0%, rgba(59,130,246,0.2) 50%, rgba(6,182,212,0.2) 100%)',
-                    'linear-gradient(90deg, rgba(59,130,246,0.2) 0%, rgba(6,182,212,0.2) 50%, rgba(59,130,246,0.2) 100%)',
-                    'linear-gradient(90deg, rgba(6,182,212,0.2) 0%, rgba(59,130,246,0.2) 50%, rgba(6,182,212,0.2) 100%)',
-                  ]
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              />
-
-              <span className="relative text-xl md:text-2xl font-black tracking-tight">
-                <motion.span
-                  className="text-white"
-                  whileHover={{ textShadow: '0 0 8px rgba(255,255,255,0.5)' }}
-                >
-                  Uka
-                </motion.span>
-                <motion.span
-                  className="text-fiber-400"
-                  animate={{
-                    textShadow: [
-                      '0 0 4px rgba(6,182,212,0.3)',
-                      '0 0 12px rgba(6,182,212,0.6)',
-                      '0 0 4px rgba(6,182,212,0.3)',
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  -GV
-                </motion.span>
-              </span>
-
-              {/* Fiber line under logo */}
-              <motion.div
-                className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-transparent via-fiber-400 to-transparent"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: '100%', opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              />
+              <Image src={logo} alt="UKAGV GmbH" className="h-8 md:h-10 w-auto" />
             </motion.div>
           </a>
 
@@ -122,26 +89,12 @@ export default function Navigation() {
             <div className="flex flex-col min-h-screen">
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-5">
-                <motion.span
-                  className="text-xl font-black"
+                <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <span className="text-white">Uka</span>
-                  <motion.span
-                    className="text-fiber-400"
-                    animate={{
-                      textShadow: [
-                        '0 0 4px rgba(6,182,212,0.3)',
-                        '0 0 12px rgba(6,182,212,0.6)',
-                        '0 0 4px rgba(6,182,212,0.3)',
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    -GV
-                  </motion.span>
-                </motion.span>
+                  <Image src={logo} alt="UKAGV GmbH" className="h-8 w-auto" />
+                </motion.div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 text-dark-400 hover:text-white"

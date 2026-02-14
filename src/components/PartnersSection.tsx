@@ -3,11 +3,36 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { BadgeCheck } from 'lucide-react'
+import Image from 'next/image'
+
+import logoAz from '@/app/partners/az.webp'
+import logoBb from '@/app/partners/bb.webp'
+import logoBergert from '@/app/partners/bergert.webp'
+import logoCircet from '@/app/partners/circet.webp'
+import logoDiroba from '@/app/partners/diroba.webp'
+import logoGreenovative from '@/app/partners/greenovative.webp'
+import logoKbf from '@/app/partners/kbf.webp'
+import logoLangguth from '@/app/partners/langguth.webp'
+import logoNibler from '@/app/partners/nibler.webp'
+import logoRhon from '@/app/partners/rhon.webp'
+import logoSeibold from '@/app/partners/seibold.webp'
+import logoStadtwerke from '@/app/partners/stadtwerke.webp'
+import logoTmobile from '@/app/partners/tmobile.webp'
 
 const partners = [
-  'Telekom Deutschland',
-  'Vodafone',
-  'Deutsche Glasfaser',
+  { name: 'AZ', logo: logoAz },
+  { name: 'B&B', logo: logoBb },
+  { name: 'Bergert', logo: logoBergert },
+  { name: 'Circet', logo: logoCircet },
+  { name: 'Diroba', logo: logoDiroba },
+  { name: 'Greenovative', logo: logoGreenovative },
+  { name: 'KBF', logo: logoKbf },
+  { name: 'Langguth', logo: logoLangguth },
+  { name: 'Nibler', logo: logoNibler },
+  { name: 'Rhön Energie', logo: logoRhon },
+  { name: 'Seibold', logo: logoSeibold },
+  { name: 'Stadtwerke', logo: logoStadtwerke },
+  { name: 'T-Mobile', logo: logoTmobile },
 ]
 
 export default function PartnersSection() {
@@ -15,12 +40,11 @@ export default function PartnersSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [badgeRevealed, setBadgeRevealed] = useState(false)
 
-  // Auto-reveal badge immediately when section comes into view
   useEffect(() => {
     if (isInView) {
       const timer = setTimeout(() => {
         setBadgeRevealed(true)
-      }, 800) // Quick reveal after section appears
+      }, 800)
       return () => clearTimeout(timer)
     }
   }, [isInView])
@@ -44,7 +68,6 @@ export default function PartnersSection() {
           >
             <div className="relative">
               <BadgeCheck className={`w-6 h-6 transition-colors duration-300 ${badgeRevealed ? 'text-blue-400' : 'text-blue-500 group-hover:text-blue-400'}`} />
-              {/* Animated pulse rings */}
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-blue-500/50"
                 animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
@@ -70,23 +93,36 @@ export default function PartnersSection() {
           </p>
         </motion.div>
 
-        {/* Partner List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 sm:gap-5"
-        >
-          {partners.map((partner, index) => (
-            <span
-              key={index}
-              className="px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-dark-900/50 border border-dark-800 text-dark-300 text-sm sm:text-base font-medium"
-            >
-              {partner}
-            </span>
-          ))}
-        </motion.div>
       </div>
+
+      {/* Partner Logos - Full width marquee */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative overflow-hidden w-full"
+      >
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-dark-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-dark-950 to-transparent z-10 pointer-events-none" />
+
+        {/* Scrolling row */}
+        <div className="flex animate-marquee gap-12 items-center py-6">
+          {[...partners, ...partners].map((partner, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 h-28 w-56 relative bg-white rounded-2xl p-5 hover:bg-white/90 transition-all duration-300"
+            >
+              <Image
+                src={partner.logo}
+                alt={partner.name}
+                fill
+                className="object-contain"
+              />
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   )
 }
