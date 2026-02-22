@@ -64,15 +64,15 @@ export default function HeroSection() {
         >
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-cyan-400" />
-            24.500+ km Glasfaser
+            Bundesweiter Einsatz
           </span>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-blue-400" />
-            21.000+ Kunden
+            Zertifizierte Fachkräfte
           </span>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            3.500+ Anschlüsse/Jahr
+            Offizieller Telekom Partner
           </span>
         </motion.div>
       </motion.div>

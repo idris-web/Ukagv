@@ -88,9 +88,9 @@ export default function ProjectGallery() {
           className="flex justify-center gap-8 sm:gap-12 md:gap-16 mb-12"
         >
           {[
-            { value: '24.500+', label: 'km Glasfaser' },
-            { value: '21.000+', label: 'Kunden' },
-            { value: '3.500+', label: 'Anschlüsse/Jahr' },
+            { value: 'FTTH & FTTB', label: 'Komplettlösungen' },
+            { value: 'Bundesweit', label: 'im Einsatz' },
+            { value: 'Festpreis', label: 'Garantie' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-fiber-400">{stat.value}</div>

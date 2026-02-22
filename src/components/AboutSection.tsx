@@ -6,9 +6,9 @@ import { Users, Award, Clock, CheckCircle2 } from 'lucide-react'
 
 // Unternehmens-Highlights
 const highlights = [
-  { icon: Users, value: '21.000+', label: 'Zufriedene Kunden', detail: 'landesweit', color: '#22d3ee' },
-  { icon: Clock, value: '3.500+', label: 'Hausanschlüsse', detail: 'pro Jahr', color: '#3b82f6' },
-  { icon: Award, value: '24.500+ km', label: 'Glasfaser', detail: 'eingeblasen', color: '#f59e0b' },
+  { icon: Users, value: 'Bundesweit', label: 'Im Einsatz', detail: 'flexibel & zuverlässig', color: '#22d3ee' },
+  { icon: Clock, value: '< 24h', label: 'Reaktionszeit', detail: 'schnelle Rückmeldung', color: '#3b82f6' },
+  { icon: Award, value: '100%', label: 'Qualitätsanspruch', detail: 'höchste Perfektion', color: '#f59e0b' },
 ]
 
 // Unternehmenswerte - UKA-GV
