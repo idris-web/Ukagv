@@ -33,14 +33,14 @@ export default function HeroSection() {
       {/* Main Content - Kompakter damit Kabel nicht berührt werden */}
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-3xl mx-auto px-8 md:px-12 text-center flex-1 flex flex-col justify-center"
+        className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center flex-1 flex flex-col justify-center"
       >
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight"
         >
           <span className="text-white">Planung. Bau. Vernetzung.</span>
         </motion.h1>
@@ -50,7 +50,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-lg md:text-xl lg:text-2xl text-dark-300 max-w-2xl mx-auto mb-8 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl text-dark-300 max-w-2xl mx-auto mb-8 leading-relaxed"
         >
           FTTH & FTTB Glasfaserausbau · Spleißen · GPON/OTDR-Messungen · APL-Montage – Ihr Partner für den kompletten Breitbandausbau.
         </motion.p>
@@ -179,7 +179,7 @@ export default function HeroSection() {
           />
 
           {/* Actual button content - Dezenter elektrischer Effekt */}
-          <span className="relative flex items-center justify-center text-2xl md:text-3xl font-bold px-14 py-6 md:px-16 md:py-7 bg-dark-950 border border-fiber-400/50 rounded-full text-white group-hover:border-fiber-400/80 transition-all duration-300 overflow-hidden">
+          <span className="relative flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-bold px-8 py-4 sm:px-14 sm:py-6 md:px-16 md:py-7 bg-dark-950 border border-fiber-400/50 rounded-full text-white group-hover:border-fiber-400/80 transition-all duration-300 overflow-hidden">
             {/* Sanfter innerer Glow */}
             <motion.span
               className="absolute inset-0 rounded-full"
@@ -192,7 +192,7 @@ export default function HeroSection() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
             <span className="relative z-10">
-              <Image src={logo} alt="UKAGV GmbH" className="h-8 md:h-10 w-auto" />
+              <Image src={logo} alt="UKA GV GmbH" className="h-8 md:h-10 w-auto" />
             </span>
           </span>
         </a>

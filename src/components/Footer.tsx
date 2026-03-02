@@ -32,7 +32,7 @@ export default function Footer() {
       {/* Obere Trennlinie mit Gradient */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-fiber-500/20 to-transparent" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-8 py-16">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-16">
 
         {/* === MAIN CONTENT === */}
         {/* 3 Spalten: Logo | Kontakt | Links */}
@@ -45,7 +45,7 @@ export default function Footer() {
           {/* Logo & Beschreibung */}
           <div>
             <div className="mb-4">
-              <Image src={logo} alt="UKAGV GmbH" className="h-10 w-auto" />
+              <Image src={logo} alt="UKA GV GmbH" className="h-10 w-auto" />
             </div>
             <p className="text-base text-dark-400 max-w-sm leading-relaxed">
               Ihr Spezialist für Breitbandausbau und FTTH. Landesweit im Einsatz mit höchster Perfektion.
@@ -84,7 +84,7 @@ export default function Footer() {
 
         {/* === BOTTOM BAR === */}
         <div className="pt-8 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-dark-500">
-          <span>© {new Date().getFullYear()} UKAGV GmbH</span>
+          <span>© {new Date().getFullYear()} UKA GV GmbH</span>
 
           <div className="flex gap-6">
             {legal.map((item) => (

@@ -16,7 +16,7 @@ const testimonials = [
     name: 'Sandra K.',
     role: 'Geschäftsführerin',
     location: 'Fürth',
-    text: 'Wir arbeiten seit Jahren mit UKAGV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
+    text: 'Wir arbeiten seit Jahren mit UKA GV zusammen. Termine werden eingehalten, die Qualität stimmt – man merkt, dass hier Profis am Werk sind.',
   },
   {
     name: 'Michael B.',
@@ -34,7 +34,7 @@ const testimonials = [
     name: 'Peter L.',
     role: 'Architekt',
     location: 'Nürnberg-Mögeldorf',
-    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf UKAGV. Zuverlässig, kompetent und immer erreichbar.',
+    text: 'Bei unseren Neubauprojekten setzen wir nur noch auf UKA GV. Zuverlässig, kompetent und immer erreichbar.',
   },
 ]
 
@@ -53,7 +53,7 @@ export default function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="py-24 relative">
-      <div ref={ref} className="relative z-10 max-w-5xl mx-auto px-6 md:px-8">
+      <div ref={ref} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
 
         {/* === HEADER === */}
         <motion.div
@@ -67,7 +67,7 @@ export default function TestimonialsSection() {
             <span className="text-base font-medium text-fiber-400">Kundenstimmen</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Unsere Kunden </span>
             <span className="gradient-text">sagen...</span>
           </h2>
@@ -94,7 +94,7 @@ export default function TestimonialsSection() {
           <Quote className="absolute top-6 right-6 w-12 h-12 opacity-20 text-fiber-400" />
 
           {/* Zitat-Text */}
-          <p className="text-xl md:text-2xl text-dark-200 mb-6 leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-dark-200 mb-6 leading-relaxed">
             &ldquo;{testimonials[activeIndex].text}&rdquo;
           </p>
 
@@ -112,10 +112,12 @@ export default function TestimonialsSection() {
                   key={index}
                   onClick={() => setActiveIndex(index)}
                   aria-label={`Bewertung ${index + 1} von ${testimonials.length}`}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === activeIndex ? 'w-8 bg-fiber-400' : 'bg-dark-700 hover:bg-dark-600'
-                  }`}
-                />
+                  className="p-1.5"
+                >
+                  <span className={`block rounded-full transition-all ${
+                    index === activeIndex ? 'w-8 h-3 bg-fiber-400' : 'w-3 h-3 bg-dark-700 hover:bg-dark-600'
+                  }`} />
+                </button>
               ))}
             </div>
           </div>

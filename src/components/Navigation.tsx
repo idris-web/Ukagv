@@ -31,7 +31,7 @@ export default function Navigation() {
         transition={{ duration: 0.6 }}
         className="fixed top-0 left-0 right-0 z-50 py-4 bg-dark-950/80 backdrop-blur-lg border-b border-white/5"
       >
-        <div className="max-w-5xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           {/* Logo - shows on scroll */}
           <a href="#home" className="flex items-center">
             <motion.div
@@ -39,7 +39,7 @@ export default function Navigation() {
               transition={{ duration: 0.3 }}
               className={scrolled ? '' : 'pointer-events-none'}
             >
-              <Image src={logo} alt="UKAGV GmbH" className="h-8 md:h-10 w-auto" />
+              <Image src={logo} alt="UKA GV GmbH" className="h-8 md:h-10 w-auto" />
             </motion.div>
           </a>
 
@@ -69,7 +69,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-dark-400 hover:text-white transition-colors"
+            className="md:hidden p-3 text-dark-400 hover:text-white transition-colors"
             aria-label="Menü"
           >
             <Menu size={22} />
@@ -93,7 +93,7 @@ export default function Navigation() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <Image src={logo} alt="UKAGV GmbH" className="h-8 w-auto" />
+                  <Image src={logo} alt="UKA GV GmbH" className="h-8 w-auto" />
                 </motion.div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}

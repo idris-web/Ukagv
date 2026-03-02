@@ -47,7 +47,7 @@ export default function FAQSection() {
 
   return (
     <section id="faq" className="py-24 relative">
-      <div ref={ref} className="relative z-10 max-w-4xl mx-auto px-6 md:px-8">
+      <div ref={ref} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
 
         {/* === HEADER === */}
         <motion.div
@@ -61,7 +61,7 @@ export default function FAQSection() {
             <span className="text-base font-medium text-fiber-400">FAQ</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Häufige </span>
             <span className="gradient-text">Fragen</span>
           </h2>

@@ -10,36 +10,36 @@ export default function CTASection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="contact" className="py-32 relative">
-      <div className="relative z-10 max-w-3xl mx-auto px-8 text-center" ref={ref}>
+    <section id="contact" className="py-20 sm:py-32 relative">
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 md:px-8 text-center" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Projekt besprechen?
           </h2>
-          <p className="text-dark-300 text-xl md:text-2xl mb-12">
+          <p className="text-dark-300 text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12">
             Wir beraten Sie kostenlos und unverbindlich.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-14">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-10 sm:mb-14">
             <a
               href={siteConfig.contact.phoneHref}
-              className="btn-primary flex items-center gap-3 text-xl px-10 py-5"
+              className="btn-primary flex items-center justify-center gap-3 text-lg sm:text-xl px-8 py-4 sm:px-10 sm:py-5 w-full sm:w-auto"
               aria-label="Jetzt anrufen"
             >
-              <Phone className="w-6 h-6" />
+              <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
               Anrufen
             </a>
             <a
               href={siteConfig.contact.emailHref}
-              className="btn-secondary flex items-center gap-3 text-xl px-10 py-5"
+              className="btn-secondary flex items-center justify-center gap-3 text-lg sm:text-xl px-8 py-4 sm:px-10 sm:py-5 w-full sm:w-auto"
               aria-label="E-Mail senden"
             >
-              <Mail className="w-6 h-6" />
+              <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
               E-Mail
             </a>
           </div>

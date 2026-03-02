@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Impressum | UKAGV GmbH',
+  title: 'Impressum | UKA GV GmbH',
   description: 'Impressum der UKA GV GmbH – Angaben gemäß § 5 TMG',
 }
 

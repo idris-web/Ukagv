@@ -51,7 +51,7 @@ export default function PartnersSection() {
 
   return (
     <section className="py-24 relative">
-      <div className="relative z-10 max-w-5xl mx-auto px-8 text-center" ref={ref}>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8 text-center" ref={ref}>
         {/* Telekom Highlight */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,7 +85,7 @@ export default function PartnersSection() {
               Offizieller Telekom Partner
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Unsere Partner
           </h2>
           <p className="text-dark-300 text-lg md:text-xl">
@@ -111,7 +111,7 @@ export default function PartnersSection() {
           {[...partners, ...partners].map((partner, index) => (
             <div
               key={index}
-              className="flex-shrink-0 h-28 w-56 relative bg-white rounded-2xl p-5 hover:bg-white/90 transition-all duration-300"
+              className="flex-shrink-0 h-20 w-40 sm:h-24 sm:w-48 md:h-28 md:w-56 relative bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 hover:bg-white/90 transition-all duration-300"
             >
               <Image
                 src={partner.logo}

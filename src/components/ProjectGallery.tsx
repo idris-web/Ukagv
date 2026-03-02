@@ -56,7 +56,7 @@ export default function ProjectGallery() {
 
   return (
     <section id="projects" className="py-24 relative">
-      <div ref={ref} className="relative z-10 max-w-5xl mx-auto px-6 md:px-8">
+      <div ref={ref} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
 
         {/* === HEADER === */}
         <motion.div
@@ -70,7 +70,7 @@ export default function ProjectGallery() {
             <span className="text-base font-medium text-fiber-400">Referenzen</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
             <span className="text-white">Projekte in </span>
             <span className="gradient-text">Ihrer Nähe</span>
           </h2>

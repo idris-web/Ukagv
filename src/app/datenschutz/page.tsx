@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Datenschutzerklärung | UKAGV GmbH',
+  title: 'Datenschutzerklärung | UKA GV GmbH',
   description: 'Datenschutzerklärung der UKA GV GmbH – Informationen zum Schutz Ihrer personenbezogenen Daten',
 }
 
