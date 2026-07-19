@@ -24,7 +24,13 @@
       "Bash(gh auth status:*)",
       "Bash(git remote set-url:*)",
       "Bash(git fetch:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(unzip:*)",
+      "Bash(for f in *.webp)",
+      "Bash(do echo \"$f\")",
+      "Bash(done)",
+      "WebFetch(domain:www.northdata.de)",
+      "Bash(git push:*)"
     ]
   }
 }
